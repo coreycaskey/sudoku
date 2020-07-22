@@ -1,0 +1,174 @@
+/* Open Dialog Button Container */
+
+.open-dialog-button-container
+{
+ 	-fx-spacing: 690px;
+}
+
+/* Exit Application Dialog Button */
+
+.exit-application-dialog-button
+{
+	-fx-background-image: url("../../../../exit-application-icon.png");
+}
+
+.exit-application-dialog-button:hover
+{
+	-fx-background-image: url("../../../../exit-application-icon-hover.png");
+}
+
+/* Info Dialog Button */
+
+.info-dialog-button
+{
+	-fx-background-image: url("../../../../info-icon.png");
+}
+
+.info-dialog-button:hover
+{
+	-fx-background-image: url("../../../../info-icon-hover.png");
+}
+
+/* Info Dialog Content Container */
+
+.info-dialog-content-container
+{
+	-fx-spacing: 15px;
+}
+
+/* Info Dialog Row */
+
+.info-dialog-row
+{
+	-fx-pref-width: 670px;
+	-fx-max-width: 670px;
+	-fx-spacing: 10px;
+}
+
+/* Small Info Dialog Row */
+
+.info-dialog-small-row
+{
+	-fx-pref-height: 30px;
+	-fx-max-height: 30px;	
+}
+
+/* Large Info Dialog Row */
+
+.info-dialog-large-row
+{
+	-fx-pref-height: 80px;
+	-fx-max-height: 80px;
+}
+
+/* Info Dialog Element Container */
+
+.info-dialog-element-container
+{
+	-fx-pref-width: 150px;
+	-fx-max-width: 150px;
+	-fx-alignment: center;
+}
+
+/* Info Dialog Difficulty Dropdown */
+
+.info-dialog-difficulty-dropdown
+{
+	-fx-pref-width: 100px;
+	-fx-max-width: 100px;
+	-fx-background-color: #ffffff;
+	-fx-border-color: #000000;
+	-fx-font-size: 12px;
+	-fx-border-radius: 3px;
+}
+
+/* Info Dialog Instructions Container */
+
+.info-dialog-instructions-container
+{
+	-fx-pref-width: 490px;
+	-fx-max-width: 490px;
+	-fx-alignment: center-left;
+}
+
+/* Info Dialog Instructions */
+
+.info-dialog-instructions
+{
+	-fx-max-width: 490px;
+	-fx-wrap-text: true;
+	-fx-text-alignment: justify;
+	-fx-font-size: 12px;
+}
+
+/* Info Dialog Instructions Button */
+
+.info-dialog-instructions-button
+{
+	-fx-content-display: top;
+	-fx-pref-width: 80px;
+	-fx-pref-height: 80px;
+	-fx-max-width: 80px;
+	-fx-max-height: 80px;
+	-fx-font-size: 12px;
+}
+
+/* Info Dialog Number Button */
+
+.info-dialog-number-button
+{
+	-fx-pref-width: 80px;
+	-fx-pref-height: 80px;
+	-fx-max-width: 80px;
+	-fx-max-height: 80px;
+	-fx-font-size: 20px;
+}
+
+/* Info Dialog Inner Content Pane */
+
+.info-dialog-inner-content-pane 
+{
+	-fx-background-color: transparent;
+	-fx-pref-width: 670px;
+ 	-fx-pref-height: 640px;
+	-fx-max-width: 670px;
+	-fx-max-height: 640px;
+}
+
+/* Main Menu Inner Container */
+
+.main-menu-inner-container
+{
+	-fx-pref-width: 800px;
+	-fx-pref-height: 745px;
+	-fx-max-width: 800px;
+	-fx-max-height: 745px;
+	-fx-spacing: 35px;
+	-fx-alignment: center;
+}
+
+/* Main Menu Title */
+
+.main-menu-title 
+{
+	-fx-font-size: 70px;
+}
+
+/* Start Button */
+
+.start-button
+{
+	-fx-pref-width: 400px;
+	-fx-pref-height: 50px;
+	-fx-max-width: 400px;
+	-fx-max-height: 50px;
+	-fx-background-color: #009d74;
+	-fx-text-fill: #ffffff;
+	-fx-font-size: 25px;
+}
+
+.start-button:hover
+{
+	-fx-cursor: hand;
+	-fx-background-color: #006a4e;
+}
