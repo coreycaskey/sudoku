@@ -21,11 +21,11 @@ git clone https://github.com/ccaskey06/sudoku.git
 
 ## Requirements
 
-Before running the application locally, make sure you have the latest versions of Java and Maven installed.
+Before building and running the application locally, make sure you have the latest versions of Java and Maven installed
 
-In your terminal, type ```java --version``` and ```mvn --version``` to see the current version of each.
+In your terminal, type ```java --version``` and ```mvn --version``` to see your current versions
 
-If you receive ```command not found```, you need to install one or both.
+If you get ```command not found```, you'll need to install one or both
 
 ### Installing Java
 
@@ -36,7 +36,7 @@ If you don't have Java installed, follow these steps:
   * Download the corresponding installer for your device type:
     * Mac — ```dmg``` file
     * Windows — ```exe``` file
-  * Once the installation process is finished, the JDK should now reside in ```/Library/Java/JavaVirtualMachines/``` (if you're using a Mac)
+  * Once the installation process is finished, the JDK should now reside in ```/Library/Java/JavaVirtualMachines/```
   * Type the following commands in your terminal:
   
     ```bash
@@ -44,32 +44,30 @@ If you don't have Java installed, follow these steps:
     export PATH=$JAVA_HOME/bin:$PATH
     ```
     
-  * Type ```java --version``` in the terminal to make sure Java is now installed.
+  * Type ```java --version``` in the terminal to make sure Java is now installed
 
 ### Installing Maven
 
 If you don't have Maven installed, follow these steps:
 
  * Download the latest release zip-file [here](https://maven.apache.org/download.cgi)
- * Unzip the file in a meaningful location on your device, like ```Library/Maven/```, if you're using a Mac
- * Then type the following commands in your terminal:
+ * Unzip the file in a meaningful location on your device, like ```/Library/Maven/```
+ * Type the following commands in your terminal:
  
-```bash
-export M2_HOME={INSERT_PATH_TO_MAVEN_RELEASE}
-export PATH=$M2_HOME/bin:$PATH
-```
+   ```bash
+   export M2_HOME={INSERT_PATH_TO_MAVEN_RELEASE}
+   export PATH=$M2_HOME/bin:$PATH
+   ```
  
- * Now type ```mvn --version``` in the terminal to make sure Maven is now installed.
+ * Type ```mvn --version``` in the terminal to make sure Maven is now installed
 
 ## Usage
 
+In your terminal, navigate into the cloned repo folder and type ```mvn clean javafx:run``` to build and run the application locally
 
-From the terminal, type ...
+OR
 
-or
-
-Load the application into an IDE like Eclipse or IntelliJ. From there, you can ...
-
+Import the application into an IDE, like Eclipse or IntelliJ, and create a run configuration with the command ```clean javafx:run```
 
 ## Assets
 
