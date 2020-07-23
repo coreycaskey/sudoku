@@ -10,6 +10,8 @@ To download and open the application, proceed as follows:
  * Click on the ```target``` folder
  * Click on the ```jar``` file
  * Click ```download```
+ * Save the file in a meaningful location on your device
+ * Right-click on the file and select ```Open With > Jar Launcher```
 
 ## Installation
 
