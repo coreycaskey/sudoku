@@ -13,13 +13,13 @@
 
 .return-to-main-menu-dialog-button
 {
-	-fx-background-image: url("../../../../back-arrow-icon.png");
+	-fx-background-image: url("../../../back-arrow-icon.png");
 }
 
 
 .return-to-main-menu-dialog-button:hover
 {
-	-fx-background-image: url("../../../../back-arrow-icon-hover.png");
+	-fx-background-image: url("../../../back-arrow-icon-hover.png");
 }
 
 /* Game Screen Inner Top Pane Container */
@@ -192,6 +192,21 @@
 {
 	-fx-faint-focus-color: transparent;
 	-fx-focus-color: transparent;
+}
+
+.pen-cursor 
+{
+	-fx-cursor: url("../../../pen-icon-cursor.png");
+}
+
+.pencil-cursor 
+{
+	-fx-cursor: url("../../../pencil-icon-cursor.png");
+}
+
+.eraser-cursor 
+{
+	-fx-cursor: url("../../../eraser-icon-cursor.png");
 }
 
 /* Sudoku Cell Borders */

@@ -20,12 +20,12 @@ import javafx.scene.input.MouseEvent;
  *
  */
 public class SudokuCellHoverHandler implements EventHandler<MouseEvent> 
-{	
-	private static final ImageCursor PEN_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getResourceAsStream("../../../../pen-icon-cursor.png"), 30, 30, true, true), 15, 15);
-	private static final ImageCursor PENCIL_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getResourceAsStream("../../../../pencil-icon-cursor.png"), 30, 30, true, true), 15, 15);
-	private static final ImageCursor ERASER_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getResourceAsStream("../../../../eraser-icon-cursor.png"), 30, 30, true, true), 15, 15);
+{		
+	private static final ImageCursor PEN_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getClassLoader().getResourceAsStream("pen-icon-cursor.png"), 30.0, 30.0, true, true), 15, 15);
+	private static final ImageCursor PENCIL_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getClassLoader().getResourceAsStream("pencil-icon-cursor.png"), 30.0, 30.0, true, true), 15, 15);
+	private static final ImageCursor ERASER_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getClassLoader().getResourceAsStream("eraser-icon-cursor.png"), 30.0, 30.0, true, true), 15, 15);
 	
-	
+
 	/**
 	 * 
 	 * Updates the cursor icon.
@@ -62,7 +62,7 @@ public class SudokuCellHoverHandler implements EventHandler<MouseEvent>
 	private void handleWritingToolClicked(SudokuCell hoveredCell) 
 	{
 		ImageCursor cursorImage = this.getCursorImage();
-		
+
 		if (this.isPenOrPencil())
 		{
 			this.resetErasedCell(hoveredCell);

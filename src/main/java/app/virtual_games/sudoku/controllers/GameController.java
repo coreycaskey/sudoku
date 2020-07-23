@@ -132,10 +132,10 @@ public class GameController extends Application
 		appStage.setScene(new Scene(currentScreen = new MainMenu(), 800, 800));
 		appStage.getScene()
 				.getStylesheets()
-				.addAll(GameController.class.getResource("../../../../stylesheets/Shared.css").toExternalForm(),
-				 		GameController.class.getResource("../../../../stylesheets/MainMenu.css").toExternalForm());
+				.addAll(GameController.class.getClassLoader().getResource("Shared.css").toExternalForm(),
+						GameController.class.getClassLoader().getResource("MainMenu.css").toExternalForm());
 	}
-		
+
 	
 	/**
 	 * 
@@ -162,7 +162,11 @@ public class GameController extends Application
 		}
 		catch (Exception e) 
 		{
-			LOGGER.log(Level.SEVERE, e.getMessage());
+			for (StackTraceElement element : e.getStackTrace()) 
+			{
+				LOGGER.log(Level.SEVERE, element.toString());
+			}
+//			LOGGER.log(Level.SEVERE, e.getMessage());
 			loadErrorDialog(true);										// true —> Main Menu
 		}
 	}
@@ -936,8 +940,8 @@ public class GameController extends Application
 		appStage.setScene(new Scene(currentScreen = new GameScreen(currentSudoku), 800, 800));
 		appStage.getScene()
 				.getStylesheets()
-				.addAll(GameController.class.getResource("../../../../stylesheets/Shared.css").toExternalForm(),
-				 		GameController.class.getResource("../../../../stylesheets/GameScreen.css").toExternalForm());
+				.addAll(GameController.class.getClassLoader().getResource("Shared.css").toExternalForm(),
+						GameController.class.getClassLoader().getResource("GameScreen.css").toExternalForm());
 	}
 	
 

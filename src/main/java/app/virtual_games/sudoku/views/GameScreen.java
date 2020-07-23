@@ -451,7 +451,7 @@ public class GameScreen extends StackPane
     	Button penButton = new Button("Pen");
     	
     	penButton.getStyleClass().addAll("game-button", "icon-button");
-		penButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../pen-icon.png"), 40, 40, true, true)));
+		penButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("pen-icon.png"), 40, 40, true, true)));
     	penButton.setOnAction(new WritingToolClickHandler());    	
     	
     	return penButton;
@@ -472,7 +472,7 @@ public class GameScreen extends StackPane
     	Button pencilButton = new Button("Pencil");
     	
     	pencilButton.getStyleClass().addAll("game-button", "icon-button");
-    	pencilButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../pencil-icon.png"), 40, 40, true, true)));
+    	pencilButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("pencil-icon.png"), 40, 40, true, true)));
     	pencilButton.setOnAction(new WritingToolClickHandler());
 
     	return pencilButton;
@@ -493,7 +493,7 @@ public class GameScreen extends StackPane
     	Button eraserButton = new Button("Eraser");
     	
     	eraserButton.getStyleClass().addAll("game-button", "icon-button");
-    	eraserButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../eraser-icon.png"), 40, 40, true, true)));
+    	eraserButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("eraser-icon.png"), 40, 40, true, true)));
     	eraserButton.setOnAction(new WritingToolClickHandler());
     	
 		return eraserButton;
@@ -546,7 +546,7 @@ public class GameScreen extends StackPane
     	Button hintButton = new Button("Hint");
     	
     	hintButton.getStyleClass().addAll("game-button", "icon-button");
-    	hintButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../hint-icon.png"), 40, 40, false, true)));
+    	hintButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("hint-icon.png"), 40, 40, false, true)));
     	hintButton.setOnAction(new HintButtonHandler());
 
     	return hintButton;
@@ -567,7 +567,7 @@ public class GameScreen extends StackPane
     	Button restartButton = new Button("Restart");
     	
     	restartButton.getStyleClass().addAll("game-button", "icon-button");
-		restartButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../restart-icon.png"), 40, 40, true, true)));
+		restartButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("restart-icon.png"), 40, 40, true, true)));
     	restartButton.setOnAction(new RestartButtonHandler());
 
     	return restartButton;
@@ -588,7 +588,7 @@ public class GameScreen extends StackPane
     	Button newPuzzleButton = new Button("New Game");
 
     	newPuzzleButton.getStyleClass().addAll("game-button", "icon-button");
-		newPuzzleButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../new-puzzle-icon.png"), 40, 40, true, true)));
+		newPuzzleButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("new-puzzle-icon.png"), 40, 40, true, true)));
     	newPuzzleButton.setOnAction(new NewPuzzleButtonHandler());
     	
     	return newPuzzleButton;

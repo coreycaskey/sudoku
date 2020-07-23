@@ -24,12 +24,14 @@
     </dependencies>
     <build>
         <plugins>
-	        <plugin>
+			<plugin>
+	        	<groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-assembly-plugin</artifactId>
+			    <version>3.1.0</version>
 			    <configuration>
-    			    <jarFileName>sudoku.jar</jarFileName>
 			        <archive>
 			            <manifest>
+			            	<addClasspath>true</addClasspath>
 			                <mainClass>app.virtual_games.sudoku.App</mainClass>
 			            </manifest>
 			        </archive>
@@ -38,14 +40,6 @@
 			        </descriptorRefs>
 			    </configuration>
 			</plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <release>11</release>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
