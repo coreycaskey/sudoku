@@ -38,10 +38,12 @@ If you don't have Java installed, follow these steps:
     * Windows — ```exe``` file
   * Once the installation process is finished, the JDK should now reside in ```/Library/Java/JavaVirtualMachines/``` (if you're using a Mac)
   * Type the following commands in your terminal:
+  
     ```bash
     export JAVA_HOME={INSERT_PATH_TO_JDK_HERE}
     export PATH=$JAVA_HOME/bin:$PATH
     ```
+    
   * Type ```java --version``` in the terminal to make sure Java is now installed.
 
 ### Installing Maven
