@@ -50,7 +50,7 @@ If you don't have Java installed, follow these steps:
 
 If you don't have Maven installed, follow these steps:
 
- * Download the latest release zip-file [here](https://maven.apache.org/download.cgi)
+ * Download the latest release bin zip-file [here](https://maven.apache.org/download.cgi)
  * Unzip the file in a meaningful location on your device, like ```/Library/Maven/```
  * Type the following commands in your terminal:
  
