@@ -1,1 +1,6 @@
-/target/
+/target/archive-tmp/
+/target/classes/
+/target/generated-sources/
+/target/maven-archiver/
+/target/maven-status/
+/target/sudoku-0.0.1.jar
