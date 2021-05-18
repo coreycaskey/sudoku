@@ -2,71 +2,72 @@
 
 .app-background
 {
-	-fx-background-color: #ebf4fa;
-	-fx-font-family: futura;
+  -fx-background-color: #ebf4fa;
+  -fx-font-family: futura;
 }
 
 /* Open Dialog Button Container */
 
 .open-dialog-button-container
 {
-	-fx-pref-width: 800px;
-	-fx-pref-height: 55px;
-	-fx-max-width: 800px;
-	-fx-max-height: 55px;
-	-fx-padding: 25px 25px 0px 25px; /* top right bottom left */
-	-fx-alignment: center-left;
+  -fx-pref-width: 800px;
+  -fx-pref-height: 55px;
+  -fx-max-width: 800px;
+  -fx-max-height: 55px;
+  -fx-padding: 25px 25px 12px 25px; /* top right bottom left */
+  -fx-alignment: center-left;
 }
 
 /* Open Dialog Button */
 
 .open-dialog-button
 {
-	-fx-pref-width: 30px;
-	-fx-pref-height: 30px;
-	-fx-max-width: 30px;
-	-fx-max-height: 30px;
-	-fx-background-size: cover;
-	-fx-background-color: transparent;
+  -fx-pref-width: 30px;
+  -fx-pref-height: 30px;
+  -fx-max-width: 30px;
+  -fx-max-height: 30px;
+  -fx-background-size: contain;
+  -fx-background-repeat: no-repeat;
+  -fx-background-color: transparent;
 }
 
 .open-dialog-button:hover
 {
-	-fx-cursor: hand;
+  -fx-cursor: hand;
 }
 
 /* Difficulty Container */
 
 .difficulty-container
 {
-	-fx-pref-width: 300px;
-	-fx-pref-height: 50px;
-	-fx-max-width: 300px;
-	-fx-max-height: 50px;
-	-fx-spacing: 15px;
-	-fx-alignment: center;
+  -fx-pref-width: 300px;
+  -fx-pref-height: 50px;
+  -fx-max-width: 300px;
+  -fx-max-height: 50px;
+  -fx-spacing: 15px;
+  -fx-alignment: center;
 }
 
 /* Difficulty Label */
 
 .difficulty-label
 {
-	-fx-font-size: 15px;
+  -fx-font-size: 15px;
 }
 
 /* Difficulty Dropdown */
 
-.combo-box-base 
+.combo-box-base
 {
-	-fx-pref-width: 150px;
-	-fx-max-width: 150px;
-	-fx-background-color: #ffffff;
-	-fx-border-color: #000000;
-	-fx-font-size: 15px;
-	-fx-border-radius: 3px;
+  -fx-pref-width: 150px;
+  -fx-max-width: 150px;
+  -fx-background-color: #ffffff;
+  -fx-border-color: #000000;
+  -fx-font-size: 15px;
+  -fx-border-radius: 3px;
 }
 
-.combo-box-base:hover 
+.combo-box-base:hover
 {
     -fx-cursor: hand;
     -fx-background-color: #eeeeee;
@@ -74,28 +75,28 @@
 
 .combo-box-base:showing
 {
-	-fx-background-color: #ffffff;
+  -fx-background-color: #ffffff;
 }
 
 .combo-box-base .arrow-button .arrow
 {
-	-fx-background-color: #000000;
+  -fx-background-color: #000000;
 }
 
-.combo-box-popup .list-view 
+.combo-box-popup .list-view
 {
-	-fx-border-color: #000000;
-	-fx-border-radius: 3px;
+  -fx-border-color: #000000;
+  -fx-border-radius: 3px;
 }
 
-.combo-box-popup .list-view .list-cell 
+.combo-box-popup .list-view .list-cell
 {
     -fx-background-color: #ffffff;
     -fx-text-fill: #000000;
-   	-fx-border-radius: 3px; 
+     -fx-border-radius: 3px;
 }
 
-.combo-box-popup .list-view .list-cell:hover 
+.combo-box-popup .list-view .list-cell:hover
 {
     -fx-background-color: #eeeeee;
     -fx-cursor: hand;
@@ -103,248 +104,248 @@
 
 /* Dialog Background */
 
-.dialog-background 
+.dialog-background
 {
-	-fx-background-color: #000000;
-	-fx-opacity: 0.75;
+  -fx-background-color: #000000;
+  -fx-opacity: 0.75;
 }
 
 /* Dialog */
 
 .dialog
 {
-	-fx-background-color: #ebf4fa;
-	-fx-background-radius: 4px;
+  -fx-background-color: #ebf4fa;
+  -fx-background-radius: 4px;
 }
 
 /* Small Dialog */
 
 .small-dialog
 {
-	-fx-pref-width: 500px;
-	-fx-pref-height: 300px;
- 	-fx-max-width: 500px;
-	-fx-max-height: 300px;
+  -fx-pref-width: 500px;
+  -fx-pref-height: 300px;
+   -fx-max-width: 500px;
+  -fx-max-height: 300px;
 }
 
 /* Large Dialog */
 
 .large-dialog
 {
-	-fx-pref-width: 700px;
-	-fx-pref-height: 700px;
-	-fx-max-width: 700px;
-	-fx-max-height: 700px;
+  -fx-pref-width: 700px;
+  -fx-pref-height: 700px;
+  -fx-max-width: 700px;
+  -fx-max-height: 700px;
 }
 
 /* Dialog Container */
 
 .dialog-container
 {
-	-fx-padding: 15px;
+  -fx-padding: 15px;
 }
 
 /* Close Dialog Button Container */
 
 .close-dialog-button-container
 {
-	-fx-alignment: center-left;
-	-fx-pref-height: 30px;
-	-fx-max-height: 30px;
+  -fx-alignment: center-left;
+  -fx-pref-height: 30px;
+  -fx-max-height: 30px;
 }
 
 /* Small Close Dialog Button Container */
 
 .small-close-dialog-button-container
 {
-	-fx-pref-width: 470px;
-	-fx-max-width: 470px;
+  -fx-pref-width: 470px;
+  -fx-max-width: 470px;
 }
 
 /* Large Close Dialog Button Container */
 
 .large-close-dialog-button-container
 {
-	-fx-pref-width: 670px;
-	-fx-max-width: 670px;
+  -fx-pref-width: 670px;
+  -fx-max-width: 670px;
 }
 
 /* Close Dialog Button */
 
 .close-dialog-button
 {
-	-fx-pref-width: 30px;
-	-fx-pref-height: 30px;
-	-fx-max-width: 30px;
-	-fx-max-height: 30px;
-	-fx-background-color: transparent;
-	-fx-background-image: url("../../../close-window-icon.png");
-	-fx-background-size: cover;
+  -fx-pref-width: 30px;
+  -fx-pref-height: 30px;
+  -fx-max-width: 30px;
+  -fx-max-height: 30px;
+  -fx-background-color: transparent;
+  -fx-background-image: url("./img/close-window-icon.png");
+  -fx-background-size: cover;
 }
 
 .close-dialog-button:hover
 {
-	-fx-background-image: url("../../../close-window-icon-hover.png");
-	-fx-cursor: hand;
+  -fx-background-image: url("./img/close-window-icon-hover.png");
+  -fx-cursor: hand;
 }
 
 /* Content Container */
 
 .content-container
 {
- 	-fx-spacing: 40px;
-	-fx-alignment: center;
+   -fx-spacing: 40px;
+  -fx-alignment: center;
 }
 
 /* Small Content Container */
 
 .small-content-container
 {
-	-fx-pref-width: 470px;
-	-fx-pref-height: 240px;
-	-fx-max-width: 470px;
-	-fx-max-height: 240px;
+  -fx-pref-width: 470px;
+  -fx-pref-height: 240px;
+  -fx-max-width: 470px;
+  -fx-max-height: 240px;
 }
 
 /* Large Content Container */
 
 .large-content-container
 {
-	-fx-pref-width: 670px;
-	-fx-pref-height: 640px;
-	-fx-max-width: 670px;
-	-fx-max-height: 640px;
+  -fx-pref-width: 670px;
+  -fx-pref-height: 640px;
+  -fx-max-width: 670px;
+  -fx-max-height: 640px;
 }
 
 /* Error Dialog Content Container */
 
 .error-dialog-content-container
 {
-	-fx-pref-height: 270px;
-	-fx-max-height: 270px;
+  -fx-pref-height: 270px;
+  -fx-max-height: 270px;
 }
 
 /* Dialog Title */
 
 .dialog-title
 {
-	-fx-font-size: 25px;
-	-fx-text-alignment: center;
+  -fx-font-size: 25px;
+  -fx-text-alignment: center;
 }
 
 /* Small Dialog Title */
 
 .small-dialog-title
 {
-	-fx-max-width: 350px;
-	-fx-wrap-text: true;
+  -fx-max-width: 350px;
+  -fx-wrap-text: true;
 }
 
 /* Error Dialog Title */
 
-.error-dialog-title 
+.error-dialog-title
 {
-	-fx-max-width: 400px;
-	-fx-wrap-text: true;
+  -fx-max-width: 400px;
+  -fx-wrap-text: true;
 }
 
 /* Dialog Button Container */
 
 .dialog-button-container
 {
-	-fx-alignment: center;
+  -fx-alignment: center;
 }
 
 /* Multiple Option Dialog Button Container */
 
 .multiple-option-dialog-button-container
 {
-	-fx-spacing: 15px;
+  -fx-spacing: 15px;
 }
 
 /* Dialog Button */
 
 .dialog-button
 {
-	-fx-pref-width: 100px;
-	-fx-pref-height: 40px;
-	-fx-max-width: 100px;
-	-fx-max-height: 40px;
-	-fx-background-color: #009d74;
-	-fx-text-fill: #ffffff;
-	-fx-font-size: 20px;
+  -fx-pref-width: 100px;
+  -fx-pref-height: 40px;
+  -fx-max-width: 100px;
+  -fx-max-height: 40px;
+  -fx-background-color: #009d74;
+  -fx-text-fill: #ffffff;
+  -fx-font-size: 20px;
 }
 
 .dialog-button:hover
 {
-	-fx-cursor: hand;
-	-fx-background-color: #006a4e;
+  -fx-cursor: hand;
+  -fx-background-color: #006a4e;
 }
 
 /* Game Button */
 
-.game-button 
+.game-button
 {
-	-fx-background-color: #009d74;
-	-fx-text-fill: #ffffff;
-	-fx-font-family: futura;
-	-fx-font-size: 15px;
+  -fx-background-color: #009d74;
+  -fx-text-fill: #ffffff;
+  -fx-font-family: futura;
+  -fx-font-size: 15px;
 }
 
-.game-button:hover 
+.game-button:hover
 {
-	-fx-cursor: hand;
-	-fx-background-color: #006a4e;
+  -fx-cursor: hand;
+  -fx-background-color: #006a4e;
 }
 
 /* Timer Buttoner */
 
-.timer-button 
+.timer-button
 {
-	-fx-pref-width: 30px;
-	-fx-pref-height: 30px;
-	-fx-max-width: 30px;
-	-fx-max-height: 30px;
-   	-fx-background-size: cover;
-	-fx-background-color: transparent;
+  -fx-pref-width: 30px;
+  -fx-pref-height: 30px;
+  -fx-max-width: 30px;
+  -fx-max-height: 30px;
+     -fx-background-size: cover;
+  -fx-background-color: transparent;
 }
 
 .timer-button:hover
 {
-	-fx-cursor: hand;
+  -fx-cursor: hand;
 }
 
 /* Pause Button */
 
 .pause-button
 {
-	-fx-background-image: url("../../../pause-icon.png");
+  -fx-background-image: url("./img/pause-icon.png");
 }
 
-.pause-button:hover 
+.pause-button:hover
 {
-	-fx-background-image: url("../../../pause-icon-hover.png");
+  -fx-background-image: url("./img/pause-icon-hover.png");
 }
 
 /* Play Button */
 
-.play-button 
+.play-button
 {
-	-fx-background-image: url("../../../play-icon.png");
+  -fx-background-image: url("./img/play-icon.png");
 }
 
 .play-button:hover
 {
-	-fx-background-image: url("../../../play-icon-hover.png");
+  -fx-background-image: url("./img/play-icon-hover.png");
 }
 
 /* General Icon Button */
 
 .icon-button
 {
-	-fx-content-display: top;
-	-fx-pref-width: 100px;
-	-fx-pref-height: 100px;
-	-fx-max-width: 100px;
-	-fx-max-height: 100px;
+  -fx-content-display: top;
+  -fx-pref-width: 100px;
+  -fx-pref-height: 100px;
+  -fx-max-width: 100px;
+  -fx-max-height: 100px;
 }

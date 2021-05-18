@@ -8,32 +8,32 @@ import javafx.scene.control.ComboBox;
 
 
 /**
- * 
+ *
  * Custom event handler for the Game Screen difficulty dropdown selection event.
- * 
+ *
  * @author Corey Caskey
  * @version 0.0.1
- * 
+ *
  */
-public class GameScreenDifficultyDropdownHandler implements EventHandler<ActionEvent> 
+public class GameScreenDifficultyDropdownHandler implements EventHandler<ActionEvent>
 {
-	/**
-	 * 
-	 * Updates the puzzle difficulty and loads a new sudoku puzzle.
-	 * 
-	 * @param selectionEvent : Game Screen difficulty dropdown selection event
-	 * 
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public void handle(ActionEvent selectionEvent) 
-	{
-		GameController.stopGameTimer();
-		GameController.hideTimePenalty();
-		GameController.stopTimePenaltyTimer();
-		GameController.stopHintCellTimer();
-		GameController.resetTimerLabel();
-		GameController.setCurrentDifficulty(((ComboBox<String>) selectionEvent.getSource()).getValue());
-		GameController.startNewSudoku();
-	}
+  /**
+   *
+   * Updates the puzzle difficulty and loads a new sudoku puzzle.
+   *
+   * @param selectionEvent : Game Screen difficulty dropdown selection event
+   *
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public void handle(ActionEvent selectionEvent)
+  {
+    GameController.stopGameTimer();
+    GameController.hideTimePenalty();
+    GameController.stopTimePenaltyTimer();
+    GameController.stopHintCellTimer();
+    GameController.resetTimerLabel();
+    GameController.setCurrentDifficulty(((ComboBox<String>) selectionEvent.getSource()).getValue());
+    GameController.startNewSudoku();
+  }
 }
