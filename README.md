@@ -6,12 +6,14 @@ This is a playable Sudoku application built with the following programming langu
  * CSS
  * Maven
 
-To download and run the application (from GitHub), proceed as follows:
- * Click on the ```target``` folder
- * Click on the ```jar``` file
- * Click ```download```
- * Save the file in a meaningful location on your device
- * Right-click on the file and select ```Open With > Jar Launcher```
+~~To download and run the application (from GitHub), proceed as follows:~~
+ * ~~Click on the ```target``` folder~~
+ * ~~Click on the ```jar``` file~~
+ * ~~Click ```download```~~
+ * ~~Save the file in a meaningful location on your device~~
+ * ~~Right-click on the file and select ```Open With > Jar Launcher```~~
+
+The ```jar``` executable currently doesn't appear to be working properly. If you would like to play the application, follow the steps below to build and run the application locally.
 
 ## Installation
 
