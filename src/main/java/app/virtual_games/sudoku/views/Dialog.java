@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 
 /**
  *
- * Parent class for all JavaFX application dialog.
+ * Parent class for all JavaFX application dialog boxes.
  *
  * @author Corey Caskey
  * @version 0.0.1
@@ -19,7 +19,8 @@ import javafx.scene.layout.VBox;
  */
 public class Dialog extends StackPane
 {
-  private Pane dialog;
+  private Pane dialogBackground;
+  private Pane dialogPane;
   private VBox dialogContainer;
   private HBox closeDialogButtonContainer;
   private Button closeDialogButton;
@@ -32,8 +33,17 @@ public class Dialog extends StackPane
    */
   public Dialog()
   {
-    this.getChildren().add(this.loadDialogBackground());
-    this.getChildren().add(this.dialog = this.loadDialog());
+    // sub-elements need to be initialized first to be used by upper elements
+    // (e.g. dialogPane requires dialogContainer to be initialized)
+
+    this.closeDialogButton = this.loadCloseDialogButton();
+    this.closeDialogButtonContainer = this.loadCloseDialogButtonContainer();
+    this.dialogContainer = this.loadDialogContainer();
+    this.dialogPane = this.loadDialogPane();
+    this.dialogBackground = this.loadDialogBackground();
+
+    this.getChildren().add(this.dialogBackground);
+    this.getChildren().add(this.dialogPane);
   }
 
 
@@ -46,11 +56,11 @@ public class Dialog extends StackPane
    */
   private Pane loadDialogBackground()
   {
-    Pane dialogBackground = new Pane();
+    var bg = new Pane();
 
-    dialogBackground.getStyleClass().add("dialog-background");
+    bg.getStyleClass().add("dialog-background");
 
-    return dialogBackground;
+    return bg;
   }
 
 
@@ -61,12 +71,12 @@ public class Dialog extends StackPane
    * @return Pane : Dialog
    *
    */
-  private Pane loadDialog()
+  private Pane loadDialogPane()
   {
-    Pane dialog = new Pane();
+    var dialog = new Pane();
 
     dialog.getStyleClass().add("dialog");
-    dialog.getChildren().add(this.dialogContainer = this.loadDialogContainer());
+    dialog.getChildren().add(this.dialogContainer);
 
     return dialog;
   }
@@ -76,19 +86,19 @@ public class Dialog extends StackPane
    *
    * Loads the Dialog container with the following UI element(s):
    *
-   *  — Close Dialog Button Container —> {@link #loadCloseDialogButtonContainer()}
+   * Close Dialog Button Container —> {@link #loadCloseDialogButtonContainer()}
    *
    * @return VBox : Dialog container
    *
    */
   private VBox loadDialogContainer()
   {
-    VBox dialogContainer = new VBox();
+    var container = new VBox();
 
-    dialogContainer.getStyleClass().add("dialog-container");
-    dialogContainer.getChildren().add(this.closeDialogButtonContainer = this.loadCloseDialogButtonContainer());
+    container.getStyleClass().add("dialog-container");
+    container.getChildren().add(this.closeDialogButtonContainer);
 
-    return dialogContainer;
+    return container;
   }
 
 
@@ -96,19 +106,19 @@ public class Dialog extends StackPane
    *
    * Loads the close dialog button container with the following UI element(s):
    *
-   *  — Close Dialog Button —> {@link #loadCloseDialogButton()}
+   * Close Dialog Button —> {@link #loadCloseDialogButton()}
    *
    * @return HBox : close dialog button container
    *
    */
   private HBox loadCloseDialogButtonContainer()
   {
-    HBox closeDialogContainer = new HBox();
+    var buttonContainer = new HBox();
 
-    closeDialogContainer.getStyleClass().add("close-dialog-button-container");
-    closeDialogContainer.getChildren().add(this.closeDialogButton = this.loadCloseDialogButton());
+    buttonContainer.getStyleClass().add("close-dialog-button-container");
+    buttonContainer.getChildren().add(this.closeDialogButton);
 
-    return closeDialogContainer;
+    return buttonContainer;
   }
 
 
@@ -121,11 +131,11 @@ public class Dialog extends StackPane
    */
   private Button loadCloseDialogButton()
   {
-    Button closeDialogButton = new Button();
+    var button = new Button();
 
-    closeDialogButton.getStyleClass().add("close-dialog-button");
+    button.getStyleClass().add("close-dialog-button");
 
-    return closeDialogButton;
+    return button;
   }
 
 
@@ -141,7 +151,7 @@ public class Dialog extends StackPane
    */
   public void addDialogStyling(String... styling)
   {
-    this.dialog.getStyleClass().addAll(styling);
+    this.dialogPane.getStyleClass().addAll(styling);
   }
 
 
@@ -184,7 +194,7 @@ public class Dialog extends StackPane
 
   /**
    *
-   * Adds an event handler to the close dialog button.
+   * Adds a specified event handler to the generic close dialog button.
    *
    * @param eventHandler : event handler
    *

@@ -15,6 +15,7 @@ import app.virtual_games.sudoku.models.TimerButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -44,7 +45,7 @@ public class GameScreen extends StackPane
 
   private Sudoku currentSudoku;
 
-  private BorderPane gameScreen;
+  private BorderPane gamePane;
   private ComboBox<String> difficultyDropdown;
   private Button timerButton;
   private Label timerLabel;
@@ -60,35 +61,37 @@ public class GameScreen extends StackPane
    *
    * Initializes the following variable(s):
    *
-   *  — {@link #currentSudoku}
-   *  — {@link #timerButton}
-   *  — {@link #timerLabel}
-   *  — {@link #timePenaltyLabel}
-   *  — {@link #numberButtons}
-   *  — {@link #writingToolButtons}
-   *  — {@link #helperButtons}
-   *  — {@link #disabledNumberButtons}
-   *  — {@link #gameScreen}
+   * {@link #currentSudoku}
+   * {@link #timerButton}
+   * {@link #timerLabel}
+   * {@link #timePenaltyLabel}
+   * {@link #numberButtons}
+   * {@link #writingToolButtons}
+   * {@link #helperButtons}
+   * {@link #disabledNumberButtons}
+   * {@link #gamePane}
    *
    * Loads the Game Screen with a border pane.
+   *
+   * @throws IllegalArgumentException
    *
    * @param sudoku : current sudoku puzzle
    *
    */
-  public GameScreen(Sudoku sudoku) throws Exception
+  public GameScreen(Sudoku sudoku) throws IllegalArgumentException
   {
     this.currentSudoku = sudoku;
     this.timerButton = this.loadGameScreenTimerButton();
     this.timerLabel = this.loadGameScreenTimerLabel();
     this.timePenaltyLabel = this.loadGameScreenTimePenaltyLabel();
-      this.numberButtons = this.loadGameScreenNumberButtons();
+    this.numberButtons = this.loadGameScreenNumberButtons();
     this.writingToolButtons = new ArrayList<>();
     this.helperButtons = new ArrayList<>();
     this.disabledNumberButtons = new ArrayList<>();
-    this.gameScreen = this.loadGameScreen();
+    this.gamePane = this.loadGameScreen();
 
     this.getStyleClass().add("app-background");
-    this.getChildren().add(this.gameScreen);
+    this.getChildren().add(this.gamePane);
   }
 
 
@@ -102,377 +105,378 @@ public class GameScreen extends StackPane
    * @return Button : Game Screen timer button
    *
    */
-    private TimerButton loadGameScreenTimerButton()
-    {
-      return new TimerButton();
-    }
+  private TimerButton loadGameScreenTimerButton()
+  {
+    return new TimerButton();
+  }
 
 
-    /**
-     *
-     * Loads the Game Screen timer label.
-     *
-     * @return Label : Game Screen timer label
-     *
-     */
-    private Label loadGameScreenTimerLabel()
-    {
-      Label timerLabel = new Label("00:00:00");
+  /**
+   *
+   * Loads the Game Screen timer label.
+   *
+   * @return Label : Game Screen timer label
+   *
+   */
+  private Label loadGameScreenTimerLabel()
+  {
+    var timer = new Label("00:00:00");
 
-      timerLabel.getStyleClass().add("timer-label");
+    timer.getStyleClass().add("timer-label");
 
-      return timerLabel;
-    }
-
-
-    /**
-     *
-     * Loads the Game Screen time penalty label.
-     *
-     * @return Label : Game Screen time penalty label
-     *
-     */
-    private Label loadGameScreenTimePenaltyLabel()
-    {
-      Label timePenaltyLabel = new Label("+00");
-
-      timePenaltyLabel.getStyleClass().addAll("time-penalty-label", "time-penalty-label--hidden");
-
-      return timePenaltyLabel;
-    }
+    return timer;
+  }
 
 
-    /**
-     *
-     * Loads the Game Screen number buttons.
-     *
-     * @return ArrayList<NumberButton> : list of number buttons
-     *
-     */
-    private ArrayList<NumberButton> loadGameScreenNumberButtons()
-    {
-      return IntStream.range(0, PUZZLE_SIZE)
-              .mapToObj(sudokuVal -> new NumberButton(sudokuVal + 1))
-              .collect(Collectors.toCollection(ArrayList::new));
-    }
+  /**
+   *
+   * Loads the Game Screen time penalty label.
+   *
+   * @return Label : Game Screen time penalty label
+   *
+   */
+  private Label loadGameScreenTimePenaltyLabel()
+  {
+    var timePenalty = new Label("+00");
+
+    timePenalty.getStyleClass().addAll("time-penalty-label", "time-penalty-label--hidden");
+
+    return timePenalty;
+  }
 
 
-    /**
-     *
-     * Loads the Game Screen with the following UI element(s):
-     *
-     *  — Game Screen Top Position     —> {@link #loadGameScreenOuterTopPaneContainer()}
-     *  — Game Screen Bottom Position —> {@link #loadGameScreenBottomPaneContainer()}
-     *  — Game Screen Left Position   —> {@link #loadGameScreenLeftPaneContainer()}
-     *  — Game Screen Right Position  —> {@link #loadGameScreenRightPaneContainer()}
-     *  — Game Screen Center Position —> {@link #loadGameScreenCenterPaneContainer()}
-     *
-     * @return BorderPane : Game Screen
-     *
-     */
-    private BorderPane loadGameScreen() throws Exception
-    {
-      BorderPane gameScreen = new BorderPane();
-
-      gameScreen.setTop(this.loadGameScreenOuterTopPaneContainer());
-      gameScreen.setBottom(this.loadGameScreenBottomPaneContainer());
-      gameScreen.setLeft(this.loadGameScreenLeftPaneContainer());
-      gameScreen.setRight(this.loadGameScreenRightPaneContainer());
-      gameScreen.setCenter(this.loadGameScreenCenterPaneContainer());
-
-      return gameScreen;
-    }
+  /**
+   *
+   * Loads the Game Screen number buttons.
+   *
+   * @return ArrayList<NumberButton> : list of number buttons
+   *
+   */
+  private ArrayList<NumberButton> loadGameScreenNumberButtons()
+  {
+    return IntStream.range(0, PUZZLE_SIZE)
+                    .mapToObj(sudokuVal -> new NumberButton(sudokuVal + 1))
+                    .collect(Collectors.toCollection(ArrayList::new));
+  }
 
 
-    /**
-     *
-     * Loads the Game Screen outer top pane container with the following UI element(s):
-     *
-     *  — Open Dialog Button Container        —> {@link #loadOpenDialogButtonContainer()}
-     *  — Game Screen Inner Top Pane Container —> {@link #loadGameScreenInnerTopPaneContainer()}
-     *
-     * @return VBox : Game Screen outer top pane container
-     *
-     */
-    private VBox loadGameScreenOuterTopPaneContainer()
-    {
-      VBox gameScreenOuterTopPaneContainer = new VBox();
+  /**
+   *
+   * Loads the Game Screen with the following UI element(s):
+   *
+   * Game Screen Top Position —> {@link #loadGameScreenOuterTopPaneContainer()}
+   * Game Screen Bottom Position —> {@link #loadGameScreenBottomPaneContainer()}
+   * Game Screen Left Position —> {@link #loadGameScreenLeftPaneContainer()}
+   * Game Screen Right Position -> {@link #loadGameScreenRightPaneContainer()}
+   * Game Screen Center Position —> {@link #loadGameScreenCenterPaneContainer()}
+   *
+   * @throws IllegalArgumentException
+   *
+   * @return BorderPane : Game Screen
+   *
+   */
+  private BorderPane loadGameScreen() throws IllegalArgumentException
+  {
+    var screen = new BorderPane();
 
-      gameScreenOuterTopPaneContainer.getStyleClass().add("outer-top-pane-container");
-      gameScreenOuterTopPaneContainer.getChildren().add(this.loadOpenDialogButtonContainer());
-      gameScreenOuterTopPaneContainer.getChildren().add(this.loadGameScreenInnerTopPaneContainer());
+    screen.setTop(this.loadGameScreenOuterTopPaneContainer());
+    screen.setBottom(this.loadGameScreenBottomPaneContainer());
+    screen.setLeft(this.loadGameScreenLeftPaneContainer());
+    screen.setRight(this.loadGameScreenRightPaneContainer());
+    screen.setCenter(this.loadGameScreenCenterPaneContainer());
 
-      return gameScreenOuterTopPaneContainer;
-    }
-
-
-    /**
-     *
-     * Loads the open dialog button container with the following UI element(s):
-     *
-     *  — Return To Main Menu Dialog Button —> {@link #loadReturnToMainMenuDialogButton()}
-     *
-     * @return HBox : open dialog button container
-     *
-     */
-    private HBox loadOpenDialogButtonContainer()
-    {
-      HBox openDialogButtonContainer = new HBox();
-
-      openDialogButtonContainer.getStyleClass().add("open-dialog-button-container");
-      openDialogButtonContainer.getChildren().add(this.loadReturnToMainMenuDialogButton());
-
-      return openDialogButtonContainer;
-    }
+    return screen;
+  }
 
 
-    /**
-     *
-     * Loads the Return to Main Menu dialog button with the {@link ReturnToMainMenuDialogButtonHandler}.
-     *
-     * @return Button : Return to Main Menu dialog button
-     *
-     */
-    private Button loadReturnToMainMenuDialogButton()
-    {
-      Button returnToMainMenuDialogButton = new Button();
+  /**
+   *
+   * Loads the Game Screen outer top pane container with the following UI element(s):
+   *
+   * Open Dialog Button Container —> {@link #loadOpenDialogButtonContainer()}
+   * Game Screen Inner Top Pane Container —> {@link #loadGameScreenInnerTopPaneContainer()}
+   *
+   * @return VBox : Game Screen outer top pane container
+   *
+   */
+  private VBox loadGameScreenOuterTopPaneContainer()
+  {
+    var gamePaneOuterTopPaneContainer = new VBox();
 
-      returnToMainMenuDialogButton.getStyleClass().addAll("open-dialog-button", "return-to-main-menu-dialog-button");
-      returnToMainMenuDialogButton.setOnAction(new ReturnToMainMenuDialogButtonHandler());
+    gamePaneOuterTopPaneContainer.getStyleClass().add("outer-top-pane-container");
+    gamePaneOuterTopPaneContainer.getChildren().add(this.loadOpenDialogButtonContainer());
+    gamePaneOuterTopPaneContainer.getChildren().add(this.loadGameScreenInnerTopPaneContainer());
 
-      return returnToMainMenuDialogButton;
-    }
-
-
-    /**
-     *
-     * Loads the Game Screen inner top pane container with the following UI element(s):
-     *
-     *  — Game Screen Difficulty Container —> {@link #loadGameScreenDifficultyContainer()}
-     *  — Game Screen Timer Container     —> {@link #loadGameScreenTimerContainer()}
-     *
-     * @return HBox : Game Screen inner top pane container
-     *
-     */
-    private HBox loadGameScreenInnerTopPaneContainer()
-    {
-      HBox gameScreenInnerTopPaneContainer = new HBox();
-
-      gameScreenInnerTopPaneContainer.getStyleClass().add("inner-top-pane-container");
-      gameScreenInnerTopPaneContainer.getChildren().add(this.loadGameScreenDifficultyContainer());
-      gameScreenInnerTopPaneContainer.getChildren().add(this.loadGameScreenTimerContainer());
-
-      return gameScreenInnerTopPaneContainer;
-    }
+    return gamePaneOuterTopPaneContainer;
+  }
 
 
-    /**
-     *
+  /**
+   *
+   * Loads the open dialog button container with the following UI element(s):
+   *
+   * Return To Main Menu Dialog Button —> {@link #loadReturnToMainMenuDialogButton()}
+   *
+   * @return HBox : open dialog button container
+   *
+   */
+  private HBox loadOpenDialogButtonContainer()
+  {
+    var openDialogButtonContainer = new HBox();
+
+    openDialogButtonContainer.getStyleClass().add("open-dialog-button-container");
+    openDialogButtonContainer.getChildren().add(this.loadReturnToMainMenuDialogButton());
+
+    return openDialogButtonContainer;
+  }
+
+
+  /**
+   *
+   * Loads the Return to Main Menu dialog button with the {@link ReturnToMainMenuDialogButtonHandler}.
+   *
+   * @return Button : Return to Main Menu dialog button
+   *
+   */
+  private Button loadReturnToMainMenuDialogButton()
+  {
+    var returnToMainMenuDialogButton = new Button();
+
+    returnToMainMenuDialogButton.getStyleClass().addAll("open-dialog-button", "return-to-main-menu-dialog-button");
+    returnToMainMenuDialogButton.setOnAction(new ReturnToMainMenuDialogButtonHandler());
+
+    return returnToMainMenuDialogButton;
+  }
+
+
+  /**
+   *
+   * Loads the Game Screen inner top pane container with the following UI element(s):
+   *
+   * Game Screen Difficulty Container —> {@link #loadGameScreenDifficultyContainer()}
+   * Game Screen Timer Container —> {@link #loadGameScreenTimerContainer()}
+   *
+   * @return HBox : Game Screen inner top pane container
+   *
+   */
+  private HBox loadGameScreenInnerTopPaneContainer()
+  {
+    var gamePaneInnerTopPaneContainer = new HBox();
+
+    gamePaneInnerTopPaneContainer.getStyleClass().add("inner-top-pane-container");
+    gamePaneInnerTopPaneContainer.getChildren().add(this.loadGameScreenDifficultyContainer());
+    gamePaneInnerTopPaneContainer.getChildren().add(this.loadGameScreenTimerContainer());
+
+    return gamePaneInnerTopPaneContainer;
+  }
+
+
+  /**
+   *
    * Loads the Game Screen difficulty container with the following UI element(s):
    *
-   *  — Game Screen Difficulty Label     —> {@link #loadGameScreenDifficultyLabel()}
-   *  — Game Screen Difficulty Dropdown —> {@link #loadGameScreenDifficultyDropdown()}
+   * Game Screen Difficulty Label —> {@link #loadGameScreenDifficultyLabel()}
+   * Game Screen Difficulty Dropdown —> {@link #loadGameScreenDifficultyDropdown()}
    *
    * @return HBox : Game Screen difficulty container
-     *
-     */
-    private HBox loadGameScreenDifficultyContainer()
-    {
-      HBox gameScreenDifficultyContainer = new HBox();
+   *
+   */
+  private HBox loadGameScreenDifficultyContainer()
+  {
+    this.difficultyDropdown = this.loadGameScreenDifficultyDropdown();
 
-      gameScreenDifficultyContainer.getStyleClass().add("difficulty-container");
-      gameScreenDifficultyContainer.getChildren().add(this.loadGameScreenDifficultyLabel());
-      gameScreenDifficultyContainer.getChildren().add(this.difficultyDropdown = this.loadGameScreenDifficultyDropdown());
+    var gamePaneDifficultyContainer = new HBox();
 
-    return gameScreenDifficultyContainer;
-    }
+    gamePaneDifficultyContainer.getStyleClass().add("difficulty-container");
+    gamePaneDifficultyContainer.getChildren().add(this.loadGameScreenDifficultyLabel());
+    gamePaneDifficultyContainer.getChildren().add(this.difficultyDropdown);
 
-
-    /**
-     *
-     * Loads the Game Screen difficulty label.
-     *
-     * @return Label : Game Screen difficulty label
-     *
-     */
-    private Label loadGameScreenDifficultyLabel()
-    {
-      Label gameScreenDifficultyLabel = new Label("Puzzle Difficulty: ");
-
-      gameScreenDifficultyLabel.getStyleClass().add("difficulty-label");
-
-    return gameScreenDifficultyLabel;
-    }
+    return gamePaneDifficultyContainer;
+  }
 
 
-    /**
-     *
-     * Loads the Game Screen difficulty dropdown with the {@link GameScreenDifficultyDropdownHandler}.
-     *
-     * @return ComboBox<String> : Game Screen difficulty dropdown
-     *
-     */
-    private ComboBox<String> loadGameScreenDifficultyDropdown()
-    {
-      ComboBox<String> gameScreenDifficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficulties());
+  /**
+   *
+   * Loads the Game Screen difficulty label.
+   *
+   * @return Label : Game Screen difficulty label
+   *
+   */
+  private Label loadGameScreenDifficultyLabel()
+  {
+    var gamePaneDifficultyLabel = new Label("Puzzle Difficulty: ");
+
+    gamePaneDifficultyLabel.getStyleClass().add("difficulty-label");
+
+    return gamePaneDifficultyLabel;
+  }
+
+
+  /**
+   *
+   * Loads the Game Screen difficulty dropdown with the {@link GameScreenDifficultyDropdownHandler}.
+   *
+   * @return ComboBox<String> : Game Screen difficulty dropdown
+   *
+   */
+  private ComboBox<String> loadGameScreenDifficultyDropdown()
+  {
+    var gamePaneDifficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficulties());
 
     // ComboBox default style classes are .combo-box-base and .combo-box
 
-      gameScreenDifficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyName());
-      gameScreenDifficultyDropdown.setOnAction(new GameScreenDifficultyDropdownHandler());
+    gamePaneDifficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyName());
+    gamePaneDifficultyDropdown.setOnAction(new GameScreenDifficultyDropdownHandler());
 
-      return gameScreenDifficultyDropdown;
-    }
+    return gamePaneDifficultyDropdown;
+  }
 
 
-    /**
-     *
-     * Loads the Game Screen timer container with the following UI element(s):
-     *
-     *  — Timer Button —> {@link #timerButton}
-     *  — Timer Label  —> {@link #timerLabel}
-     *  — Time Penalty —> {@link #timePenalty}
-     *
-     * @return HBox : Game Screen timer container
-     *
-     */
-    private HBox loadGameScreenTimerContainer()
+  /**
+   *
+   * Loads the Game Screen timer container with the following UI element(s):
+   *
+   * Timer Button —> {@link #timerButton}
+   * Timer Label —> {@link #timerLabel}
+   * Time Penalty —> {@link #timePenalty}
+   *
+   * @return HBox : Game Screen timer container
+   *
+   */
+  private HBox loadGameScreenTimerContainer()
+  {
+    var gamePaneTimerContainer = new HBox();
+
+    gamePaneTimerContainer.getStyleClass().add("timer-container");
+    gamePaneTimerContainer.getChildren().add(this.timerButton);
+    gamePaneTimerContainer.getChildren().add(this.timerLabel);
+    gamePaneTimerContainer.getChildren().add(this.timePenaltyLabel);
+
+    return gamePaneTimerContainer;
+  }
+
+
+  /**
+   *
+   * Loads the Game Screen bottom pane container with the following UI element(s):
+   *
+   * Game Screen Number Buttons —> {@link #numberButtons}
+   *
+   * @return HBox : Game Screen bottom pane container
+   *
+   */
+  private HBox loadGameScreenBottomPaneContainer()
+  {
+    var gamePaneBottomPaneContainer = new HBox();
+
+    this.disableGameScreenNumberButtons();
+
+    gamePaneBottomPaneContainer.getStyleClass().add("bottom-pane-container");
+    gamePaneBottomPaneContainer.getChildren().addAll(this.numberButtons);
+
+    return gamePaneBottomPaneContainer;
+  }
+
+
+  /**
+   *
+   * Disables the Game Screen number buttons, if necessary.
+   *
+   */
+  private void disableGameScreenNumberButtons()
+  {
+    this.numberButtons.forEach(this::disableGameScreenNumberButton);
+  }
+
+
+  /**
+   *
+   * Disables a Game Screen number button, if necessary.
+   *
+   * @param numberButton : number button
+   *
+   */
+  private void disableGameScreenNumberButton(NumberButton numberButton)
+  {
+    var valueOccurrences = (HashMap<Integer, Integer>) this.currentSudoku.getValueOccurrences();
+
+    if (valueOccurrences.containsKey(numberButton.getValue()) && valueOccurrences.get(numberButton.getValue()) == PUZZLE_SIZE)
     {
-      HBox gameScreenTimerContainer = new HBox();
+      numberButton.setDisable(true);
 
-      gameScreenTimerContainer.getStyleClass().add("timer-container");
-      gameScreenTimerContainer.getChildren().add(this.timerButton);
-      gameScreenTimerContainer.getChildren().add(this.timerLabel);
-      gameScreenTimerContainer.getChildren().add(this.timePenaltyLabel);
-
-      return gameScreenTimerContainer;
+      this.disabledNumberButtons.add(numberButton);
     }
+  }
 
 
-    /**
-     *
-     * Loads the Game Screen bottom pane container with the following UI element(s):
-     *
-     *  — Game Screen Number Buttons —> {@link #numberButtons}
-     *
-     * @return HBox : Game Screen bottom pane container
-     *
-     */
-    private HBox loadGameScreenBottomPaneContainer()
-    {
-      HBox gameScreenBottomPaneContainer = new HBox();
+  /**
+   *
+   * Loads the Game Screen left pane container with the following UI element(s):
+   *
+   * Pen Button —> {@link #loadPenButton()}
+   * Pencil Button —> {@link #loadPencilButton()}
+   * Eraser Button —> {@link #loadEraserButton()}
+   *
+   * @throws IllegalArgumentException
+   *
+   * @return VBox : Game Screen left pane container
+   *
+   */
+  private VBox loadGameScreenLeftPaneContainer() throws IllegalArgumentException
+  {
+    var gamePaneLeftPaneContainer = new VBox();
 
-      this.disableGameScreenNumberButtons();
+    var penButton = this.loadPenButton();
+    var pencilButton = this.loadPencilButton();
+    var eraserButton = this.loadEraserButton();
 
-      gameScreenBottomPaneContainer.getStyleClass().add("bottom-pane-container");
-      gameScreenBottomPaneContainer.getChildren().addAll(this.numberButtons);
+    this.writingToolButtons.add(penButton);
+    this.writingToolButtons.add(pencilButton);
+    this.writingToolButtons.add(eraserButton);
 
-      return gameScreenBottomPaneContainer;
-    }
+    gamePaneLeftPaneContainer.getStyleClass().add("left-pane-container");
+    gamePaneLeftPaneContainer.getChildren().addAll(penButton, pencilButton, eraserButton);
 
-
-    /**
-     *
-     * Disables the Game Screen number buttons, if necessary.
-     *
-     */
-    private void disableGameScreenNumberButtons()
-    {
-      this.numberButtons.forEach(numberButton ->
-      {
-        this.disableGameScreenNumberButton(numberButton);
-      });
-    }
+    return gamePaneLeftPaneContainer;
+  }
 
 
-    /**
-     *
-     * Disables a Game Screen number button, if necessary.
-     *
-     * @param numberButton : number button
-     *
-     */
-    private void disableGameScreenNumberButton(NumberButton numberButton)
-    {
-      HashMap<Integer, Integer> valueOccurrences = this.currentSudoku.getValueOccurrences();
+  /**
+   *
+   * Loads the pen button with the {@link WritingToolClickHandler}.
+   *
+   * @throws IllegalArgumentException
+   *
+   * @return Button : pen button
+   *
+   */
+  private Button loadPenButton() throws IllegalArgumentException
+  {
+    var penButton = new Button("Pen");
 
-      if (valueOccurrences.containsKey(numberButton.getValue()) && valueOccurrences.get(numberButton.getValue()) == PUZZLE_SIZE)
-      {
-        numberButton.setDisable(true);
+    penButton.getStyleClass().addAll("game-button", "icon-button");
+    penButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("./img/pen-icon.png"), 40, 40, true, true)));
+    penButton.setOnAction(new WritingToolClickHandler());
 
-        this.disabledNumberButtons.add(numberButton);
-      }
-    }
-
-
-    /**
-     *
-     * Loads the Game Screen left pane container with the following UI element(s):
-     *
-     *  — Pen Button   —> {@link #loadPenButton()}
-     *  — Pencil Button —> {@link #loadPencilButton()}
-     *  — Eraser Button —> {@link #loadEraserButton()}
-     *
-     * @throws Exception
-     *
-     * @return VBox : Game Screen left pane container
-     *
-     */
-    private VBox loadGameScreenLeftPaneContainer() throws Exception
-    {
-      VBox gameScreenLeftPaneContainer = new VBox();
-
-      Button penButton = this.loadPenButton();
-      Button pencilButton = this.loadPencilButton();
-      Button eraserButton = this.loadEraserButton();
-
-      this.writingToolButtons.add(penButton);
-      this.writingToolButtons.add(pencilButton);
-      this.writingToolButtons.add(eraserButton);
-
-      gameScreenLeftPaneContainer.getStyleClass().add("left-pane-container");
-      gameScreenLeftPaneContainer.getChildren().addAll(penButton, pencilButton, eraserButton);
-
-      return gameScreenLeftPaneContainer;
-    }
-
-
-    /**
-     *
-     * Loads the pen button with the {@link WritingToolClickHandler}.
-     *
-     * @throws Exception
-     *
-     * @return Button : pen button
-     *
-     */
-    private Button loadPenButton() throws Exception
-    {
-      Button penButton = new Button("Pen");
-
-      penButton.getStyleClass().addAll("game-button", "icon-button");
-    penButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("pen-icon.png"), 40, 40, true, true)));
-      penButton.setOnAction(new WritingToolClickHandler());
-
-      return penButton;
-    }
+    return penButton;
+  }
 
 
     /**
      *
      * Loads the pencil button with the {@link WritingToolClickHandler}.
      *
-     * @throws Exception
+     * @throws IllegalArgumentException
      *
      * @return Button : pencil button
      *
      */
-    private Button loadPencilButton() throws Exception
+    private Button loadPencilButton() throws IllegalArgumentException
     {
-      Button pencilButton = new Button("Pencil");
+      var pencilButton = new Button("Pencil");
 
       pencilButton.getStyleClass().addAll("game-button", "icon-button");
-      pencilButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("pencil-icon.png"), 40, 40, true, true)));
+      pencilButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("./img/pencil-icon.png"), 40, 40, true, true)));
       pencilButton.setOnAction(new WritingToolClickHandler());
 
       return pencilButton;
@@ -483,132 +487,132 @@ public class GameScreen extends StackPane
      *
      * Loads the eraser button with the {@link WritingToolClickHandler}.
      *
-     * @throws Exception
+     * @throws IllegalArgumentException
      *
      * @return Button : eraser button
      *
      */
-    private Button loadEraserButton() throws Exception
+    private Button loadEraserButton() throws IllegalArgumentException
     {
-      Button eraserButton = new Button("Eraser");
+      var eraserButton = new Button("Eraser");
 
       eraserButton.getStyleClass().addAll("game-button", "icon-button");
-      eraserButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("eraser-icon.png"), 40, 40, true, true)));
+      eraserButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("./img/eraser-icon.png"), 40, 40, true, true)));
       eraserButton.setOnAction(new WritingToolClickHandler());
 
-    return eraserButton;
+      return eraserButton;
     }
 
 
   /**
-     *
-     * Loads the Game Screen right pane container with the following UI element(s):
-     *
-     *  — Hint Button     —> {@link #loadHintButton()}
-     *  — Restart Button   —> {@link #loadRestartButton()}
-     *  — New Puzzle Button —> {@link #loadNewPuzzleButton()}
-     *
-     * @throws Exception
-     *
-     * @return VBox : Game Screen right pane container
-     *
-     */
-    private VBox loadGameScreenRightPaneContainer() throws Exception
-    {
-      VBox gameScreenRightPaneContainer = new VBox();
+   *
+   * Loads the Game Screen right pane container with the following UI element(s):
+   *
+   *  — Hint Button     —> {@link #loadHintButton()}
+   *  — Restart Button   —> {@link #loadRestartButton()}
+   *  — New Puzzle Button —> {@link #loadNewPuzzleButton()}
+   *
+   * @throws IllegalArgumentException
+   *
+   * @return VBox : Game Screen right pane container
+   *
+   */
+  private VBox loadGameScreenRightPaneContainer() throws IllegalArgumentException
+  {
+    var gamePaneRightPaneContainer = new VBox();
 
-      Button hintButton = this.loadHintButton();
-      Button restartButton = this.loadRestartButton();
-      Button newPuzzleButton = this.loadNewPuzzleButton();
+    var hintButton = this.loadHintButton();
+    var restartButton = this.loadRestartButton();
+    var newPuzzleButton = this.loadNewPuzzleButton();
 
-      this.helperButtons.add(hintButton);
-      this.helperButtons.add(restartButton);
-      this.helperButtons.add(newPuzzleButton);
+    this.helperButtons.add(hintButton);
+    this.helperButtons.add(restartButton);
+    this.helperButtons.add(newPuzzleButton);
 
-      gameScreenRightPaneContainer.getStyleClass().add("right-pane-container");
-      gameScreenRightPaneContainer.getChildren().addAll(hintButton, restartButton, newPuzzleButton);
+    gamePaneRightPaneContainer.getStyleClass().add("right-pane-container");
+    gamePaneRightPaneContainer.getChildren().addAll(hintButton, restartButton, newPuzzleButton);
 
-      return gameScreenRightPaneContainer;
-    }
-
-
-    /**
-     *
-     * Loads the hint button with the {@link HintButtonHandler}.
-     *
-     * @throws Exception
-     *
-     * @return Button : hint button
-     *
-     */
-    private Button loadHintButton() throws Exception
-    {
-      Button hintButton = new Button("Hint");
-
-      hintButton.getStyleClass().addAll("game-button", "icon-button");
-      hintButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("hint-icon.png"), 40, 40, false, true)));
-      hintButton.setOnAction(new HintButtonHandler());
-
-      return hintButton;
-    }
+    return gamePaneRightPaneContainer;
+  }
 
 
-    /**
-     *
-     * Loads the restart button with the {@link RestartButtonHandler}.
-     *
-     * @throws Exception
-     *
-     * @return Button : restart button
-     *
-     */
-    private Button loadRestartButton() throws Exception
-    {
-      Button restartButton = new Button("Restart");
+  /**
+   *
+   * Loads the hint button with the {@link HintButtonHandler}.
+   *
+   * @throws IllegalArgumentException
+   *
+   * @return Button : hint button
+   *
+   */
+  private Button loadHintButton() throws IllegalArgumentException
+  {
+    var hintButton = new Button("Hint");
 
-      restartButton.getStyleClass().addAll("game-button", "icon-button");
-    restartButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("restart-icon.png"), 40, 40, true, true)));
-      restartButton.setOnAction(new RestartButtonHandler());
+    hintButton.getStyleClass().addAll("game-button", "icon-button");
+    hintButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("./img/hint-icon.png"), 40, 40, false, true)));
+    hintButton.setOnAction(new HintButtonHandler());
 
-      return restartButton;
-    }
-
-
-    /**
-     *
-     * Loads the new puzzle button with the {@link NewPuzzleButtonHandler}.
-     *
-     * @throws Exception
-     *
-     * @return Button : new puzzle button
-     *
-     */
-    private Button loadNewPuzzleButton() throws Exception
-    {
-      Button newPuzzleButton = new Button("New Game");
-
-      newPuzzleButton.getStyleClass().addAll("game-button", "icon-button");
-    newPuzzleButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("new-puzzle-icon.png"), 40, 40, true, true)));
-      newPuzzleButton.setOnAction(new NewPuzzleButtonHandler());
-
-      return newPuzzleButton;
-    }
+    return hintButton;
+  }
 
 
-    /**
-     *
-     * Loads the Game Screen center pane container with the sudoku puzzle grid.
-     *
-     * @return GridPane : Game Screen center pane container
-     *
-     */
+  /**
+   *
+   * Loads the restart button with the {@link RestartButtonHandler}.
+   *
+   * @throws IllegalArgumentException
+   *
+   * @return Button : restart button
+   *
+   */
+  private Button loadRestartButton() throws IllegalArgumentException
+  {
+    var restartButton = new Button("Restart");
+
+    restartButton.getStyleClass().addAll("game-button", "icon-button");
+    restartButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("./img/restart-icon.png"), 40, 40, true, true)));
+    restartButton.setOnAction(new RestartButtonHandler());
+
+    return restartButton;
+  }
+
+
+  /**
+   *
+   * Loads the new puzzle button with the {@link NewPuzzleButtonHandler}.
+   *
+   * @throws IllegalArgumentException
+   *
+   * @return Button : new puzzle button
+   *
+   */
+  private Button loadNewPuzzleButton() throws IllegalArgumentException
+  {
+    var newPuzzleButton = new Button("New Game");
+
+    newPuzzleButton.getStyleClass().addAll("game-button", "icon-button");
+    newPuzzleButton.setGraphic(new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream("./img/new-puzzle-icon.png"), 40, 40, true, true)));
+    newPuzzleButton.setOnAction(new NewPuzzleButtonHandler());
+
+    return newPuzzleButton;
+  }
+
+
+  /**
+   *
+   * Loads the Game Screen center pane container with the sudoku puzzle grid.
+   *
+   * @return GridPane : Game Screen center pane container
+   *
+   */
   private GridPane loadGameScreenCenterPaneContainer()
   {
-    GridPane gameScreenCenterPaneContainer = new GridPane();
+    var gamePaneCenterPaneContainer = new GridPane();
 
     for (SudokuBlock sudokuBlock : this.currentSudoku.getUserPuzzle())
     {
-      GridPane sudokuBlockContainer = new GridPane();
+      var sudokuBlockContainer = new GridPane();
 
       for (SudokuCell sudokuCell : sudokuBlock.getBlockCells())
       {
@@ -621,12 +625,12 @@ public class GameScreen extends StackPane
 
       GridPane.setConstraints(sudokuBlockContainer, sudokuBlock.getBlockCol(), sudokuBlock.getBlockRow());
 
-      gameScreenCenterPaneContainer.getChildren().add(sudokuBlockContainer);
+      gamePaneCenterPaneContainer.getChildren().add(sudokuBlockContainer);
     }
 
-    gameScreenCenterPaneContainer.getStyleClass().add("center-pane-container");
+    gamePaneCenterPaneContainer.getStyleClass().add("center-pane-container");
 
-    return gameScreenCenterPaneContainer;
+    return gamePaneCenterPaneContainer;
   }
 
 
@@ -646,8 +650,8 @@ public class GameScreen extends StackPane
     this.numberButtons = this.loadGameScreenNumberButtons();
     this.disabledNumberButtons = new ArrayList<>();
 
-    this.gameScreen.setCenter(this.loadGameScreenCenterPaneContainer());
-    this.gameScreen.setBottom(this.loadGameScreenBottomPaneContainer());
+    this.gamePane.setCenter(this.loadGameScreenCenterPaneContainer());
+    this.gamePane.setBottom(this.loadGameScreenBottomPaneContainer());
   }
 
 
@@ -754,10 +758,10 @@ public class GameScreen extends StackPane
    *
    * Retrieves {@link #writingToolButtons}.
    *
-   * @return ArrayList<Button> : list of writing tool buttons
+   * @return List<Button> : list of writing tool buttons
    *
    */
-  public ArrayList<Button> getWritingToolButtons()
+  public List<Button> getWritingToolButtons()
   {
     return this.writingToolButtons;
   }
@@ -767,10 +771,10 @@ public class GameScreen extends StackPane
    *
    * Retrieves {@link #helperButtons}.
    *
-   * @return ArrayList<Button> : list of helper buttons
+   * @return List<Button> : list of helper buttons
    *
    */
-  public ArrayList<Button> getHelperButtons()
+  public List<Button> getHelperButtons()
   {
     return this.helperButtons;
   }
@@ -780,10 +784,10 @@ public class GameScreen extends StackPane
    *
    * Retrieves {@link #numberButtons}.
    *
-   * @return ArrayList<NumberButton> : list of number buttons
+   * @return List<NumberButton> : list of number buttons
    *
    */
-  public ArrayList<NumberButton> getNumberButtons()
+  public List<NumberButton> getNumberButtons()
   {
     return this.numberButtons;
   }
@@ -793,10 +797,10 @@ public class GameScreen extends StackPane
    *
    * Retrieves {@link #disabledNumberButtons}.
    *
-   * @return ArrayList<NumberButton> : list of disabled number buttons
+   * @return List<NumberButton> : list of disabled number buttons
    *
    */
-  public ArrayList<NumberButton> getDisabledNumberButtons()
+  public List<NumberButton> getDisabledNumberButtons()
   {
     return this.disabledNumberButtons;
   }

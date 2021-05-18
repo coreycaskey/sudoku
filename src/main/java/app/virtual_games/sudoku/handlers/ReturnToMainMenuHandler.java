@@ -18,7 +18,7 @@ public class ReturnToMainMenuHandler implements EventHandler<ActionEvent>
 {
   /**
    *
-   * Transitions to the Main Menu.
+   * Initiates transitioning to the Main Menu.
    *
    * @param clickEvent : Return to Main Menu dialog confirm button click event
    *

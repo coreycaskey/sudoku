@@ -23,8 +23,8 @@ public class CellPosition extends Point
    *
    * Initializes the following variable(s):
    *
-   *  — {@link row}
-   *  — {@link col}
+   * {@link row}
+   * {@link col}
    *
    * @param row : cell row
    * @param col : cell column
@@ -32,7 +32,7 @@ public class CellPosition extends Point
    */
   public CellPosition(int row, int col)
   {
-    super(col, row);  // Point(x, y) -> Point(col, row)
+    super(col, row); // Point(x, y) -> Point(col, row)
 
     this.row = row;
     this.col = col;

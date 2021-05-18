@@ -18,7 +18,7 @@ public class ReturnToMainMenuDialogButtonHandler implements EventHandler<ActionE
 {
   /**
    *
-   * Displays the Return to Main Menu dialog.
+   * Initiates displaying the Return to Main Menu dialog.
    *
    * @param clickEvent : Return to Main Menu dialog button click event
    *

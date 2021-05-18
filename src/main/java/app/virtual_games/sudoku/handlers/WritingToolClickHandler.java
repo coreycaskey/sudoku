@@ -19,7 +19,7 @@ public class WritingToolClickHandler implements EventHandler<ActionEvent>
 {
   /**
    *
-   * Updates the current writing tool.
+   * Initiates updating the current writing tool.
    *
    * @param clickEvent : writing tool button click event
    *
@@ -27,7 +27,7 @@ public class WritingToolClickHandler implements EventHandler<ActionEvent>
   @Override
   public void handle(ActionEvent clickEvent)
   {
-    Button writingToolButton = (Button) clickEvent.getSource();
+    var writingToolButton = (Button) clickEvent.getSource();
 
     if (!this.isSameWritingTool(writingToolButton))
     {
@@ -61,7 +61,7 @@ public class WritingToolClickHandler implements EventHandler<ActionEvent>
    *
    * @param writingToolButton : writing tool button
    *
-   * @return boolean       : true —> same button; false —> different button
+   * @return boolean : true —> same button; false —> different button
    *
    */
   private boolean isSameWritingTool(Button writingToolButton)

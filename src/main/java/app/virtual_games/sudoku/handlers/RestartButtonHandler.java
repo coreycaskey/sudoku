@@ -18,7 +18,7 @@ public class RestartButtonHandler implements EventHandler<ActionEvent>
 {
   /**
    *
-   * Resets the sudoku puzzle.
+   * Initiates resetting the sudoku puzzle.
    *
    * @param clickEvent : restart button click event
    *

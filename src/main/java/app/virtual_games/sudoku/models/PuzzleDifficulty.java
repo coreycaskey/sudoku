@@ -17,9 +17,9 @@ import javafx.collections.ObservableList;
  */
 public enum PuzzleDifficulty
 {
-  EASY   (1, "Easy"),
+  EASY (1, "Easy"),
   MEDIUM (2, "Medium"),
-  HARD   (3, "Hard");
+  HARD (3, "Hard");
 
   private final int difficultyId;
   private final String difficultyName;
@@ -29,10 +29,10 @@ public enum PuzzleDifficulty
    *
    * Initializes the following variable(s):
    *
-   *  — {@link #difficultyId}
-   *  — {@link #difficultyName}
+   * {@link #difficultyId}
+   * {@link #difficultyName}
    *
-   * @param difficultyId    : unique identifier for the puzzle difficulty (e.g. Easy —> 1)
+   * @param difficultyId : unique identifier for the puzzle difficulty (e.g. 1 -> Easy)
    * @param difficultyName : name of the puzzle difficulty (e.g. Easy)
    *
    */
@@ -56,8 +56,8 @@ public enum PuzzleDifficulty
   public static ObservableList<String> getPuzzleDifficulties()
   {
     return Arrays.stream(PuzzleDifficulty.values())
-           .map(puzzleDifficulty -> puzzleDifficulty.difficultyName)
-           .collect(Collectors.toCollection(FXCollections::observableArrayList));
+                  .map(puzzleDifficulty -> puzzleDifficulty.difficultyName)
+                  .collect(Collectors.toCollection(FXCollections::observableArrayList));
   }
 
 
@@ -65,7 +65,7 @@ public enum PuzzleDifficulty
    *
    * Retrieves the enum instance that maps to the puzzle difficulty name.
    *
-   * @param difficultyName   : name of the puzzle difficulty
+   * @param difficultyName : name of the puzzle difficulty
    *
    * @return PuzzleDifficulty : corresponding enum instance
    *

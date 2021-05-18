@@ -19,7 +19,7 @@ public class WinDialogHandler implements EventHandler<ActionEvent>
 {
   /**
    *
-   * Loads a new sudoku puzzle.
+   * Initiates loading a new sudoku puzzle.
    *
    * @param event : base event
    *
@@ -41,7 +41,7 @@ public class WinDialogHandler implements EventHandler<ActionEvent>
     }
     else
     {
-      gameScreenDifficultyDropdown.setValue(currentDifficultyName);  // calls GameScreenDifficultyDropdownHandler
+      gameScreenDifficultyDropdown.setValue(currentDifficultyName); // calls GameScreenDifficultyDropdownHandler
     }
 
     GameController.closeGameScreenDialog();

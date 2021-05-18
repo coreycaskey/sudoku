@@ -21,9 +21,9 @@ import javafx.scene.input.MouseEvent;
  */
 public class SudokuCellHoverHandler implements EventHandler<MouseEvent>
 {
-  private static final ImageCursor PEN_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getClassLoader().getResourceAsStream("pen-icon-cursor.png"), 30.0, 30.0, true, true), 15, 15);
-  private static final ImageCursor PENCIL_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getClassLoader().getResourceAsStream("pencil-icon-cursor.png"), 30.0, 30.0, true, true), 15, 15);
-  private static final ImageCursor ERASER_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getClassLoader().getResourceAsStream("eraser-icon-cursor.png"), 30.0, 30.0, true, true), 15, 15);
+  private static final ImageCursor PEN_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getClassLoader().getResourceAsStream("./img/pen-icon-cursor.png"), 30, 30, true, true), 15, 15);
+  private static final ImageCursor PENCIL_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getClassLoader().getResourceAsStream("./img/pencil-icon-cursor.png"), 30, 30, true, true), 15, 15);
+  private static final ImageCursor ERASER_CURSOR = new ImageCursor(new Image(SudokuCellHoverHandler.class.getClassLoader().getResourceAsStream("./img/eraser-icon-cursor.png"), 30, 30, true, true), 15, 15);
 
 
   /**

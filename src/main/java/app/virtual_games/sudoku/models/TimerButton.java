@@ -22,7 +22,7 @@ public class TimerButton extends Button
    *
    * Initializes the following variable(s):
    *
-   *  — {@link #isPaused}
+   * {@link #isPaused}
    *
    * Loads the button's base styling and event handler.
    *
@@ -30,8 +30,8 @@ public class TimerButton extends Button
   public TimerButton()
   {
     this.isPaused = false;
-      this.setOnAction(new TimerButtonHandler());
-      this.addStyling("timer-button", "pause-button");
+    this.setOnAction(new TimerButtonHandler());
+    this.addStyling("timer-button", "pause-button");
   }
 
 

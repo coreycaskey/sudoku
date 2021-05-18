@@ -2,9 +2,11 @@ package app.virtual_games.sudoku.models;
 
 import app.virtual_games.sudoku.controllers.ApiController;
 import app.virtual_games.sudoku.controllers.SolutionController;
+import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -32,7 +34,7 @@ public class Sudoku
   private ArrayList<CellPosition> hintCells;
   private SudokuCell currentClickedCell;
   private SudokuCell currentHintCell;
-  int cellsRemaining;
+  private int cellsRemaining;
 
   private int[] initialPuzzle;
   private int[] solvedPuzzle;
@@ -45,28 +47,28 @@ public class Sudoku
    *
    * Initializes the following variable(s):
    *
-   *  — {@link #correctCells}
-   *  — {@link #valueOccurrences}
-   *  — {@link #cellsRemaining}
-   *  — {@link #initialPuzzle}
-   *  — {@link #solvedPuzzle}
-   *  — {@link #isSolved}
-   *  — {@link #userPuzzle}
-   *  — {@link #hintCells}
+   * {@link #correctCells}
+   * {@link #valueOccurrences}
+   * {@link #cellsRemaining}
+   * {@link #initialPuzzle}
+   * {@link #solvedPuzzle}
+   * {@link #isSolved}
+   * {@link #userPuzzle}
+   * {@link #hintCells}
    *
-   * @throws Exception
+   * @throws SudokuPuzzleException
    *
    * @param difficultyId : unique identifier for the puzzle difficulty (e.g. Easy —> 1)
    *
    */
-  public Sudoku(int difficultyId) throws Exception
+  public Sudoku(int difficultyId) throws SudokuPuzzleException
   {
-    this.correctCells = ApiController.getSudokuPuzzle(difficultyId);
+    this.correctCells = (ArrayList<JSONObject>) ApiController.getSudokuPuzzle(difficultyId);
     this.valueOccurrences = this.initializeValueOccurrences();
     this.cellsRemaining = TOTAL_CELLS - this.correctCells.size();
     this.initialPuzzle = this.loadInitialPuzzle();
     this.solvedPuzzle = SolutionController.solvePuzzle(this);
-    this.isSolved = this.solvedPuzzle != null ? true : false;
+    this.isSolved = this.solvedPuzzle != null;
     this.userPuzzle = this.loadUserPuzzle();
     this.hintCells = this.initializeHintCells();
   }
@@ -84,17 +86,17 @@ public class Sudoku
    */
   private HashMap<Integer, Integer> initializeValueOccurrences()
   {
-    HashMap<Integer, Integer> valueOccurrences = new HashMap<>();
+    var occurrencesMap = new HashMap<Integer, Integer>();
 
     this.correctCells.forEach(cellJson ->
     {
       int value = (int) cellJson.get("value");
-      int occurrences = valueOccurrences.containsKey(value) ? valueOccurrences.get(value) : 0;
+      int occurrences = occurrencesMap.containsKey(value) ? occurrencesMap.get(value) : 0;
 
-      valueOccurrences.put(value, occurrences + 1);
+      occurrencesMap.put(value, occurrences + 1);
     });
 
-    return valueOccurrences;
+    return occurrencesMap;
   }
 
 
@@ -108,8 +110,8 @@ public class Sudoku
   private int[] loadInitialPuzzle()
   {
     return IntStream.range(0, TOTAL_CELLS)
-            .map(cellIndex -> this.getCellValue(cellIndex))
-            .toArray();
+                    .map(this::getCellValue)
+                    .toArray();
   }
 
 
@@ -119,14 +121,14 @@ public class Sudoku
    *
    * @param cellIndex : index of the cell in the puzzle array
    *
-   * @return int     : cell value
+   * @return int : cell value
    *
    */
   private int getCellValue(int cellIndex)
   {
     Optional<JSONObject> initialCell = this.correctCells.stream()
-                                    .filter(cell -> this.isInitialCell(cell, cellIndex))
-                                    .findAny();
+                                                        .filter(cell -> this.isInitialCell(cell, cellIndex))
+                                                        .findAny();
 
     return initialCell.isPresent() ? (int) initialCell.get().get("value") : 0;
   }
@@ -137,9 +139,9 @@ public class Sudoku
    * Determines whether the cell index corresponds to an initial cell.
    *
    * @param initialCell : current initial cell
-   * @param cellIndex   : index of the cell in the puzzle array
+   * @param cellIndex : index of the cell in the puzzle array
    *
-   * @return boolean    : true —> initial cell; false —> not initial cell
+   * @return boolean : true —> initial cell; false —> not initial cell
    *
    */
   private boolean isInitialCell(JSONObject initialCell, int cellIndex)
@@ -161,8 +163,8 @@ public class Sudoku
   private SudokuBlock[] loadUserPuzzle()
   {
     return IntStream.range(0, PUZZLE_SIZE)
-            .mapToObj(blockId -> this.getSudokuBlock(blockId))
-            .toArray(SudokuBlock[]::new);
+                    .mapToObj(this::getSudokuBlock)
+                    .toArray(SudokuBlock[]::new);
   }
 
 
@@ -170,7 +172,7 @@ public class Sudoku
    *
    * Initializes a {@link SudokuBlock} instance.
    *
-   * @param blockId      : unique identifier for the sudoku block
+   * @param blockId : unique identifier for the sudoku block
    *
    * @return SudokuBlock : SudokuBlock instance
    *
@@ -191,9 +193,9 @@ public class Sudoku
   private ArrayList<CellPosition> initializeHintCells()
   {
     return IntStream.range(0, TOTAL_CELLS)
-             .filter(cellIndex -> this.initialPuzzle[cellIndex] == 0)
-             .mapToObj(cellIndex -> this.getCellPosition(cellIndex))
-             .collect(Collectors.toCollection(ArrayList::new));
+                    .filter(cellIndex -> this.initialPuzzle[cellIndex] == 0)
+                    .mapToObj(this::getCellPosition)
+                    .collect(Collectors.toCollection(ArrayList::new));
   }
 
 
@@ -201,7 +203,7 @@ public class Sudoku
    *
    * Retrieves the {@link CellPosition} for the cell index.
    *
-   * @param cellIndex   : index of the cell in the puzzle array
+   * @param cellIndex : index of the cell in the puzzle array
    *
    * @return CellPosition : position of the cell
    *
@@ -216,8 +218,8 @@ public class Sudoku
    *
    * Retrieves a cell {@link JSONObject}.
    *
-   * @param cellIndex   : index of the cell in the puzzle array
-   * @param cellValue   : cell value
+   * @param cellIndex : index of the cell in the puzzle array
+   * @param cellValue : cell value
    *
    * @return JSONObject : cell JSON Object
    *
@@ -225,7 +227,7 @@ public class Sudoku
   @SuppressWarnings("unchecked")
   private JSONObject toJson(int cellIndex, int cellValue)
   {
-    JSONObject cell = new JSONObject();
+    var cell = new JSONObject();
 
     cell.put("row", cellIndex / PUZZLE_SIZE);
     cell.put("col", cellIndex % PUZZLE_SIZE);
@@ -269,9 +271,9 @@ public class Sudoku
    *
    * Determines whether the cell index corresponds to an initial cell.
    *
-   * @param cellIndex   : index of the cell in the puzzle array
+   * @param cellIndex : index of the cell in the puzzle array
    *
-   * @return boolean    : true —> initial cell; false —> not initial cell
+   * @return boolean : true —> initial cell; false —> not initial cell
    *
    */
   private boolean isInitialCell(int cellIndex)
@@ -285,7 +287,7 @@ public class Sudoku
    * Highlights the cell occurrence.
    *
    * @param sudokuCell : corresponding sudoku cell
-   * @param cellValue  : cell value
+   * @param cellValue : cell value
    *
    */
   private void highlightCellOccurrence(SudokuCell sudokuCell)
@@ -325,8 +327,8 @@ public class Sudoku
    *
    * Retrieves a {@link SudokuCell} object with the given row and column.
    *
-   * @param row       : cell row
-   * @param col       : cell column
+   * @param row : cell row
+   * @param col : cell column
    *
    * @return SudokuCell : SudokuCell instance
    *
@@ -357,7 +359,7 @@ public class Sudoku
    */
   private Integer generateRandomIndex()
   {
-    return this.hintCells.size() > 0 ? new Random().nextInt(this.hintCells.size()) : null;
+    return !this.hintCells.isEmpty() ? new Random().nextInt(this.hintCells.size()) : null;
   }
 
 
@@ -445,21 +447,21 @@ public class Sudoku
    *
    * Resets the following variable(s):
    *
-   *  — {@link #correctCells}
-   *  — {@link #valueOccurrences}
-   *  — {@link #cellsRemaining}
-   *  — {@link #hintCells}
-   *  — {@link #currentClickedCell}
-   *  — {@link #currentHintCell}
-   *  — {@link #userPuzzle}
+   * {@link #correctCells}
+   * {@link #valueOccurrences}
+   * {@link #cellsRemaining}
+   * {@link #hintCells}
+   * {@link #currentClickedCell}
+   * {@link #currentHintCell}
+   * {@link #userPuzzle}
    *
    */
   public void restartPuzzle()
   {
     this.correctCells = IntStream.range(0, TOTAL_CELLS)
-                   .filter(cellIndex -> this.initialPuzzle[cellIndex] > 0)
-                   .mapToObj(cellIndex -> this.toJson(cellIndex, this.initialPuzzle[cellIndex]))
-                   .collect(Collectors.toCollection(ArrayList::new));
+                                  .filter(cellIndex -> this.initialPuzzle[cellIndex] > 0)
+                                  .mapToObj(cellIndex -> this.toJson(cellIndex, this.initialPuzzle[cellIndex]))
+                                  .collect(Collectors.toCollection(ArrayList::new));
 
     this.valueOccurrences = this.initializeValueOccurrences();
     this.cellsRemaining = TOTAL_CELLS - this.correctCells.size();
@@ -516,7 +518,6 @@ public class Sudoku
         }
 
         sudokuCell.setDisable(false);
-
         sudokuCell.textProperty().addListener(sudokuCell.getTextListener());
       }
     }
@@ -633,7 +634,7 @@ public class Sudoku
    *
    * @param sudokuCell : updated sudoku cell
    *
-   * @return boolean   : true —> correct input; false —> incorrect input
+   * @return boolean : true —> correct input; false —> incorrect input
    *
    */
   public boolean isCorrectValue(SudokuCell sudokuCell)
@@ -676,7 +677,7 @@ public class Sudoku
   @SuppressWarnings("unchecked")
   public void addCorrectCell(SudokuCell sudokuCell)
   {
-    JSONObject correctCell = new JSONObject();
+    var correctCell = new JSONObject();
 
     correctCell.put("row", sudokuCell.getPuzzleRow());
     correctCell.put("col", sudokuCell.getPuzzleCol());
@@ -730,25 +731,12 @@ public class Sudoku
 
   /**
    *
-   * Retrieves {@link #correctCells}.
-   *
-   * @return ArrayList<JSONObject> : list of correct cell JSON Objects
-   *
-   */
-  public ArrayList<JSONObject> getCorrectCells()
-  {
-    return this.correctCells;
-  }
-
-
-  /**
-   *
    * Retrieves {@link #valueOccurrences}.
    *
-   * @return HashMap<Integer, Integer> : map of sudoku value occurrences
+   * @return Map<Integer, Integer> : map of sudoku value occurrences
    *
    */
-  public HashMap<Integer, Integer> getValueOccurrences()
+  public Map<Integer, Integer> getValueOccurrences()
   {
     return this.valueOccurrences;
   }

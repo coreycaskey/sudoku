@@ -11,9 +11,10 @@ package app.virtual_games.sudoku.models;
  */
 public enum WritingTool
 {
-  PEN    ("Pen", "pen"),
+  PEN ("Pen", "pen"),
   PENCIL ("Pencil", "pencil"),
   ERASER ("Eraser", "");
+
 
   private final String toolName;
   private final String className;
@@ -23,10 +24,10 @@ public enum WritingTool
    *
    * Initializes the following variable(s):
    *
-   *  — {@link #toolName}
-   *  — {@link #className}
+   * {@link #toolName}
+   * {@link #className}
    *
-   * @param toolName  : name of the writing tool
+   * @param toolName : name of the writing tool
    * @param className : CSS class name
    *
    */
@@ -44,7 +45,7 @@ public enum WritingTool
    *
    * Retrieves the enum instance that maps to the writing tool name.
    *
-   * @param toolName     : name of the writing tool
+   * @param toolName : name of the writing tool
    *
    * @return WritingTool : corresponding enum instance
    *

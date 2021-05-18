@@ -11,15 +11,16 @@ package app.virtual_games.sudoku.models;
  */
 public enum BorderStyling
 {
-  TOP_LEFT     ("top-left-border"),
-  TOP_MIDDLE    ("top-middle-border"),
-  TOP_RIGHT    ("top-right-border"),
-  LEFT       ("left-border"),
-  MIDDLE       ("no-border"),
-  RIGHT       ("right-border"),
-  BOTTOM_LEFT   ("bottom-left-border"),
+  TOP_LEFT ("top-left-border"),
+  TOP_MIDDLE ("top-middle-border"),
+  TOP_RIGHT ("top-right-border"),
+  LEFT ("left-border"),
+  MIDDLE ("no-border"),
+  RIGHT ("right-border"),
+  BOTTOM_LEFT ("bottom-left-border"),
   BOTTOM_MIDDLE ("bottom-middle-border"),
-  BOTTOM_RIGHT  ("bottom-right-border");
+  BOTTOM_RIGHT ("bottom-right-border");
+
 
   private final String className;
 
@@ -28,7 +29,7 @@ public enum BorderStyling
    *
    * Initializes the following variable(s):
    *
-   *  — {@link #className}
+   * {@link #className}
    *
    * @param className : CSS class name
    *
@@ -46,25 +47,25 @@ public enum BorderStyling
    *
    * Retrieves the enum instance that maps to the cell row and column.
    *
-   * @param row        : cell row
-   * @param col        : cell column
+   * @param row : cell row
+   * @param col : cell column
    *
    * @return BorderStyling : corresponding enum instane
    *
    */
   public static BorderStyling getEnumInstance(int row, int col)
   {
-    CellPosition cell = new CellPosition(row, col);
+    var cell = new CellPosition(row, col);
 
-    if     (isTopLeftCell(cell))      { return TOP_LEFT;      }
-    else if (isTopMiddleCell(cell))    { return TOP_MIDDLE;    }
-    else if (isTopRightCell(cell))      { return TOP_RIGHT;      }
-    else if (isMiddleLeftCell(cell))   { return LEFT;        }
-    else if (isMiddleRightCell(cell))  { return RIGHT;        }
-    else if (isBottomLeftCell(cell))   { return BOTTOM_LEFT;   }
+    if (isTopLeftCell(cell)) { return TOP_LEFT; }
+    else if (isTopMiddleCell(cell)) { return TOP_MIDDLE; }
+    else if (isTopRightCell(cell)) { return TOP_RIGHT; }
+    else if (isMiddleLeftCell(cell)) { return LEFT; }
+    else if (isMiddleRightCell(cell)) { return RIGHT; }
+    else if (isBottomLeftCell(cell)) { return BOTTOM_LEFT; }
     else if (isBottomMiddleCell(cell)) { return BOTTOM_MIDDLE; }
-    else if (isBottomRightCell(cell))  { return BOTTOM_RIGHT;  }
-    else                  { return MIDDLE;      }
+    else if (isBottomRightCell(cell)) { return BOTTOM_RIGHT; }
+    else { return MIDDLE; }
   }
 
 
@@ -75,7 +76,7 @@ public enum BorderStyling
    *
    * Determines whether the position corresponds to a top—left cell in the sudoku block.
    *
-   * @param cell     : cell position
+   * @param cell : cell position
    *
    * @return boolean : true —> top—left cell; false —> not top—left cell
    *
@@ -98,7 +99,7 @@ public enum BorderStyling
    *
    * Determines whether the position corresponds to a top—middle cell in the sudoku block.
    *
-   * @param cell     : cell position
+   * @param cell : cell position
    *
    * @return boolean : true —> top—middle cell; false —> not top—middle cell
    *
@@ -121,7 +122,7 @@ public enum BorderStyling
    *
    * Determines whether the position corresponds to a top—right cell in the sudoku block.
    *
-   * @param cell     : cell position
+   * @param cell : cell position
    *
    * @return boolean : true —> top—right cell; false —> not top—right cell
    *
@@ -144,7 +145,7 @@ public enum BorderStyling
    *
    * Determines whether the position corresponds to a middle—left cell in the sudoku block.
    *
-   * @param cell     : cell position
+   * @param cell : cell position
    *
    * @return boolean : true —> middle—left cell; false —> not middle—left cell
    *
@@ -167,7 +168,7 @@ public enum BorderStyling
    *
    * Determines whether the position corresponds to a middle—right cell in the sudoku block.
    *
-   * @param cell     : cell position
+   * @param cell : cell position
    *
    * @return boolean : true —> middle—right cell; false —> not middle—right cell
    *
@@ -190,7 +191,7 @@ public enum BorderStyling
    *
    * Determines whether the position corresponds to a bottom—left cell in the sudoku block.
    *
-   * @param cell     : cell position
+   * @param cell : cell position
    *
    * @return boolean : true —> bottom—left cell; false —> not bottom—left cell
    *
@@ -213,7 +214,7 @@ public enum BorderStyling
    *
    * Determines whether the position corresponds to a bottom—middle cell in the sudoku block.
    *
-   * @param cell     : cell position
+   * @param cell : cell position
    *
    * @return boolean : true —> bottom—middle cell; false —> not bottom—middle cell
    *
@@ -236,7 +237,7 @@ public enum BorderStyling
    *
    * Determines whether the position corresponds to a bottom—right cell in the sudoku block.
    *
-   * @param cell     : cell position
+   * @param cell : cell position
    *
    * @return boolean : true —> bottom—right cell; false —> not bottom—right cell
    *

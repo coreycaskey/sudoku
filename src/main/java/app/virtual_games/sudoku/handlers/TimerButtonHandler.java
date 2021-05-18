@@ -19,7 +19,7 @@ public class TimerButtonHandler implements EventHandler<ActionEvent>
 {
   /**
    *
-   * Starts and stops the game progress and timer.
+   * Initiates starting and stopping the game progress and timer.
    *
    * @param clickEvent : timer button click event
    *
@@ -27,9 +27,9 @@ public class TimerButtonHandler implements EventHandler<ActionEvent>
   @Override
   public void handle(ActionEvent clickEvent)
   {
-    TimerButton timerButton = (TimerButton) clickEvent.getSource();
+    var timerButton = (TimerButton) clickEvent.getSource();
 
-    if (timerButton.getIsPaused())           // play icon is clicked
+    if (timerButton.getIsPaused()) // play icon is clicked
     {
       GameController.startGameTimer();
       GameController.showSudokuCells();
@@ -38,7 +38,7 @@ public class TimerButtonHandler implements EventHandler<ActionEvent>
       timerButton.addStyling("pause-button");
       timerButton.removeStyling("play-button");
     }
-    else                      // pause icon is clicked
+    else // pause icon is clicked
     {
       GameController.pauseGameTimer();
       GameController.unhighlightSudokuPuzzle();

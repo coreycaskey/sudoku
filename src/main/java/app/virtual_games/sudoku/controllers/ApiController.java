@@ -6,12 +6,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import app.virtual_games.sudoku.exceptions.ApiConnectionException;
+import app.virtual_games.sudoku.exceptions.ApiResponseException;
+import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
 
 
 /**
@@ -27,24 +31,37 @@ public class ApiController
   private static final String BASE_API_URL = "http://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9&level=%d";
 
 
+  private ApiController() { }
+
+
   /**
    *
    * Retrieves a sudoku puzzle of the requested difficulty.
    *
-   * @param difficulty        : unique identifier for the puzzle difficulty (e.g. Easy —> 1)
+   * @throws SudokuPuzzleException
    *
-   * @return ArrayList<JSONObject> : list of initial cell JSON Objects
+   * @param difficulty : unique identifier for the puzzle difficulty (e.g. 1 -> Easy)
+   *
+   * @return List<JSONObject> : list of initial cell JSON Objects
    *
    */
-  public static ArrayList<JSONObject> getSudokuPuzzle(int difficulty) throws Exception
+  public static List<JSONObject> getSudokuPuzzle(int difficulty) throws SudokuPuzzleException
   {
-    URL apiUrl = new URL(String.format(BASE_API_URL, difficulty));
-    HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
-    ArrayList<JSONObject> initialCells = getInitialCells(sendRequest(connection));
+    try
+    {
+      var apiUrl = new URL(String.format(BASE_API_URL, difficulty));
+      var connection = (HttpURLConnection) apiUrl.openConnection();
 
-    if (connection != null) { connection.disconnect(); }
+      ArrayList<JSONObject> initialCells = ApiController.getInitialCells(ApiController.sendRequest(connection));
+      connection.disconnect();
 
-    return initialCells;
+      return initialCells;
+    }
+    catch (Exception e)
+    {
+      throw new SudokuPuzzleException("Failed to Load a Sudoku Puzzle.");
+    }
+
   }
 
 
@@ -55,21 +72,22 @@ public class ApiController
    *
    * Sends and processes the API request.
    *
-   * @throws Exception
+   * @throws ApiConnectionException
+   * @throws ApiResponseException
    *
    * @param connection : HTTP connection to the API
    *
-   * @return String   : API response
+   * @return String : API response
    *
    */
-  private static String sendRequest(HttpURLConnection connection) throws Exception
+  private static String sendRequest(HttpURLConnection connection) throws ApiConnectionException, ApiResponseException
   {
-    if (getResponseCode(connection) == HttpURLConnection.HTTP_OK)
+    if (ApiController.getResponseCode(connection) == HttpURLConnection.HTTP_OK)
     {
-      return loadApiResponse(connection);
+      return ApiController.loadApiResponse(connection);
     }
 
-    throw new Exception("Failed Api Connection.");
+    throw new ApiConnectionException("Failed to Connect to the Api.");
   }
 
 
@@ -77,21 +95,26 @@ public class ApiController
    *
    * Retrieves the request response code.
    *
-   * @throws Exception
+   * @throws ApiConnectionException
    *
    * @param connection : HTTP connection to the API
    *
-   * @return int      : response code (e.g. Success —> 200)
+   * @return int : response code (e.g. Success —> 200)
    *
    */
-  private static int getResponseCode(HttpURLConnection connection) throws Exception
+  private static int getResponseCode(HttpURLConnection connection) throws ApiConnectionException
   {
-    if (connection == null) { throw new Exception("Failed Api Connection."); }
+    try
+    {
+      connection.setRequestMethod("GET");
+      connection.connect();
 
-    connection.setRequestMethod("GET");
-    connection.connect();
-
-    return connection.getResponseCode();
+      return connection.getResponseCode();
+    }
+    catch (Exception e)
+    {
+      throw new ApiConnectionException("Failed to Connect to the Api.");
+    }
   }
 
 
@@ -99,24 +122,31 @@ public class ApiController
    *
    * Loads the API response.
    *
-   * @throws Exception
+   * @throws ApiResponseException
    *
    * @param connection : HTTP connection to the API
    *
-   * @return String   : API response
+   * @return String : API response
    *
    */
-  private static String loadApiResponse(HttpURLConnection connection) throws Exception
+  private static String loadApiResponse(HttpURLConnection connection) throws ApiResponseException
   {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-    StringBuilder response = new StringBuilder();
-    String line;
+    try
+    {
+      var reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+      var response = new StringBuilder();
+      String line;
 
-    while ((line = reader.readLine()) != null) { response.append(line); }
+      while ((line = reader.readLine()) != null) { response.append(line); }
 
-    reader.close();
+      reader.close();
 
-    return response.toString();
+      return response.toString();
+    }
+    catch (Exception e)
+    {
+      throw new ApiResponseException("Failed to Load Api Response.");
+    }
   }
 
 
@@ -124,14 +154,14 @@ public class ApiController
    *
    * Retrieves a row—ordered list of initial cell {@link JSONObject} elements.
    *
-   * @throws Exception
+   * @throws ApiResponseException
    *
-   * @param response           : multi—line string of initial cells
+   * @param response : multi—line string of initial cells
    *
    * @return ArrayList<JSONObject> : list of initial cell JSON Objects
    *
    */
-  private static ArrayList<JSONObject> getInitialCells(String response) throws Exception
+  private static ArrayList<JSONObject> getInitialCells(String response) throws ApiResponseException
   {
     return sortInitialCells(mapJsonArray(getJsonArray(response)));
   }
@@ -141,17 +171,24 @@ public class ApiController
    *
    * Retrieves a column—ordered list of initial cell {@link JSONObject} elements.
    *
-   * @throws Exception
+   * @throws ApiResponseException
    *
-   * @param response           : multi—line string of initial cells
+   * @param response : multi—line string of initial cells
    *
    * @return ArrayList<JSONObject> : list of initial cell JSON Objects
    *
    */
   @SuppressWarnings("unchecked")
-  private static ArrayList<JSONObject> getJsonArray(String response) throws Exception
+  private static ArrayList<JSONObject> getJsonArray(String response) throws ApiResponseException
   {
-    return (JSONArray) ((JSONObject) new JSONParser().parse(response)).get("squares");
+    try
+    {
+      return (JSONArray) ((JSONObject) new JSONParser().parse(response)).get("squares");
+    }
+    catch (Exception e)
+    {
+      throw new ApiResponseException("Failed to Parse Api Response.");
+    }
   }
 
 
@@ -159,7 +196,7 @@ public class ApiController
    *
    * Retrieves an updated list of initial cell {@link JSONObject} elements.
    *
-   * @param jsonArray         : list of initial cell JSON Objects
+   * @param jsonArray : list of initial cell JSON Objects
    *
    * @return ArrayList<JSONObject> : list of initial cell JSON Objects
    *
@@ -167,8 +204,8 @@ public class ApiController
   private static ArrayList<JSONObject> mapJsonArray(ArrayList<JSONObject> jsonArray)
   {
     return jsonArray.stream()
-               .map(cellJson -> updateJson(cellJson))
-               .collect(Collectors.toCollection(ArrayList::new));
+                    .map(ApiController::updateJson)
+                    .collect(Collectors.toCollection(ArrayList::new));
   }
 
 
@@ -176,7 +213,7 @@ public class ApiController
    *
    * Updates the key—value pairs for a {@link JSONObject} element.
    *
-   * @param object     : initial cell Object
+   * @param object : initial cell Object
    *
    * @return JSONObject : initial cell JSON Object
    *
@@ -184,7 +221,7 @@ public class ApiController
   @SuppressWarnings("unchecked")
   private static JSONObject updateJson(Object object)
   {
-    JSONObject initialCell = (JSONObject) object;
+    var initialCell = (JSONObject) object;
 
     initialCell.put("row", (int) (long) initialCell.get("y"));
     initialCell.put("col", (int) (long) initialCell.get("x"));
@@ -201,21 +238,14 @@ public class ApiController
    *
    * Sorts the list of initial cell {@link JSONObject} elements in row—order.
    *
-   * @param initialCells        : column—ordered list of initial cell JSON Objects
+   * @param initialCells : column—ordered list of initial cell JSON Objects
    *
    * @return ArrayList<JSONObject> : row—ordered list of initial cell JSON Objects
    *
    */
   private static ArrayList<JSONObject> sortInitialCells(ArrayList<JSONObject> initialCells)
   {
-    Collections.sort(initialCells, new Comparator<JSONObject>()
-    {
-      @Override
-      public int compare(JSONObject cellOne, JSONObject cellTwo)
-      {
-        return ((Integer) cellOne.get("row")).compareTo((Integer) cellTwo.get("row"));
-      }
-    });
+    Collections.sort(initialCells, (cellOne, cellTwo) -> ((Integer) cellOne.get("row")).compareTo((Integer) cellTwo.get("row")));
 
     return initialCells;
   }

@@ -19,7 +19,7 @@ public class MainMenuDifficultyDropdownHandler implements EventHandler<ActionEve
 {
   /**
    *
-   * Updates the current puzzle difficulty.
+   * Initiates updating the current puzzle difficulty.
    *
    * @param selectionEvent : Main Menu difficulty dropdown selection event
    *

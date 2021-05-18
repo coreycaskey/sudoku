@@ -21,7 +21,7 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
 {
   /**
    *
-   * Updates the contents and styling of the impacted cells.
+   * Initiates updating the contents and styling of the impacted cells.
    *
    * @param clickEvent : sudoku cell click event
    *
@@ -29,7 +29,7 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
   @Override
   public void handle(MouseEvent clickEvent)
   {
-    SudokuCell clickedCell = (SudokuCell) clickEvent.getSource();
+    var clickedCell = (SudokuCell) clickEvent.getSource();
 
     GameController.unhighlightSudokuPuzzle();
     GameController.unclickNumberButton();
@@ -64,7 +64,7 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
   {
     if (clickedCell.isEditable())
     {
-      clickedCell.setText("");      // calls TextPropertyListener
+      clickedCell.setText(""); // calls TextPropertyListener
       clickedCell.setEditable(false);
     }
     else if (this.isCompletedCell(clickedCell))
@@ -210,7 +210,7 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
   {
     if (!GameController.getCurrentWritingTool().equals(clickedCell.getWritingTool()))
     {
-      clickedCell.setText("");      // calls TextPropertyListener
+      clickedCell.setText(""); // calls TextPropertyListener
 
       this.handleEmptyCell(clickedCell);
     }

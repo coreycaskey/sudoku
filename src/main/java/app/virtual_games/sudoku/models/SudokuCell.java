@@ -35,21 +35,21 @@ public class SudokuCell extends TextField
    *
    * Initializes the following variables:
    *
-   *  — {@link #cellIndex}
-   *  — {@link #parentBlockId}
-   *  — {@link #currentValue}
-   *  — {@link #correctValue}
-   *  — {@link #notes}
-   *  — {@link #parentSudoku}
-   *  — {@link #borderClass}
-   *  — {@link #writingTool}
-   *  — {@link #textListener}
+   * {@link #cellIndex}
+   * {@link #parentBlockId}
+   * {@link #currentValue}
+   * {@link #correctValue}
+   * {@link #notes}
+   * {@link #parentSudoku}
+   * {@link #borderClass}
+   * {@link #writingTool}
+   * {@link #textListener}
    *
    * Loads the sudoku cell's base styling and event handlers.
    *
-   * @param cellIndex      : index of the cell in the puzzle array
+   * @param cellIndex : index of the cell in the puzzle array
    * @param parentBlockId : unique identifier for the parent sudoku block
-   * @param parentSudoku  : outer sudoku class
+   * @param parentSudoku : outer sudoku class
    *
    */
   public SudokuCell(int cellIndex, int parentBlockId, Sudoku parentSudoku)
@@ -82,8 +82,8 @@ public class SudokuCell extends TextField
   {
     this.addStyling(this.borderClass.getClassName(), "pen");
     this.setText(this.currentValue == 0 ? "" : Integer.toString(this.currentValue));
-    this.setEditable(this.currentValue == 0 ? true : false);
-    this.positionCaret(this.getText().length());         // places the cursor at the end of the text
+    this.setEditable(this.currentValue == 0);
+    this.positionCaret(this.getText().length()); // places the cursor at the end of the text
   }
 
 
@@ -121,7 +121,7 @@ public class SudokuCell extends TextField
    *
    * @param tempIndex : left—shifted cell index
    *
-   * @return int     : upward—shifted cell index
+   * @return int : upward—shifted cell index
    *
    */
   private int shiftCellIndexUp(int tempIndex)
@@ -136,7 +136,7 @@ public class SudokuCell extends TextField
    *
    * @param tempIndex : upward—shifted cell index
    *
-   * @return int     : scaled—down cell index
+   * @return int : scaled—down cell index
    *
    */
   private int scaleDownIndex(int tempIndex)

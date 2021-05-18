@@ -19,7 +19,7 @@ public class GameScreenDifficultyDropdownHandler implements EventHandler<ActionE
 {
   /**
    *
-   * Updates the puzzle difficulty and loads a new sudoku puzzle.
+   * Initiates updating the puzzle difficulty and loading a new sudoku puzzle.
    *
    * @param selectionEvent : Game Screen difficulty dropdown selection event
    *

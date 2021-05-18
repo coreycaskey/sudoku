@@ -44,17 +44,17 @@ public class WinDialog extends Dialog
    *
    * Loads the Win dialog content container with the following UI element(s):
    *
-   *  — Win Dialog Title           —> {@link #loadWinDialogTitle()}
-   *  — Win Dialog Timer Container    —> {@link #loadWinDialogTimerContainer()}
-   *  — Win Dialog Difficulty Container —> {@link #loadWinDialogDifficultyContainer()}
-   *  — Win Dialog Button Container    —> {@link #loadWinDialogButtonContainer()}
+   * Win Dialog Title —> {@link #loadWinDialogTitle()}
+   * Win Dialog Timer Container —> {@link #loadWinDialogTimerContainer()}
+   * Win Dialog Difficulty Container —> {@link #loadWinDialogDifficultyContainer()}
+   * Win Dialog Button Container —> {@link #loadWinDialogButtonContainer()}
    *
    * @return VBox : Win dialog content container
    *
    */
   private VBox loadWinDialogContentContainer()
   {
-    VBox winDialogContainer = new VBox();
+    var winDialogContainer = new VBox();
 
     winDialogContainer.getStyleClass().addAll("content-container", "large-content-container");
     winDialogContainer.getChildren().add(this.loadWinDialogTitle());
@@ -75,7 +75,7 @@ public class WinDialog extends Dialog
    */
   private Label loadWinDialogTitle()
   {
-    Label winDialogTitle = new Label("Congratulations!");
+    var winDialogTitle = new Label("Congratulations!");
 
     winDialogTitle.getStyleClass().addAll("dialog-title", "win-dialog-title");
 
@@ -92,7 +92,7 @@ public class WinDialog extends Dialog
    */
   private VBox loadWinDialogTimerContainer()
   {
-    VBox winDialogTimerContainer = new VBox();
+    var winDialogTimerContainer = new VBox();
 
     winDialogTimerContainer.getStyleClass().add("win-dialog-timer-container");
     winDialogTimerContainer.getChildren().add(this.loadWinDialogTimerDescriptionContainer());
@@ -111,11 +111,11 @@ public class WinDialog extends Dialog
    */
   private HBox loadWinDialogTimerDescriptionContainer()
   {
-    HBox winDialogTimerDescriptionContainer = new HBox();
+    var winDialogTimerDescriptionContainer = new HBox();
 
-    Label timerDescriptionBeginning = new Label("You solved this ");
-    Label timerDescriptionMiddle = new Label(GameController.getCurrentDifficultyName().toUpperCase());
-    Label timerDescriptionEnd = new Label(" puzzle in:");
+    var timerDescriptionBeginning = new Label("You solved this ");
+    var timerDescriptionMiddle = new Label(GameController.getCurrentDifficultyName().toUpperCase());
+    var timerDescriptionEnd = new Label(" puzzle in:");
 
     timerDescriptionBeginning.getStyleClass().add("timer-description-label");
     timerDescriptionMiddle.getStyleClass().add("puzzle-difficulty-label");
@@ -137,7 +137,7 @@ public class WinDialog extends Dialog
    */
   private Label loadWinDialogTimerLabel()
   {
-    Label timerLabel = new Label(GameController.formatWinTime());
+    var timerLabel = new Label(GameController.formatWinTime());
 
     timerLabel.getStyleClass().add("win-dialog-timer-label");
 
@@ -154,7 +154,7 @@ public class WinDialog extends Dialog
    */
   private HBox loadWinDialogDifficultyContainer()
   {
-    HBox winDialogDifficultyContainer = new HBox();
+    var winDialogDifficultyContainer = new HBox();
 
     winDialogDifficultyContainer.getStyleClass().add("difficulty-container");
     winDialogDifficultyContainer.getChildren().add(this.loadWinDialogDifficultyLabel());
@@ -173,7 +173,7 @@ public class WinDialog extends Dialog
    */
   private Label loadWinDialogDifficultyLabel()
   {
-    Label winDialogDifficultyLabel = new Label("Puzzle Difficulty: ");
+    var winDialogDifficultyLabel = new Label("Puzzle Difficulty: ");
 
     winDialogDifficultyLabel.getStyleClass().add("difficulty-label");
 
@@ -190,7 +190,7 @@ public class WinDialog extends Dialog
    */
   private ComboBox<String> loadWinDialogDifficultyDropdown()
   {
-    ComboBox<String> winDialogDifficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficulties());
+    var winDialogDifficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficulties());
 
     // ComboBox default style classes are .combo-box-base and .combo-box
 
@@ -210,7 +210,7 @@ public class WinDialog extends Dialog
    */
   private HBox loadWinDialogButtonContainer()
   {
-    HBox winDialogButtonContainer = new HBox();
+    var winDialogButtonContainer = new HBox();
 
     winDialogButtonContainer.getStyleClass().addAll("dialog-button-container", "multiple-option-dialog-button-container");
     winDialogButtonContainer.getChildren().add(this.loadStartNewPuzzleButton());
@@ -229,7 +229,7 @@ public class WinDialog extends Dialog
    */
   private Button loadStartNewPuzzleButton()
   {
-    Button startNewPuzzleButton = new Button("Start New Puzzle");
+    var startNewPuzzleButton = new Button("Start New Puzzle");
 
     startNewPuzzleButton.getStyleClass().addAll("dialog-button", "win-dialog-button");
     startNewPuzzleButton.setOnAction(new WinDialogHandler());
@@ -247,12 +247,11 @@ public class WinDialog extends Dialog
    */
   private Button loadReturnToMainMenuButton()
   {
-    Button returnToMainMenuButton = new Button("Main Menu");
+    var returnToMainMenuButton = new Button("Main Menu");
 
     returnToMainMenuButton.getStyleClass().addAll("dialog-button", "win-dialog-button");
     returnToMainMenuButton.setOnAction(new ReturnToMainMenuHandler());
 
     return returnToMainMenuButton;
   }
-
 }

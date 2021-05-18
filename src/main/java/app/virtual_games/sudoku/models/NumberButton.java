@@ -22,7 +22,7 @@ public class NumberButton extends Button
    *
    * Initializes the following variable(s):
    *
-   *  — {@link #value}
+   * {@link #value}
    *
    * Loads the button's base styling, display information, and event handler.
    *

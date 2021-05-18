@@ -20,8 +20,8 @@ public class App
    * @param args : command line arguments
    *
    */
-    public static void main(String[] args)
-    {
-        GameController.main(args);
-    }
+  public static void main(String[] args)
+  {
+    GameController.main(args);
+  }
 }

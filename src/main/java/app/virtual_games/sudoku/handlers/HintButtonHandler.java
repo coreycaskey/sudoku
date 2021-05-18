@@ -18,7 +18,7 @@ public class HintButtonHandler implements EventHandler<ActionEvent>
 {
   /**
    *
-   * Loads the hint into the sudoku puzzle and displays the time penalty.
+   * Initiates loading the hint into the sudoku puzzle and displaying the time penalty.
    *
    * @param clickEvent : hint button click event
    *

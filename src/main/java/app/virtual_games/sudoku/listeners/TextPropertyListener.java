@@ -1,7 +1,8 @@
 package app.virtual_games.sudoku.listeners;
 
+import java.util.HashMap;
+
 import app.virtual_games.sudoku.controllers.GameController;
-import app.virtual_games.sudoku.models.NumberButton;
 import app.virtual_games.sudoku.models.Sudoku;
 import app.virtual_games.sudoku.models.SudokuCell;
 import app.virtual_games.sudoku.models.WritingTool;
@@ -29,8 +30,8 @@ public class TextPropertyListener implements ChangeListener<String>
    * Limits the inputs in the text field to numbers between 1 and 9.
    *
    * @param observable : {@link ObservableValue} that maps to the sudoku cell input
-   * @param oldValue   : previous sudoku cell input
-   * @param newValue   : current sudoku cell input
+   * @param oldValue : previous sudoku cell input
+   * @param newValue : current sudoku cell input
    *
    */
   @Override
@@ -38,7 +39,7 @@ public class TextPropertyListener implements ChangeListener<String>
   {
     SudokuCell inputCell = (SudokuCell) ((StringProperty) observable).getBean();
 
-    if (newValue.equals("") && !inputCell.isDisabled())    // character was deleted by keystroke (not eraser)
+    if (newValue.equals("") && !inputCell.isDisabled()) // character was deleted by keystroke (not eraser)
     {
       // Inputting invalid characters will call TextPropertyListener again
       // and proceed to this point
@@ -74,7 +75,7 @@ public class TextPropertyListener implements ChangeListener<String>
     if (inputCell.getWritingTool() == WritingTool.PEN)
     {
       inputCell.setCurrentValue(0);
-      inputCell.removeStyling("incorrect-cell-value");    // only incorrect pen values can be deleted
+      inputCell.removeStyling("incorrect-cell-value"); // only incorrect pen values can be deleted
     }
     else if (inputCell.getWritingTool() == WritingTool.PENCIL)
     {
@@ -87,7 +88,7 @@ public class TextPropertyListener implements ChangeListener<String>
    *
    * Handles the input event when the current cell text is valid.
    *
-   * @param newValue  : current cell text
+   * @param newValue : current cell text
    * @param inputCell : sudoku cell input
    *
    */
@@ -119,7 +120,7 @@ public class TextPropertyListener implements ChangeListener<String>
     {
       inputCell.setEditable(false);
 
-      Sudoku sudoku = inputCell.getParentSudoku();
+      var sudoku = inputCell.getParentSudoku();
 
       sudoku.addCorrectCell(inputCell);
       sudoku.updateValueOccurrences(inputCell.getCurrentValue());
@@ -138,7 +139,7 @@ public class TextPropertyListener implements ChangeListener<String>
       GameController.stopTimePenaltyTimer();
       GameController.showTimePenalty(timePenalty);
       GameController.startTimePenaltyTimer();
-      GameController.incrementPlayingTime(timePenalty * 1000);
+      GameController.incrementPlayingTime(timePenalty * ((long) 1000));
       GameController.updateTimerLabel();
     }
   }
@@ -148,15 +149,17 @@ public class TextPropertyListener implements ChangeListener<String>
    *
    * Disables the number button corresponding to the sudoku cell input, if necessary.
    *
-   * @param sudoku  : outer sudoku class
-   * @param inputCell  : sudoku cell input
+   * @param sudoku : outer sudoku class
+   * @param inputCell : sudoku cell input
    *
    */
   private void disableNumberButton(Sudoku sudoku, SudokuCell inputCell)
   {
-    if (sudoku.getValueOccurrences().get(inputCell.getCurrentValue()) == PUZZLE_SIZE)
+    var valueOccurrences = (HashMap<Integer, Integer>) sudoku.getValueOccurrences();
+
+    if (valueOccurrences.get(inputCell.getCurrentValue()) == PUZZLE_SIZE)
     {
-      NumberButton numberButton = GameController.getNumberButton(inputCell.getCurrentValue());
+      var numberButton = GameController.getNumberButton(inputCell.getCurrentValue());
 
       GameController.disableNumberButton(numberButton);
       GameController.addDisabledNumberButton(numberButton);

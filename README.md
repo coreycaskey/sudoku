@@ -1,12 +1,12 @@
 # Project Overview
 
-This is a playable Sudoku application built with the following programming languages and technologies:
+This is a playable Sudoku application built with the following programming languages and tools:
  * Java
  * JavaFX
  * CSS
  * Maven
-  
-To download and open the application, proceed as follows:
+
+To download and run the application (from GitHub), proceed as follows:
  * Click on the ```target``` folder
  * Click on the ```jar``` file
  * Click ```download```
@@ -40,12 +40,12 @@ If you don't have Java installed, follow these steps:
     * Windows — ```exe``` file
   * Once the installation process is finished, the JDK should now reside in ```/Library/Java/JavaVirtualMachines/```
   * Type the following commands in your terminal:
-  
+
     ```bash
     export JAVA_HOME={INSERT_PATH_TO_JDK_HERE}
     export PATH=$JAVA_HOME/bin:$PATH
     ```
-    
+
   * Type ```java --version``` in the terminal to make sure Java is now installed
 
 ### Installing Maven
@@ -55,12 +55,12 @@ If you don't have Maven installed, follow these steps:
  * Download the latest release bin zip-file [here](https://maven.apache.org/download.cgi)
  * Unzip the file in a meaningful location on your device, like ```/Library/Maven/```
  * Type the following commands in your terminal:
- 
+
    ```bash
    export M2_HOME={INSERT_PATH_TO_MAVEN_RELEASE}
    export PATH=$M2_HOME/bin:$PATH
    ```
- 
+
  * Type ```mvn --version``` in the terminal to make sure Maven is now installed
 
 ## Usage

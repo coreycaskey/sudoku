@@ -22,11 +22,11 @@ public class SudokuBlock
    *
    * Initializes the following variable(s):
    *
-   *   — {@link #blockId}
-   *   — {@link #parentSudoku}
-   *  — {@link #blockCells}
+   * {@link #blockId}
+   * {@link #parentSudoku}
+   * {@link #blockCells}
    *
-   * @param blockId      : unique identifier (e.g. 0 — 8)
+   * @param blockId : unique identifier (e.g. 0 — 8)
    * @param parentSudoku : outer sudoku class
    *
    */
@@ -51,9 +51,9 @@ public class SudokuBlock
   private SudokuCell[] loadBlockCells()
   {
     return IntStream.range(0, this.parentSudoku.getTotalCells())
-            .filter(cellIndex -> this.calculateParentBlockIdForCell(cellIndex) == this.blockId)
-            .mapToObj(cellIndex -> this.getSudokuCell(cellIndex))
-            .toArray(SudokuCell[]::new);
+                    .filter(cellIndex -> this.calculateParentBlockIdForCell(cellIndex) == this.blockId)
+                    .mapToObj(this::getSudokuCell)
+                    .toArray(SudokuCell[]::new);
   }
 
 
@@ -63,7 +63,7 @@ public class SudokuBlock
    *
    * @param cellIndex : index of the cell in the puzzle array
    *
-   * @return int     : cell's parent block id
+   * @return int : cell's parent block id
    *
    */
   private int calculateParentBlockIdForCell(int cellIndex)
@@ -79,7 +79,7 @@ public class SudokuBlock
    *
    * Initializes a {@link SudokuCell} instance.
    *
-   * @param cellIndex   : index of the cell in the puzzle array
+   * @param cellIndex : index of the cell in the puzzle array
    *
    * @return SudokuCell : SudokuCell instance
    *

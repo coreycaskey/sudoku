@@ -19,7 +19,7 @@ public class NumberButtonHandler implements EventHandler<ActionEvent>
 {
   /**
    *
-   * Highlights all occurrences of the sudoku value represented by the number button.
+   * Initiates highlighting all occurrences of the sudoku value represented by the number button.
    *
    * @param clickEvent : number button click event
    *
@@ -27,7 +27,7 @@ public class NumberButtonHandler implements EventHandler<ActionEvent>
   @Override
   public void handle(ActionEvent clickEvent)
   {
-    NumberButton numberButton = (NumberButton) clickEvent.getSource();
+    var numberButton = (NumberButton) clickEvent.getSource();
 
     GameController.unhighlightSudokuPuzzle();
     GameController.unclickNumberButton();

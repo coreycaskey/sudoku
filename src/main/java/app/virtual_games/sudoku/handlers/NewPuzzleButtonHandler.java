@@ -18,7 +18,7 @@ public class NewPuzzleButtonHandler implements EventHandler<ActionEvent>
 {
   /**
    *
-   * Loads a new sudoku puzzle.
+   * Initiates loading a new sudoku puzzle.
    *
    * @param clickEvent : New Puzzle button click event
    *

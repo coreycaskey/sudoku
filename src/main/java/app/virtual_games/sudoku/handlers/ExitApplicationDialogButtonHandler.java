@@ -7,25 +7,25 @@ import javafx.event.EventHandler;
 
 
 /**
- * 
+ *
  * Custom event handler for the Exit Application dialog button click event.
- * 
+ *
  * @author Corey Caskey
  * @version 0.0.1
  *
  */
 public class ExitApplicationDialogButtonHandler implements EventHandler<ActionEvent>
 {
-	/**
-	 * 
-	 * Displays the Exit Application dialog.
-	 * 
-	 * @param clickEvent : Exit Application dialog button click event
-	 * 
-	 */
-	@Override
-	public void handle(ActionEvent clickEvent)
-	{
-		GameController.loadExitApplicationDialog();
-	}
+  /**
+   *
+   * Initiates loading the Exit Application dialog.
+   *
+   * @param clickEvent : Exit Application dialog button click event
+   *
+   */
+  @Override
+  public void handle(ActionEvent clickEvent)
+  {
+    GameController.loadExitApplicationDialog();
+  }
 }
