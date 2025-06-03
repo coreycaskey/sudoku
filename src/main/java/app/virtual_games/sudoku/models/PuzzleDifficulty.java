@@ -6,101 +6,74 @@ import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-
 /**
- *
- * Enum for the sudoku puzzle difficulties.
+ * Enum for puzzle difficulties.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public enum PuzzleDifficulty
 {
-  EASY (1, "Easy"),
-  MEDIUM (2, "Medium"),
-  HARD (3, "Hard");
+  EASY(1, "Easy"), MEDIUM(2, "Medium"), HARD(3, "Hard");
 
-  private final int difficultyId;
-  private final String difficultyName;
-
+  private final int id;
+  private final String name;
 
   /**
+   * Initializes {@link #id} and {@link #name}
    *
-   * Initializes the following variable(s):
-   *
-   * {@link #difficultyId}
-   * {@link #difficultyName}
-   *
-   * @param difficultyId : unique identifier for the puzzle difficulty (e.g. 1 -> Easy)
-   * @param difficultyName : name of the puzzle difficulty (e.g. Easy)
-   *
+   * @param id   : identifier for puzzle difficulty
+   * @param name : name of puzzle difficulty
    */
-  PuzzleDifficulty(int difficultyId, String difficultyName)
+  PuzzleDifficulty(int id, String name)
   {
-    this.difficultyId = difficultyId;
-    this.difficultyName = difficultyName;
+    this.id = id;
+    this.name = name;
   }
 
-
-  /**  Public Helper Methods  **/
-
+  /** Public Helper Methods **/
 
   /**
-   *
    * Builds an {@link ObservableList} of puzzle difficulty names.
    *
-   * @return ObservableList<String> : list of puzzle difficulty names
-   *
+   * @return ObservableList<String> : puzzle difficulty names
    */
-  public static ObservableList<String> getPuzzleDifficulties()
+  public static ObservableList<String> getPuzzleDifficultyNames()
   {
-    return Arrays.stream(PuzzleDifficulty.values())
-                  .map(puzzleDifficulty -> puzzleDifficulty.difficultyName)
-                  .collect(Collectors.toCollection(FXCollections::observableArrayList));
+    return Arrays.stream(PuzzleDifficulty.values()).map(difficulty -> difficulty.name)
+        .collect(Collectors.toCollection(FXCollections::observableArrayList));
   }
 
-
   /**
+   * Retrieves enum instance with puzzle difficulty name.
    *
-   * Retrieves the enum instance that maps to the puzzle difficulty name.
-   *
-   * @param difficultyName : name of the puzzle difficulty
-   *
-   * @return PuzzleDifficulty : corresponding enum instance
-   *
+   * @param name : puzzle difficulty
+   * @return PuzzleDifficulty : enum instance
    */
-  public static PuzzleDifficulty getEnumInstance(String difficultyName)
+  public static PuzzleDifficulty getEnumInstance(String name)
   {
-    return PuzzleDifficulty.valueOf(difficultyName.toUpperCase());
+    return PuzzleDifficulty.valueOf(name.toUpperCase());
   }
 
-
-  /**  Getters and Setters  **/
-
+  /** Getters and Setters **/
 
   /**
+   * Retrieves {@link #id} for enum instance.
    *
-   * Retrieves the {@link #difficultyId} for the enum instance.
-   *
-   * @return int : unique identifier for the puzzle difficulty
-   *
+   * @return int : identifier for puzzle difficulty
    */
-  public int getDifficultyId()
+  public int getId()
   {
-    return this.difficultyId;
+    return this.id;
   }
 
-
   /**
+   * Retrieves {@link #name} for enum instance.
    *
-   * Retrieves the {@link #difficultyName} for the enum instance.
-   *
-   * @return String : name of the puzzle difficulty
-   *
+   * @return String : name of puzzle difficulty
    */
-  public String getDifficultyName()
+  public String getName()
   {
-    return this.difficultyName;
+    return this.name;
   }
 }

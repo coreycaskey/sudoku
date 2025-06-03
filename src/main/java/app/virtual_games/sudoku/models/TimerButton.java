@@ -4,28 +4,18 @@ import app.virtual_games.sudoku.handlers.TimerButtonHandler;
 
 import javafx.scene.control.Button;
 
-
 /**
- *
  * Custom child class of {@link Button} that starts and stops the game progress.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class TimerButton extends Button
 {
   private boolean isPaused;
 
-
   /**
-   *
-   * Initializes the following variable(s):
-   *
-   * {@link #isPaused}
-   *
-   * Loads the button's base styling and event handler.
-   *
+   * Loads the button's base styling and event handler. Initializes {@link #isPaused}.
    */
   public TimerButton()
   {
@@ -34,61 +24,47 @@ public class TimerButton extends Button
     this.addStyling("timer-button", "pause-button");
   }
 
-
-  /**  Public Helper Methods  **/
-
+  /** Public Helper Methods **/
 
   /**
-   *
    * Adds a collection of CSS class names to the button.
    *
-   * @param styling : collection of CSS class names
-   *
+   * @param styling : CSS class names
    */
   public void addStyling(String... styling)
   {
     this.getStyleClass().addAll(styling);
   }
 
-
   /**
-   *
    * Removes a collection of CSS class names from the button
    *
-   * @param styling : collection of CSS class names
-   *
+   * @param styling : CSS class names
    */
   public void removeStyling(String... styling)
   {
     this.getStyleClass().removeAll(styling);
   }
 
-
-  /**  Getters and Setters  **/
-
+  /** Getters and Setters **/
 
   /**
-   *
    * Retrieves {@link #isPaused}.
    *
-   * @return boolean : true —> game is paused; false —> game is not paused
-   *
+   * @return boolean
    */
   public boolean getIsPaused()
   {
     return this.isPaused;
   }
 
-
   /**
-   *
    * Updates {@link #isPaused}.
    *
-   * @param isPaused : true —> game is paused; false —> game is not paused
-   *
+   * @param shouldPause
    */
-  public void setIsPaused(boolean isPaused)
+  public void setIsPaused(boolean shouldPause)
   {
-    this.isPaused = isPaused;
+    this.isPaused = shouldPause;
   }
 }

@@ -2,14 +2,11 @@ package app.virtual_games.sudoku.models;
 
 import java.awt.Point;
 
-
 /**
- *
- * Custom child class of {@link Point} that directly provides the cell row and column.
+ * Custom child class of {@link Point} that provides the cell row and column.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class CellPosition extends Point
 {
@@ -18,49 +15,35 @@ public class CellPosition extends Point
   private int row;
   private int col;
 
-
   /**
-   *
-   * Initializes the following variable(s):
-   *
-   * {@link row}
-   * {@link col}
+   * Initializes {@link row} and {@link col}
    *
    * @param row : cell row
    * @param col : cell column
-   *
    */
   public CellPosition(int row, int col)
   {
-    super(col, row); // Point(x, y) -> Point(col, row)
-
+    super(col, row); // Point(col, row) -> Point(x, y)
     this.row = row;
     this.col = col;
   }
 
-
-  /**  Getters and Setters  **/
-
+  /** Getters and Setters **/
 
   /**
-   *
    * Retrieves {@link #row}.
    *
    * @return int : cell row
-   *
    */
   public int getRow()
   {
     return this.row;
   }
 
-
   /**
-   *
    * Retrieves {@link #col}.
    *
    * @return int : cell column
-   *
    */
   public int getCol()
   {

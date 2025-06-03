@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
  * Loads the Error dialog for the JavaFX application.
  *
  * @author Corey Caskey
- * @version 0.0.1
+ * @version 1.0.0
  *
  */
 public class ErrorDialog extends Dialog
@@ -35,8 +35,8 @@ public class ErrorDialog extends Dialog
 
     this.isMainMenu = isMainMenu;
     this.addDialogStyling("small-dialog");
-    this.addContentContainer(this.loadErrorDialogContentContainer());
-    this.removeCloseDialogButtonContainer();
+    this.addContentContainer(this.openErrorDialogContentContainer());
+    this.removeCloseButtonContainer();
   }
 
 
@@ -47,19 +47,19 @@ public class ErrorDialog extends Dialog
    *
    * Loads the Error dialog content container with the following UI element(s):
    *
-   * Error Dialog Title —> {@link #loadErrorDialogTitle()}
-   * Error Dialog Button Container —> {@link #loadErrorDialogButtonContainer()}
+   * Error Dialog Title —> {@link #openErrorDialogTitle()}
+   * Error Dialog Button Container —> {@link #openErrorDialogButtonContainer()}
    *
    * @return VBox : Error dialog content container
    *
    */
-  private VBox loadErrorDialogContentContainer()
+  private VBox openErrorDialogContentContainer()
   {
     var errorDialogContentContainer = new VBox();
 
     errorDialogContentContainer.getStyleClass().addAll("content-container", "small-content-container", "error-dialog-content-container");
-    errorDialogContentContainer.getChildren().add(this.loadErrorDialogTitle());
-    errorDialogContentContainer.getChildren().add(this.loadErrorDialogButtonContainer());
+    errorDialogContentContainer.getChildren().add(this.openErrorDialogTitle());
+    errorDialogContentContainer.getChildren().add(this.openErrorDialogButtonContainer());
 
     return errorDialogContentContainer;
   }
@@ -72,7 +72,7 @@ public class ErrorDialog extends Dialog
    * @return Label : Error dialog title
    *
    */
-  private Label loadErrorDialogTitle()
+  private Label openErrorDialogTitle()
   {
     var errorDialogTitle = new Label("Uh oh... Something went wrong. Try again later.");
 
@@ -91,11 +91,11 @@ public class ErrorDialog extends Dialog
    * @return HBox : Error dialog button container
    *
    */
-  private HBox loadErrorDialogButtonContainer()
+  private HBox openErrorDialogButtonContainer()
   {
     var errorDialogButtonContainer = new HBox();
 
-    errorDialogButtonContainer.getStyleClass().add("dialog-button-container");
+    errorDialogButtonContainer.getStyleClass().add("button-container");
     errorDialogButtonContainer.getChildren().add(this.loadConfirmButton());
 
     return errorDialogButtonContainer;

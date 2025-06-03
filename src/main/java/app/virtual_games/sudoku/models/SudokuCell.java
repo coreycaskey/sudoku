@@ -14,7 +14,7 @@ import javafx.scene.control.TextField;
  * Custom child class of {@link TextField} that represents the 81 sudoku cells.
  *
  * @author Corey Caskey
- * @version 0.0.1
+ * @version 1.0.0
  *
  */
 public class SudokuCell extends TextField

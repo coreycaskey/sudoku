@@ -1,45 +1,34 @@
-/* Application Background */
-
-.app-background
-{
+.application-background {
   -fx-background-color: #ebf4fa;
   -fx-font-family: futura;
 }
 
-/* Open Dialog Button Container */
-
-.open-dialog-button-container
-{
-  -fx-pref-width: 800px;
-  -fx-pref-height: 55px;
-  -fx-max-width: 800px;
-  -fx-max-height: 55px;
-  -fx-padding: 25px 25px 12px 25px; /* top right bottom left */
+.open-dialog-button-container {
   -fx-alignment: center-left;
+  -fx-max-height: 55px;
+  -fx-max-width: 800px;
+  -fx-padding: 25px 25px 12px 25px;
+  -fx-pref-height: 55px;
+  -fx-pref-width: 800px;
 }
 
-/* Open Dialog Button */
-
-.open-dialog-button
-{
-  -fx-pref-width: 30px;
-  -fx-pref-height: 30px;
-  -fx-max-width: 30px;
-  -fx-max-height: 30px;
-  -fx-background-size: contain;
-  -fx-background-repeat: no-repeat;
+.open-dialog-button {
   -fx-background-color: transparent;
+  -fx-background-repeat: no-repeat;
+  -fx-background-size: contain;
+  -fx-max-height: 30px;
+  -fx-max-width: 30px;
+  -fx-pref-height: 30px;
+  -fx-pref-width: 30px;
 }
 
-.open-dialog-button:hover
-{
+.open-dialog-button:hover {
   -fx-cursor: hand;
 }
 
 /* Difficulty Container */
 
-.difficulty-container
-{
+.difficulty-container {
   -fx-pref-width: 300px;
   -fx-pref-height: 50px;
   -fx-max-width: 300px;
@@ -50,15 +39,13 @@
 
 /* Difficulty Label */
 
-.difficulty-label
-{
+.difficulty-label {
   -fx-font-size: 15px;
 }
 
 /* Difficulty Dropdown */
 
-.combo-box-base
-{
+.combo-box-base {
   -fx-pref-width: 150px;
   -fx-max-width: 150px;
   -fx-background-color: #ffffff;
@@ -67,206 +54,144 @@
   -fx-border-radius: 3px;
 }
 
-.combo-box-base:hover
-{
-    -fx-cursor: hand;
-    -fx-background-color: #eeeeee;
+.combo-box-base:hover {
+  -fx-cursor: hand;
+  -fx-background-color: #eeeeee;
 }
 
-.combo-box-base:showing
-{
+.combo-box-base:showing {
   -fx-background-color: #ffffff;
 }
 
-.combo-box-base .arrow-button .arrow
-{
+.combo-box-base .arrow-button .arrow {
   -fx-background-color: #000000;
 }
 
-.combo-box-popup .list-view
-{
+.combo-box-popup .list-view {
   -fx-border-color: #000000;
   -fx-border-radius: 3px;
 }
 
-.combo-box-popup .list-view .list-cell
-{
-    -fx-background-color: #ffffff;
-    -fx-text-fill: #000000;
-     -fx-border-radius: 3px;
+.combo-box-popup .list-view .list-cell {
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #000000;
+  -fx-border-radius: 3px;
 }
 
-.combo-box-popup .list-view .list-cell:hover
-{
-    -fx-background-color: #eeeeee;
-    -fx-cursor: hand;
+.combo-box-popup .list-view .list-cell:hover {
+  -fx-background-color: #eeeeee;
+  -fx-cursor: hand;
 }
 
-/* Dialog Background */
-
-.dialog-background
-{
+.dialog-background {
   -fx-background-color: #000000;
   -fx-opacity: 0.75;
 }
 
-/* Dialog */
-
-.dialog
-{
+.dialog {
   -fx-background-color: #ebf4fa;
   -fx-background-radius: 4px;
 }
 
-/* Small Dialog */
-
-.small-dialog
-{
-  -fx-pref-width: 500px;
-  -fx-pref-height: 300px;
-   -fx-max-width: 500px;
+.small-dialog {
   -fx-max-height: 300px;
+  -fx-max-width: 500px;
+  -fx-pref-height: 300px;
+  -fx-pref-width: 500px;
 }
 
-/* Large Dialog */
-
-.large-dialog
-{
-  -fx-pref-width: 700px;
-  -fx-pref-height: 700px;
-  -fx-max-width: 700px;
+.large-dialog {
   -fx-max-height: 700px;
+  -fx-max-width: 700px;
+  -fx-pref-height: 700px;
+  -fx-pref-width: 700px;
 }
 
-/* Dialog Container */
-
-.dialog-container
-{
+.dialog-container {
   -fx-padding: 15px;
 }
 
-/* Close Dialog Button Container */
-
-.close-dialog-button-container
-{
+.close-button-container {
   -fx-alignment: center-left;
-  -fx-pref-height: 30px;
   -fx-max-height: 30px;
+  -fx-pref-height: 30px;
 }
 
-/* Small Close Dialog Button Container */
-
-.small-close-dialog-button-container
-{
-  -fx-pref-width: 470px;
+.small-close-button-container {
   -fx-max-width: 470px;
+  -fx-pref-width: 470px;
 }
 
-/* Large Close Dialog Button Container */
-
-.large-close-dialog-button-container
-{
-  -fx-pref-width: 670px;
+.large-close-button-container {
   -fx-max-width: 670px;
+  -fx-pref-width: 670px;
 }
 
-/* Close Dialog Button */
-
-.close-dialog-button
-{
-  -fx-pref-width: 30px;
-  -fx-pref-height: 30px;
-  -fx-max-width: 30px;
-  -fx-max-height: 30px;
+.close-button {
   -fx-background-color: transparent;
-  -fx-background-image: url("./img/close-window-icon.png");
+  -fx-background-image: url('./img/close-window-icon.png');
   -fx-background-size: cover;
+  -fx-max-height: 30px;
+  -fx-max-width: 30px;
+  -fx-pref-height: 30px;
+  -fx-pref-width: 30px;
 }
 
-.close-dialog-button:hover
-{
-  -fx-background-image: url("./img/close-window-icon-hover.png");
+.close-button:hover {
+  -fx-background-image: url('./img/close-window-icon-hover.png');
   -fx-cursor: hand;
 }
 
-/* Content Container */
-
-.content-container
-{
-   -fx-spacing: 40px;
+.content-container {
   -fx-alignment: center;
+  -fx-spacing: 40px;
 }
 
-/* Small Content Container */
-
-.small-content-container
-{
-  -fx-pref-width: 470px;
-  -fx-pref-height: 240px;
-  -fx-max-width: 470px;
+.small-content-container {
   -fx-max-height: 240px;
+  -fx-max-width: 470px;
+  -fx-pref-height: 240px;
+  -fx-pref-width: 470px;
 }
 
-/* Large Content Container */
-
-.large-content-container
-{
-  -fx-pref-width: 670px;
-  -fx-pref-height: 640px;
-  -fx-max-width: 670px;
+.large-content-container {
   -fx-max-height: 640px;
+  -fx-max-width: 670px;
+  -fx-pref-height: 640px;
+  -fx-pref-width: 670px;
 }
 
-/* Error Dialog Content Container */
-
-.error-dialog-content-container
-{
-  -fx-pref-height: 270px;
+.error-dialog-content-container {
   -fx-max-height: 270px;
+  -fx-pref-height: 270px;
 }
 
-/* Dialog Title */
-
-.dialog-title
-{
+.dialog-title {
   -fx-font-size: 25px;
   -fx-text-alignment: center;
 }
 
-/* Small Dialog Title */
-
-.small-dialog-title
-{
+.small-dialog-title {
   -fx-max-width: 350px;
   -fx-wrap-text: true;
 }
 
-/* Error Dialog Title */
-
-.error-dialog-title
-{
+.error-dialog-title {
   -fx-max-width: 400px;
   -fx-wrap-text: true;
 }
 
-/* Dialog Button Container */
-
-.dialog-button-container
-{
+.button-container {
   -fx-alignment: center;
 }
 
-/* Multiple Option Dialog Button Container */
-
-.multiple-option-dialog-button-container
-{
+.multiple-option-button-container {
   -fx-spacing: 15px;
 }
 
 /* Dialog Button */
 
-.dialog-button
-{
+.dialog-button {
   -fx-pref-width: 100px;
   -fx-pref-height: 40px;
   -fx-max-width: 100px;
@@ -276,73 +201,63 @@
   -fx-font-size: 20px;
 }
 
-.dialog-button:hover
-{
+.dialog-button:hover {
   -fx-cursor: hand;
   -fx-background-color: #006a4e;
 }
 
 /* Game Button */
 
-.game-button
-{
+.game-button {
   -fx-background-color: #009d74;
   -fx-text-fill: #ffffff;
   -fx-font-family: futura;
   -fx-font-size: 15px;
 }
 
-.game-button:hover
-{
+.game-button:hover {
   -fx-cursor: hand;
   -fx-background-color: #006a4e;
 }
 
 /* Timer Buttoner */
 
-.timer-button
-{
+.timer-button {
   -fx-pref-width: 30px;
   -fx-pref-height: 30px;
   -fx-max-width: 30px;
   -fx-max-height: 30px;
-     -fx-background-size: cover;
+  -fx-background-size: cover;
   -fx-background-color: transparent;
 }
 
-.timer-button:hover
-{
+.timer-button:hover {
   -fx-cursor: hand;
 }
 
 /* Pause Button */
 
-.pause-button
-{
-  -fx-background-image: url("./img/pause-icon.png");
+.pause-button {
+  -fx-background-image: url('./img/pause-icon.png');
 }
 
-.pause-button:hover
-{
-  -fx-background-image: url("./img/pause-icon-hover.png");
+.pause-button:hover {
+  -fx-background-image: url('./img/pause-icon-hover.png');
 }
 
 /* Play Button */
 
-.play-button
-{
-  -fx-background-image: url("./img/play-icon.png");
+.play-button {
+  -fx-background-image: url('./img/play-icon.png');
 }
 
-.play-button:hover
-{
-  -fx-background-image: url("./img/play-icon-hover.png");
+.play-button:hover {
+  -fx-background-image: url('./img/play-icon-hover.png');
 }
 
 /* General Icon Button */
 
-.icon-button
-{
+.icon-button {
   -fx-content-display: top;
   -fx-pref-width: 100px;
   -fx-pref-height: 100px;

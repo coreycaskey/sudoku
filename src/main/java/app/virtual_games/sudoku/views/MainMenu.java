@@ -1,12 +1,10 @@
 package app.virtual_games.sudoku.views;
 
 import app.virtual_games.sudoku.controllers.GameController;
-
 import app.virtual_games.sudoku.handlers.ExitApplicationDialogButtonHandler;
 import app.virtual_games.sudoku.handlers.InfoDialogButtonHandler;
 import app.virtual_games.sudoku.handlers.MainMenuDifficultyDropdownHandler;
 import app.virtual_games.sudoku.handlers.StartButtonHandler;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -14,83 +12,63 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-
 /**
- *
- * Loads the Main Menu for the JavaFX application.
+ * Main menu screen.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class MainMenu extends StackPane
 {
   /**
-   *
-   * Loads the Main Menu with an outer container.
-   *
+   * Initializes main menu screen.
    */
   public MainMenu()
   {
-    this.getStyleClass().add("app-background");
-    this.getChildren().add(this.loadMainMenuOuterContainer());
+    this.getStyleClass().add("application-background");
+    this.getChildren().add(this.buildOuterContainer());
   }
 
-
-  /**  Private Helper Methods  **/
-
+  /** Private Helper Methods **/
 
   /**
+   * Builds outer container with {@link #buildDialogButtonContainer} and {@link #buildInnerContainer}.
    *
-   * Loads the Main Menu outer container with the following UI element(s):
-   *
-   * Open Dialog Button Container —> {@link #loadOpenDialogButtonContainer()}
-   * Main Menu Inner Container —> {@link #loadMainMenuInnerContainer()}
-   *
-   * @return VBox : Main Menu outer container
-   *
+   * @return VBox : outer container
    */
-  private VBox loadMainMenuOuterContainer()
+  private VBox buildOuterContainer()
   {
-    var mainMenuOuterContainer = new VBox();
+    var outerContainer = new VBox();
 
-    mainMenuOuterContainer.getChildren().add(this.loadOpenDialogButtonContainer());
-    mainMenuOuterContainer.getChildren().add(this.loadMainMenuInnerContainer());
+    outerContainer.getChildren().add(this.buildDialogButtonContainer());
+    outerContainer.getChildren().add(this.buildInnerContainer());
 
-    return mainMenuOuterContainer;
+    return outerContainer;
   }
 
-
   /**
+   * Builds dialog button container with {@link #buildExitApplicationDialogButton} and
+   * {@link #buildInfoDialogButton}.
    *
-   * Loads the open dialog button container with the following UI element(s):
-   *
-   * Exit Application Dialog Button —> {@link #loadExitApplicationDialogButton()}
-   * Info Dialog Button —> {@link #loadInfoDialogButton()}
-   *
-   * @return HBox : open dialog button container
-   *
+   * @return HBox : dialog button container
    */
-  private HBox loadOpenDialogButtonContainer()
+  private HBox buildDialogButtonContainer()
   {
-    var openDialogButtonContainer = new HBox();
+    var dialogButtonContainer = new HBox();
 
-    openDialogButtonContainer.getStyleClass().add("open-dialog-button-container");
-    openDialogButtonContainer.getChildren().add(this.loadExitApplicationDialogButton());
-    openDialogButtonContainer.getChildren().add(this.loadInfoDialogButton());
+    dialogButtonContainer.getStyleClass().add("open-dialog-button-container");
+    dialogButtonContainer.getChildren().add(this.buildExitApplicationDialogButton());
+    dialogButtonContainer.getChildren().add(this.buildInfoDialogButton());
 
-    return openDialogButtonContainer;
+    return dialogButtonContainer;
   }
 
-
   /**
+   * Builds exit application dialog button.
    *
-   * Loads the Exit Application dialog button with the {@link ExitApplicationDialogButtonHandler}.
-   *
-   * @return Button : Exit Application dialog button
-   *
+   * @return Button : exit application dialog button
    */
-  private Button loadExitApplicationDialogButton()
+  private Button buildExitApplicationDialogButton()
   {
     var exitApplicationDialogButton = new Button();
 
@@ -100,15 +78,12 @@ public class MainMenu extends StackPane
     return exitApplicationDialogButton;
   }
 
-
   /**
+   * Builds info dialog button.
    *
-   * Loads the Info dialog button with the {@link InfoDialogButtonHandler}.
-   *
-   * @return Button : Info dialog button
-   *
+   * @return Button : info dialog button
    */
-  private Button loadInfoDialogButton()
+  private Button buildInfoDialogButton()
   {
     var infoDialogButton = new Button();
 
@@ -118,115 +93,92 @@ public class MainMenu extends StackPane
     return infoDialogButton;
   }
 
-
   /**
+   * Builds inner container with {@link #buildTitle}, {@link #buildDifficultyContainer}, and
+   * {@link #buildStartButton}.
    *
-   * Loads the Main Menu inner container with the following UI element(s):
-   *
-   * Main Menu Title —> {@link #loadMainMenuTitle()}
-   * Main Menu Difficulty Container —> {@link #loadMainMenuDifficultyContainer()}
-   * Start Button —> {@link #loadStartButton()}
-   *
-   * @return VBox : Main Menu inner container
-   *
+   * @return VBox : inner container
    */
-  private VBox loadMainMenuInnerContainer()
+  private VBox buildInnerContainer()
   {
-    var mainMenuInnerContainer = new VBox();
+    var innerContainer = new VBox();
 
-    mainMenuInnerContainer.getStyleClass().add("main-menu-inner-container");
-    mainMenuInnerContainer.getChildren().add(this.loadMainMenuTitle());
-    mainMenuInnerContainer.getChildren().add(this.loadMainMenuDifficultyContainer());
-    mainMenuInnerContainer.getChildren().add(this.loadStartButton());
+    innerContainer.getStyleClass().add("main-menu-inner-container");
+    innerContainer.getChildren().add(this.buildTitle());
+    innerContainer.getChildren().add(this.buildDifficultyContainer());
+    innerContainer.getChildren().add(this.buildStartButton());
 
-    return mainMenuInnerContainer;
+    return innerContainer;
   }
 
-
   /**
+   * Builds title.
    *
-   * Loads the Main Menu title.
-   *
-   * @return Label : Main Menu title
-   *
+   * @return Label : title
    */
-  private Label loadMainMenuTitle()
+  private Label buildTitle()
   {
-    var mainMenuTitle = new Label("Do You Sudoku?");
+    var title = new Label("Do You Sudoku?");
 
-    mainMenuTitle.getStyleClass().add("main-menu-title");
+    title.getStyleClass().add("main-menu-title");
 
-    return mainMenuTitle;
+    return title;
   }
 
-
   /**
+   * Builds difficulty container with {@link #buildDifficultyLabel} and
+   * {@link #buildDifficultyDropdown}.
    *
-   * Loads the Main Menu difficulty container with the following UI element(s):
-   *
-   * Main Menu Difficulty Label —> {@link #loadMainMenuDifficultyLabel()}
-   * Main Menu Difficulty Dropdown —> {@link #loadMainMenuDifficultyDropdown()}
-   *
-   * @return HBox : Main Menu difficulty container
-   *
+   * @return HBox : difficulty container
    */
-  private HBox loadMainMenuDifficultyContainer()
+  private HBox buildDifficultyContainer()
   {
-    var mainMenuDifficultyContainer = new HBox();
+    var difficultyContainer = new HBox();
 
-    mainMenuDifficultyContainer.getStyleClass().add("difficulty-container");
-    mainMenuDifficultyContainer.getChildren().add(this.loadMainMenuDifficultyLabel());
-    mainMenuDifficultyContainer.getChildren().add(this.loadMainMenuDifficultyDropdown());
+    difficultyContainer.getStyleClass().add("difficulty-container");
+    difficultyContainer.getChildren().add(this.buildDifficultyLabel());
+    difficultyContainer.getChildren().add(this.buildDifficultyDropdown());
 
-    return mainMenuDifficultyContainer;
+    return difficultyContainer;
   }
 
-
   /**
+   * Builds difficulty label.
    *
-   * Loads the Main Menu difficulty label.
-   *
-   * @return Label : Main Menu difficulty label
-   *
+   * @return Label : difficulty label
    */
-  private Label loadMainMenuDifficultyLabel()
+  private Label buildDifficultyLabel()
   {
-    var mainMenuDifficultyLabel = new Label("Puzzle Difficulty: ");
+    var difficultyLabel = new Label("Puzzle Difficulty: ");
 
-    mainMenuDifficultyLabel.getStyleClass().add("difficulty-label");
+    difficultyLabel.getStyleClass().add("difficulty-label");
 
-    return mainMenuDifficultyLabel;
+    return difficultyLabel;
   }
 
-
   /**
+   * Builds difficulty dropdown.
    *
-   * Loads the Main Menu difficulty dropdown with the {@link MainMenuDifficultyDropdownHandler}.
-   *
-   * @return ComboBox<String> : Main Menu difficulty dropdown
-   *
+   * @return ComboBox<String> : difficulty dropdown
    */
-  private ComboBox<String> loadMainMenuDifficultyDropdown()
+  private ComboBox<String> buildDifficultyDropdown()
   {
-    var mainMenuDifficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficulties());
+    var difficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficultyNames());
 
     // ComboBox default style classes are .combo-box-base and .combo-box
 
-    mainMenuDifficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyName());
-    mainMenuDifficultyDropdown.setOnAction(new MainMenuDifficultyDropdownHandler());
+    difficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyName());
+    difficultyDropdown.setOnAction(new MainMenuDifficultyDropdownHandler());
 
-    return mainMenuDifficultyDropdown;
+    return difficultyDropdown;
   }
 
-
   /**
-   *
-   * Loads the start button with the {@link StartButtonHandler}.
+   * Builds start button.
    *
    * @return Button : start button
-   *
    */
-  private Button loadStartButton()
+  private Button buildStartButton()
   {
     var startButton = new Button("Start");
 
@@ -236,50 +188,39 @@ public class MainMenu extends StackPane
     return startButton;
   }
 
-
-  /**  Public Helper Methods  **/
-
+  /** Public Helper Methods **/
 
   /**
-   *
-   * Loads the Exit Application dialog into the Main Menu.
-   *
+   * Loads {@link ExitApplicationDialog} on screen.
    */
-  public void loadExitApplicationDialog()
+  public void openExitApplicationDialog()
   {
     this.getChildren().add(new ExitApplicationDialog());
   }
 
-
   /**
-   *
-   * Loads the Error dialog into the Main Menu.
-   *
+   * Loads {@link InfoDialog} on screen.
    */
-  public void loadErrorDialog()
-  {
-    this.getChildren().add(new ErrorDialog(true));
-  }
-
-
-  /**
-   *
-   * Loads the Info dialog into the Main Menu.
-   *
-   */
-  public void loadInfoDialog()
+  public void openInfoDialog()
   {
     this.getChildren().add(new InfoDialog());
   }
 
+  /**
+   * Loads {@link ErrorDialog} on screen.
+   */
+  public void openErrorDialog()
+  {
+    // TODO: change from boolean to enum for argument ?
+    this.getChildren().add(new ErrorDialog(true));
+  }
 
   /**
-   *
-   * Removes the dialog from the Main Menu.
-   *
+   * Removes dialog from screen.
    */
   public void closeDialog()
   {
+    // TODO: better way to do this ? ensure greater than 1 children size ?
     this.getChildren().remove(this.getChildren().size() - 1);
   }
 }

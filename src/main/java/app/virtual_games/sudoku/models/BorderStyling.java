@@ -1,85 +1,79 @@
 package app.virtual_games.sudoku.models;
 
-
 /**
- *
  * Enum for the sudoku cell border stylings.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public enum BorderStyling
 {
-  TOP_LEFT ("top-left-border"),
-  TOP_MIDDLE ("top-middle-border"),
-  TOP_RIGHT ("top-right-border"),
-  LEFT ("left-border"),
-  MIDDLE ("no-border"),
-  RIGHT ("right-border"),
-  BOTTOM_LEFT ("bottom-left-border"),
-  BOTTOM_MIDDLE ("bottom-middle-border"),
-  BOTTOM_RIGHT ("bottom-right-border");
-
+  TOP_LEFT("top-left-border"), TOP_MIDDLE("top-middle-border"), TOP_RIGHT("top-right-border"), LEFT("left-border"),
+  MIDDLE("no-border"), RIGHT("right-border"), BOTTOM_LEFT("bottom-left-border"), BOTTOM_MIDDLE("bottom-middle-border"),
+  BOTTOM_RIGHT("bottom-right-border");
 
   private final String className;
 
-
   /**
-   *
-   * Initializes the following variable(s):
-   *
-   * {@link #className}
+   * Initializes {@link #className}
    *
    * @param className : CSS class name
-   *
    */
   BorderStyling(String className)
   {
     this.className = className;
   }
 
-
-  /**  Public Helper Methods  **/
-
+  /** Public Helper Methods **/
 
   /**
-   *
    * Retrieves the enum instance that maps to the cell row and column.
    *
    * @param row : cell row
    * @param col : cell column
-   *
-   * @return BorderStyling : corresponding enum instane
-   *
+   * @return BorderStyling : enum instance
    */
   public static BorderStyling getEnumInstance(int row, int col)
   {
     var cell = new CellPosition(row, col);
 
-    if (isTopLeftCell(cell)) { return TOP_LEFT; }
-    else if (isTopMiddleCell(cell)) { return TOP_MIDDLE; }
-    else if (isTopRightCell(cell)) { return TOP_RIGHT; }
-    else if (isMiddleLeftCell(cell)) { return LEFT; }
-    else if (isMiddleRightCell(cell)) { return RIGHT; }
-    else if (isBottomLeftCell(cell)) { return BOTTOM_LEFT; }
-    else if (isBottomMiddleCell(cell)) { return BOTTOM_MIDDLE; }
-    else if (isBottomRightCell(cell)) { return BOTTOM_RIGHT; }
-    else { return MIDDLE; }
+    if (isTopLeftCell(cell))
+    {
+      return TOP_LEFT;
+    } else if (isTopMiddleCell(cell))
+    {
+      return TOP_MIDDLE;
+    } else if (isTopRightCell(cell))
+    {
+      return TOP_RIGHT;
+    } else if (isMiddleLeftCell(cell))
+    {
+      return LEFT;
+    } else if (isMiddleRightCell(cell))
+    {
+      return RIGHT;
+    } else if (isBottomLeftCell(cell))
+    {
+      return BOTTOM_LEFT;
+    } else if (isBottomMiddleCell(cell))
+    {
+      return BOTTOM_MIDDLE;
+    } else if (isBottomRightCell(cell))
+    {
+      return BOTTOM_RIGHT;
+    } else
+    {
+      return MIDDLE;
+    }
   }
 
-
-  /**  Private Helper Methods  **/
-
+  /** Private Helper Methods **/
 
   /**
-   *
-   * Determines whether the position corresponds to a top—left cell in the sudoku block.
+   * Determines whether the position corresponds to a top—left cell in a sudoku block.
    *
    * @param cell : cell position
-   *
-   * @return boolean : true —> top—left cell; false —> not top—left cell
-   *
+   * @return boolean
    */
   private static boolean isTopLeftCell(CellPosition cell)
   {
@@ -94,15 +88,11 @@ public enum BorderStyling
         || cell.getLocation().equals(new CellPosition(6, 6).getLocation());
   }
 
-
   /**
-   *
-   * Determines whether the position corresponds to a top—middle cell in the sudoku block.
+   * Determines whether the position corresponds to a top—middle cell in a sudoku block.
    *
    * @param cell : cell position
-   *
-   * @return boolean : true —> top—middle cell; false —> not top—middle cell
-   *
+   * @return boolean
    */
   private static boolean isTopMiddleCell(CellPosition cell)
   {
@@ -117,15 +107,11 @@ public enum BorderStyling
         || cell.getLocation().equals(new CellPosition(6, 7).getLocation());
   }
 
-
   /**
-   *
-   * Determines whether the position corresponds to a top—right cell in the sudoku block.
+   * Determines whether the position corresponds to a top—right cell in a sudoku block.
    *
    * @param cell : cell position
-   *
-   * @return boolean : true —> top—right cell; false —> not top—right cell
-   *
+   * @return boolean
    */
   private static boolean isTopRightCell(CellPosition cell)
   {
@@ -140,15 +126,11 @@ public enum BorderStyling
         || cell.getLocation().equals(new CellPosition(6, 8).getLocation());
   }
 
-
   /**
-   *
-   * Determines whether the position corresponds to a middle—left cell in the sudoku block.
+   * Determines whether the position corresponds to a middle—left cell in a sudoku block.
    *
    * @param cell : cell position
-   *
-   * @return boolean : true —> middle—left cell; false —> not middle—left cell
-   *
+   * @return boolean
    */
   private static boolean isMiddleLeftCell(CellPosition cell)
   {
@@ -163,15 +145,11 @@ public enum BorderStyling
         || cell.getLocation().equals(new CellPosition(7, 6).getLocation());
   }
 
-
   /**
-   *
-   * Determines whether the position corresponds to a middle—right cell in the sudoku block.
+   * Determines whether the position corresponds to a middle—right cell in a sudoku block.
    *
    * @param cell : cell position
-   *
-   * @return boolean : true —> middle—right cell; false —> not middle—right cell
-   *
+   * @return boolean
    */
   private static boolean isMiddleRightCell(CellPosition cell)
   {
@@ -186,15 +164,11 @@ public enum BorderStyling
         || cell.getLocation().equals(new CellPosition(7, 8).getLocation());
   }
 
-
   /**
-   *
-   * Determines whether the position corresponds to a bottom—left cell in the sudoku block.
+   * Determines whether the position corresponds to a bottom—left cell in a sudoku block.
    *
    * @param cell : cell position
-   *
-   * @return boolean : true —> bottom—left cell; false —> not bottom—left cell
-   *
+   * @return boolean
    */
   private static boolean isBottomLeftCell(CellPosition cell)
   {
@@ -209,15 +183,11 @@ public enum BorderStyling
         || cell.getLocation().equals(new CellPosition(8, 6).getLocation());
   }
 
-
   /**
-   *
-   * Determines whether the position corresponds to a bottom—middle cell in the sudoku block.
+   * Determines whether the position corresponds to a bottom—middle cell in a sudoku block.
    *
    * @param cell : cell position
-   *
-   * @return boolean : true —> bottom—middle cell; false —> not bottom—middle cell
-   *
+   * @return boolean
    */
   private static boolean isBottomMiddleCell(CellPosition cell)
   {
@@ -232,15 +202,11 @@ public enum BorderStyling
         || cell.getLocation().equals(new CellPosition(8, 7).getLocation());
   }
 
-
   /**
-   *
-   * Determines whether the position corresponds to a bottom—right cell in the sudoku block.
+   * Determines whether the position corresponds to a bottom—right cell in a sudoku block.
    *
    * @param cell : cell position
-   *
-   * @return boolean : true —> bottom—right cell; false —> not bottom—right cell
-   *
+   * @return boolean
    */
   private static boolean isBottomRightCell(CellPosition cell)
   {
@@ -255,16 +221,12 @@ public enum BorderStyling
         || cell.getLocation().equals(new CellPosition(8, 8).getLocation());
   }
 
-
-  /**  Getters and Setters  **/
-
+  /** Getters and Setters **/
 
   /**
-   *
    * Retrieves the {@link #className} for the enum instance.
    *
    * @return String : CSS class name
-   *
    */
   public String getClassName()
   {

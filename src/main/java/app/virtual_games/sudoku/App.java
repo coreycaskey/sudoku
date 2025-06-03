@@ -2,23 +2,18 @@ package app.virtual_games.sudoku;
 
 import app.virtual_games.sudoku.controllers.GameController;
 
-
 /**
- *
- * Main entry point for the JavaFX application.
+ * Main entry point.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class App
 {
   /**
+   * Passes control to {@link GameController}.
    *
-   * Passes control of the JavaFX application to {@link GameController}.
-   *
-   * @param args : command line arguments
-   *
+   * @param args : command line args
    */
   public static void main(String[] args)
   {

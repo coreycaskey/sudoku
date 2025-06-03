@@ -12,7 +12,7 @@ import javafx.beans.value.ObservableValue;
  * Custom change listener for the sudoku cell (text field) length property.
  *
  * @author Corey Caskey
- * @version 0.0.1
+ * @version 1.0.0
  *
  */
 public class LengthPropertyListener implements ChangeListener<Number>

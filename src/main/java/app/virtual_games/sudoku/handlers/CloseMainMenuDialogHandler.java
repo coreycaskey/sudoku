@@ -1,27 +1,21 @@
 package app.virtual_games.sudoku.handlers;
 
 import app.virtual_games.sudoku.controllers.GameController;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-
 /**
- *
- * Custom event handler for the Close Main Menu Dialog click event.
+ * Event handler for close buttons in main menu dialogs.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class CloseMainMenuDialogHandler implements EventHandler<ActionEvent>
 {
   /**
+   * Closes main menu dialogs.
    *
-   * Initiates closing a Main Menu dialog box.
-   *
-   * @param clickEvent : Close Main Menu Dialog click event
-   *
+   * @param clickEvent : button click event
    */
   @Override
   public void handle(ActionEvent clickEvent)

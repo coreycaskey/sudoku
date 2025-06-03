@@ -5,23 +5,18 @@ import app.virtual_games.sudoku.controllers.GameController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-
 /**
- *
  * Custom event handler for the New Puzzle button click event.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class NewPuzzleButtonHandler implements EventHandler<ActionEvent>
 {
   /**
-   *
    * Initiates loading a new sudoku puzzle.
    *
    * @param clickEvent : New Puzzle button click event
-   *
    */
   @Override
   public void handle(ActionEvent clickEvent)

@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
  * Class that represents the nine sudoku blocks.
  *
  * @author Corey Caskey
- * @version 0.0.1
+ * @version 1.0.0
  *
  */
 public class SudokuBlock

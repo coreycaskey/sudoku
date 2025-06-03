@@ -6,23 +6,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 
-
 /**
- *
  * Custom event handler for the Game Screen difficulty dropdown selection event.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class GameScreenDifficultyDropdownHandler implements EventHandler<ActionEvent>
 {
   /**
-   *
    * Initiates updating the puzzle difficulty and loading a new sudoku puzzle.
    *
    * @param selectionEvent : Game Screen difficulty dropdown selection event
-   *
    */
   @Override
   @SuppressWarnings("unchecked")

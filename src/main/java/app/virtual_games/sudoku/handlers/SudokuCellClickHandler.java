@@ -8,23 +8,18 @@ import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 
-
 /**
- *
  * Custom event handler to process the sudoku cell click event.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class SudokuCellClickHandler implements EventHandler<MouseEvent>
 {
   /**
-   *
    * Initiates updating the contents and styling of the impacted cells.
    *
    * @param clickEvent : sudoku cell click event
-   *
    */
   @Override
   public void handle(MouseEvent clickEvent)
@@ -42,23 +37,18 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
     if (GameController.getCurrentWritingTool() == WritingTool.ERASER)
     {
       this.handleErase(clickedCell);
-    }
-    else
+    } else
     {
       this.handleClick(clickedCell);
     }
   }
 
-
-  /**  Private Helper Methods  **/
-
+  /** Private Helper Methods **/
 
   /**
-   *
    * Clears the cell contents and makes the cell uneditable to prevent input.
    *
    * @param clickedCell : clicked sudoku cell
-   *
    */
   private void handleErase(SudokuCell clickedCell)
   {
@@ -66,36 +56,28 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
     {
       clickedCell.setText(""); // calls TextPropertyListener
       clickedCell.setEditable(false);
-    }
-    else if (this.isCompletedCell(clickedCell))
+    } else if (this.isCompletedCell(clickedCell))
     {
       GameController.setCurrentClickedCell(clickedCell);
       GameController.highlightRowColumnBlock();
     }
   }
 
-
   /**
-   *
    * Determines whether the clicked cell is completed.
    *
    * @param clickedCell : clicked cell
-   *
    * @return boolean : true —> is completed cell; false —> is incompleted cell
-   *
    */
   private boolean isCompletedCell(SudokuCell clickedCell)
   {
     return !clickedCell.isEditable() && !clickedCell.isEmpty();
   }
 
-
   /**
-   *
    * Handles both editable and non—editable cell click events.
    *
    * @param clickedCell : clicked sudoku cell
-   *
    */
   private void handleClick(SudokuCell clickedCell)
   {
@@ -108,13 +90,10 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
     }
   }
 
-
   /**
-   *
    * Handles the editable cell click event.
    *
    * @param clickedCell : clicked sudoku cell
-   *
    */
   private void handleEditableCell(SudokuCell clickedCell)
   {
@@ -124,8 +103,7 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
     if (clickedCell.isEmpty())
     {
       this.handleEmptyCell(clickedCell);
-    }
-    else
+    } else
     {
       this.handleFilledCell(clickedCell);
     }
@@ -133,11 +111,8 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
     this.updateClickedWritingTool();
   }
 
-
   /**
-   *
    * Updates the currently clicked writing tool, if necessary.
-   *
    */
   private void updateClickedWritingTool()
   {
@@ -148,33 +123,26 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
     }
   }
 
-
   /**
-   *
    * Adds styling to the empty cell based on the current writing tool.
    *
    * @param clickedCell : clicked sudoku cell
-   *
    */
   private void handleEmptyCell(SudokuCell clickedCell)
   {
     if (GameController.getCurrentWritingTool() == WritingTool.PEN)
     {
       this.addPenStyling(clickedCell);
-    }
-    else
+    } else
     {
       this.addPencilStyling(clickedCell);
     }
   }
 
-
   /**
-   *
    * Adds pen—related CSS styling.
    *
    * @param clickedCell : clicked sudoku cell
-   *
    */
   private void addPenStyling(SudokuCell clickedCell)
   {
@@ -183,13 +151,10 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
     clickedCell.setWritingTool(WritingTool.PEN);
   }
 
-
   /**
-   *
    * Adds pencil—related CSS styling.
    *
    * @param clickedCell : clicked sudoku cell
-   *
    */
   private void addPencilStyling(SudokuCell clickedCell)
   {
@@ -198,13 +163,10 @@ public class SudokuCellClickHandler implements EventHandler<MouseEvent>
     clickedCell.setWritingTool(WritingTool.PENCIL);
   }
 
-
   /**
-   *
    * Clears the contents of the cell and handles the empty cell.
    *
    * @param clickedCell : clicked sudoku cell
-   *
    */
   private void handleFilledCell(SudokuCell clickedCell)
   {

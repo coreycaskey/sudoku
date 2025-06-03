@@ -1,252 +1,203 @@
 package app.virtual_games.sudoku.controllers;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.security.KeyStore;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
+import org.json.simple.JSONObject;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import app.virtual_games.sudoku.exceptions.ApiCertificateException;
 import app.virtual_games.sudoku.exceptions.ApiConnectionException;
 import app.virtual_games.sudoku.exceptions.ApiResponseException;
 import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
 
-
 /**
- *
- * Facilitates requests to the external sudoku API.
+ * Main controller for sudoku API.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class ApiController
 {
-  private static final String BASE_API_URL = "http://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9&level=%d";
+  private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+  private static final String BASE_API_URL = "https://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9&level=%d";
+  private static final String TRUST_STORE_PASSWORD = "mypassword";
 
+  // JSON-mapped classes
+  public static class SudokuResponse
+  {
+    public boolean response;
+    public int size;
+    public List<Square> squares;
+  }
 
-  private ApiController() { }
+  public static class Square
+  {
+    public int x;
+    public int y;
+    public int value;
+  }
 
+  private ApiController()
+  {
+  }
 
   /**
-   *
    * Retrieves a sudoku puzzle of the requested difficulty.
    *
-   * @throws SudokuPuzzleException
-   *
    * @param difficulty : unique identifier for the puzzle difficulty (e.g. 1 -> Easy)
-   *
    * @return List<JSONObject> : list of initial cell JSON Objects
-   *
+   * @throws SudokuPuzzleException
    */
-  public static List<JSONObject> getSudokuPuzzle(int difficulty) throws SudokuPuzzleException
+  public static List<Square> getSudokuPuzzle(int difficulty) throws SudokuPuzzleException
   {
     try
     {
-      var apiUrl = new URL(String.format(BASE_API_URL, difficulty));
-      var connection = (HttpURLConnection) apiUrl.openConnection();
+      HttpClient client = ApiController.initHttpClient();
+      HttpRequest request = HttpRequest.newBuilder().uri(URI.create(String.format(BASE_API_URL, difficulty)))
+          .timeout(Duration.ofSeconds(10)).GET().build();
+      HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-      ArrayList<JSONObject> initialCells = ApiController.getInitialCells(ApiController.sendRequest(connection));
-      connection.disconnect();
+      if (response.statusCode() == 200)
+      {
 
-      return initialCells;
+        ObjectMapper mapper = new ObjectMapper();
+        SudokuResponse sudoku = mapper.readValue(response.body(), SudokuResponse.class);
+        ArrayList<Square> initialCells = ApiController.getInitialCells(sudoku.squares);
+
+        System.out.println("initial cells" + initialCells.toString());
+
+        return initialCells;
+      }
+
+      throw new ApiResponseException(String.format("Response return status code %d", response.statusCode()));
     }
+    // TODO: figure this out
+    // catch (InterruptedException e)
+    // {
+    // LOGGER.log(Level.SEVERE, String.format("InterruptedException: %s", e.getMessage()));
+    // Thread.currentThread().interrupt();
+    // }
     catch (Exception e)
     {
-      throw new SudokuPuzzleException("Failed to Load a Sudoku Puzzle.");
+      throw new SudokuPuzzleException(String.format("Failed to Load a Sudoku Puzzle. Reason: %s", e.getMessage()));
     }
 
   }
 
-
-  /**  Private Helper Methods  **/
-
+  /** Private Helper Methods **/
 
   /**
+   * Initializes HTTP client with SSL certificate for sudoku API from embedded trust store.
    *
-   * Sends and processes the API request.
-   *
-   * @throws ApiConnectionException
-   * @throws ApiResponseException
-   *
-   * @param connection : HTTP connection to the API
-   *
-   * @return String : API response
-   *
+   * @throws ApiCertificateException
+   * @return HttpClient : HTTP client
    */
-  private static String sendRequest(HttpURLConnection connection) throws ApiConnectionException, ApiResponseException
-  {
-    if (ApiController.getResponseCode(connection) == HttpURLConnection.HTTP_OK)
-    {
-      return ApiController.loadApiResponse(connection);
-    }
-
-    throw new ApiConnectionException("Failed to Connect to the Api.");
-  }
-
-
-  /**
-   *
-   * Retrieves the request response code.
-   *
-   * @throws ApiConnectionException
-   *
-   * @param connection : HTTP connection to the API
-   *
-   * @return int : response code (e.g. Success —> 200)
-   *
-   */
-  private static int getResponseCode(HttpURLConnection connection) throws ApiConnectionException
+  private static HttpClient initHttpClient() throws ApiCertificateException
   {
     try
     {
-      connection.setRequestMethod("GET");
-      connection.connect();
+      InputStream trustStoreStream = ApiController.class.getResourceAsStream("/api_truststore.jks");
 
-      return connection.getResponseCode();
-    }
-    catch (Exception e)
+      if (trustStoreStream == null)
+      {
+        throw new ApiCertificateException("Trust store not found in resources.");
+      }
+
+      KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+      trustStore.load(trustStoreStream, TRUST_STORE_PASSWORD.toCharArray());
+
+      TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+      tmf.init(trustStore);
+
+      SSLContext sslContext = SSLContext.getInstance("TLS");
+      sslContext.init(null, tmf.getTrustManagers(), null);
+
+      return HttpClient.newBuilder().sslContext(sslContext).build();
+    } catch (Exception e)
     {
-      throw new ApiConnectionException("Failed to Connect to the Api.");
+      throw new ApiCertificateException(
+          String.format("Failed to set up custom trust store. Reason: %s", e.getMessage()));
     }
   }
 
-
   /**
-   *
-   * Loads the API response.
-   *
-   * @throws ApiResponseException
-   *
-   * @param connection : HTTP connection to the API
-   *
-   * @return String : API response
-   *
-   */
-  private static String loadApiResponse(HttpURLConnection connection) throws ApiResponseException
-  {
-    try
-    {
-      var reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-      var response = new StringBuilder();
-      String line;
-
-      while ((line = reader.readLine()) != null) { response.append(line); }
-
-      reader.close();
-
-      return response.toString();
-    }
-    catch (Exception e)
-    {
-      throw new ApiResponseException("Failed to Load Api Response.");
-    }
-  }
-
-
-  /**
-   *
    * Retrieves a row—ordered list of initial cell {@link JSONObject} elements.
    *
    * @throws ApiResponseException
-   *
    * @param response : multi—line string of initial cells
-   *
    * @return ArrayList<JSONObject> : list of initial cell JSON Objects
-   *
    */
-  private static ArrayList<JSONObject> getInitialCells(String response) throws ApiResponseException
+  private static ArrayList<Square> getInitialCells(List<Square> squares) throws ApiResponseException
   {
-    return sortInitialCells(mapJsonArray(getJsonArray(response)));
+    // return sortInitialCells(mapJsonArray(squares));
+    return sortInitialCells(squares);
   }
 
-
   /**
-   *
-   * Retrieves a column—ordered list of initial cell {@link JSONObject} elements.
-   *
-   * @throws ApiResponseException
-   *
-   * @param response : multi—line string of initial cells
-   *
-   * @return ArrayList<JSONObject> : list of initial cell JSON Objects
-   *
-   */
-  @SuppressWarnings("unchecked")
-  private static ArrayList<JSONObject> getJsonArray(String response) throws ApiResponseException
-  {
-    try
-    {
-      return (JSONArray) ((JSONObject) new JSONParser().parse(response)).get("squares");
-    }
-    catch (Exception e)
-    {
-      throw new ApiResponseException("Failed to Parse Api Response.");
-    }
-  }
-
-
-  /**
-   *
    * Retrieves an updated list of initial cell {@link JSONObject} elements.
    *
    * @param jsonArray : list of initial cell JSON Objects
-   *
    * @return ArrayList<JSONObject> : list of initial cell JSON Objects
-   *
    */
-  private static ArrayList<JSONObject> mapJsonArray(ArrayList<JSONObject> jsonArray)
-  {
-    return jsonArray.stream()
-                    .map(ApiController::updateJson)
-                    .collect(Collectors.toCollection(ArrayList::new));
-  }
-
+  // TODO: clean up
+  // private static ArrayList<JSONObject> mapJsonArray(ArrayList<JSONObject> jsonArray)
+  // {
+  // return
+  // jsonArray.stream().map(ApiController::updateJson).collect(Collectors.toCollection(ArrayList::new));
+  // }
 
   /**
-   *
    * Updates the key—value pairs for a {@link JSONObject} element.
    *
    * @param object : initial cell Object
-   *
    * @return JSONObject : initial cell JSON Object
-   *
    */
-  @SuppressWarnings("unchecked")
-  private static JSONObject updateJson(Object object)
-  {
-    var initialCell = (JSONObject) object;
+  // TODO: clean up
+  // @SuppressWarnings("unchecked")
+  // private static Object updateJson(Object object)
+  // {
+  // var initialCell = object;
 
-    initialCell.put("row", (int) (long) initialCell.get("y"));
-    initialCell.put("col", (int) (long) initialCell.get("x"));
-    initialCell.put("value", (int) (long) initialCell.get("value"));
+  // initialCell["row"] = (int) (long) initialCell["y")
+  // initialCell.("row", (int) (long) initialCell.get("y"));
+  // initialCell.put("col", (int) (long) initialCell.get("x"));
+  // initialCell.put("value", (int) (long) initialCell.get("value"));
 
-    initialCell.remove("x");
-    initialCell.remove("y");
+  // initialCell.remove("x");
+  // initialCell.remove("y");
 
-    return initialCell;
-  }
-
+  // return initialCell;
+  // }
 
   /**
-   *
    * Sorts the list of initial cell {@link JSONObject} elements in row—order.
    *
    * @param initialCells : column—ordered list of initial cell JSON Objects
-   *
    * @return ArrayList<JSONObject> : row—ordered list of initial cell JSON Objects
-   *
    */
-  private static ArrayList<JSONObject> sortInitialCells(ArrayList<JSONObject> initialCells)
+  private static ArrayList<Square> sortInitialCells(List<Square> squares)
   {
-    Collections.sort(initialCells, (cellOne, cellTwo) -> ((Integer) cellOne.get("row")).compareTo((Integer) cellTwo.get("row")));
-
-    return initialCells;
+    Collections.sort(squares, (cellOne, cellTwo) -> ((Integer) cellOne.y).compareTo((Integer) cellTwo.y));
+    return new ArrayList<Square>(squares);
   }
 }

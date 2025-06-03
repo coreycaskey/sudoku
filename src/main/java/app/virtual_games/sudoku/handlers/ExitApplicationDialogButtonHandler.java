@@ -1,31 +1,25 @@
 package app.virtual_games.sudoku.handlers;
 
 import app.virtual_games.sudoku.controllers.GameController;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-
 /**
- *
- * Custom event handler for the Exit Application dialog button click event.
+ * Event handler for exit application button.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class ExitApplicationDialogButtonHandler implements EventHandler<ActionEvent>
 {
   /**
+   * Opens exit application dialog.
    *
-   * Initiates loading the Exit Application dialog.
-   *
-   * @param clickEvent : Exit Application dialog button click event
-   *
+   * @param clickEvent : button click event
    */
   @Override
   public void handle(ActionEvent clickEvent)
   {
-    GameController.loadExitApplicationDialog();
+    GameController.openExitApplicationDialog();
   }
 }

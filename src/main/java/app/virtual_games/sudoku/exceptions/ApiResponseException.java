@@ -4,7 +4,8 @@ public class ApiResponseException extends Exception
 {
   private static final long serialVersionUID = 1L;
 
-  public ApiResponseException(String errorMessage) {
-    super(errorMessage);
+  public ApiResponseException(String message)
+  {
+    super(message);
   }
 }

@@ -1,24 +1,21 @@
 package app.virtual_games.sudoku.controllers;
 
-import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
-import app.virtual_games.sudoku.handlers.HintCellHandler;
-import app.virtual_games.sudoku.handlers.TimerHandler;
-import app.virtual_games.sudoku.handlers.TimePenaltyHandler;
-
-import app.virtual_games.sudoku.models.NumberButton;
-import app.virtual_games.sudoku.models.PuzzleDifficulty;
-import app.virtual_games.sudoku.models.Sudoku;
-import app.virtual_games.sudoku.models.SudokuCell;
-import app.virtual_games.sudoku.models.WritingTool;
-
-import app.virtual_games.sudoku.views.GameScreen;
-import app.virtual_games.sudoku.views.MainMenu;
-
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
+import app.virtual_games.sudoku.handlers.HintCellHandler;
+import app.virtual_games.sudoku.handlers.TimePenaltyHandler;
+import app.virtual_games.sudoku.handlers.TimerHandler;
+import app.virtual_games.sudoku.models.NumberButton;
+import app.virtual_games.sudoku.models.PuzzleDifficulty;
+import app.virtual_games.sudoku.models.Sudoku;
+import app.virtual_games.sudoku.models.SudokuCell;
+import app.virtual_games.sudoku.models.WritingTool;
+import app.virtual_games.sudoku.views.GameScreen;
+import app.virtual_games.sudoku.views.MainMenu;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -32,14 +29,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-
 /**
- *
- * Main controller for the JavaFX application.
+ * Main controller for game state.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class GameController extends Application
 {
@@ -51,7 +45,8 @@ public class GameController extends Application
   private static Pane currentScreen;
   private static Sudoku currentSudoku;
 
-  private static ObservableList<String> puzzleDifficulties; // ObservableList is easily convertable to ComboBox dropdown list
+  // ObservableList is easily convertable to a ComboBox dropdown list
+  private static ObservableList<String> puzzleDifficultyNames;
   private static PuzzleDifficulty currentDifficulty;
 
   private static WritingTool currentWritingTool;
@@ -74,29 +69,22 @@ public class GameController extends Application
   private static ArrayList<Button> helperButtons;
   private static ArrayList<NumberButton> disabledNumberButtons;
 
-
-  /**  Public Helper Methods  **/
-
+  /** Public Helper Methods **/
 
   /**
+   * Launches application and implicitly invokes {@link #start}.
    *
-   * Launches the JavaFX application by calling {@link #start(Stage)}.
-   *
-   * @param args : command line arguments
-   *
+   * @param args : command line args
    */
   public static void main(String[] args)
   {
     launch(args);
   }
 
-
   /**
+   * Starts game.
    *
-   * Starts the sudoku game.
-   *
-   * @param primaryStage : stage that holds the JavaFX GUI
-   *
+   * @param primaryStage : screen holding game UI
    */
   @Override
   public void start(Stage primaryStage)
@@ -105,47 +93,31 @@ public class GameController extends Application
     appStage.setTitle("Do You Sudoku?");
     appStage.setResizable(false);
 
-    GameController.startGame();
+    GameController.loadMainMenu();
 
     appStage.show();
   }
 
-
   /**
-   *
-   * Main entry point for the Game Controller.
-   *
-   */
-  public static void startGame()
-  {
-    puzzleDifficulties = PuzzleDifficulty.getPuzzleDifficulties();
-    currentDifficulty = PuzzleDifficulty.EASY;
-
-    GameController.loadMainMenu();
-  }
-
-
-  /**
-   *
-   * Loads the {@link MainMenu} into the JavaFX stage.
-   *
+   * Loads {@link MainMenu} into stage.
    */
   public static void loadMainMenu()
   {
+    puzzleDifficultyNames = PuzzleDifficulty.getPuzzleDifficultyNames();
+    currentDifficulty = PuzzleDifficulty.EASY;
     currentScreen = new MainMenu();
 
     appStage.setScene(new Scene(currentScreen, 800, 800));
-    appStage.getScene()
-            .getStylesheets()
-            .addAll(GameController.class.getClassLoader().getResource("Shared.css").toExternalForm(),
-                    GameController.class.getClassLoader().getResource("MainMenu.css").toExternalForm());
+    appStage.getScene().getStylesheets().addAll(
+        GameController.class.getClassLoader().getResource("Shared.css").toExternalForm(),
+        GameController.class.getClassLoader().getResource("MainMenu.css").toExternalForm()); // TODO: do I remove
+                                                                                             // MainMenu.css when
+                                                                                             // transitioning to
+                                                                                             // GameScreen ??
   }
 
-
   /**
-   *
-   * Transitions to the Game Screen.
-   *
+   * Transitions to game screen.
    */
   public static void transitionToGameScreen()
   {
@@ -158,29 +130,24 @@ public class GameController extends Application
         GameController.loadGameScreen();
         GameController.loadGameScreenElements();
         GameController.startGameTimer();
-      }
-      else
+      } else
       {
         LOGGER.log(Level.SEVERE, "No sudoku solution found");
-        GameController.loadErrorDialog(true); // true —> Main Menu
+        GameController.openErrorDialog(true); // true —> Main Menu
       }
-    }
-    catch (Exception e)
+    } catch (Exception e)
     {
       for (StackTraceElement element : e.getStackTrace())
       {
         LOGGER.log(Level.SEVERE, element.toString());
       }
 
-      GameController.loadErrorDialog(true); // true —> Main Menu
+      GameController.openErrorDialog(true); // true —> Main Menu
     }
   }
 
-
   /**
-   *
    * Starts a new sudoku puzzle.
-   *
    */
   public static void startNewSudoku()
   {
@@ -193,27 +160,22 @@ public class GameController extends Application
         GameController.loadNewSudoku();
         GameController.loadGameScreenElements();
         GameController.startGameTimer();
-      }
-      else
+      } else
       {
         LOGGER.log(Level.SEVERE, "No sudoku solution found");
         GameController.stopGameTimer();
-        GameController.loadErrorDialog(false); // false —> Game Screen
+        GameController.openErrorDialog(false); // false —> Game Screen
       }
-    }
-    catch (Exception e)
+    } catch (Exception e)
     {
       LOGGER.log(Level.SEVERE, e.getMessage());
       GameController.stopGameTimer();
-      GameController.loadErrorDialog(false); // false —> Game Screen
+      GameController.openErrorDialog(false); // false —> Game Screen
     }
   }
 
-
   /**
-   *
    * Resets the sudoku puzzle and corresponding game elements.
-   *
    */
   public static void restartSudoku()
   {
@@ -222,191 +184,151 @@ public class GameController extends Application
     currentWritingTool = WritingTool.PEN;
     currentClickedNumberButton = null;
 
-    if (GameController.isWritingToolClicked()) { GameController.unclickWritingTool(); }
+    if (GameController.isWritingToolClicked())
+    {
+      GameController.unclickWritingTool();
+    }
 
     GameController.loadNewSudoku();
     GameController.loadGameScreenElements();
   }
 
-
   /**
-   *
    * Starts {@link #gameTimer}.
-   *
    */
   public static void startGameTimer()
   {
     gameTimer.play();
   }
 
-
   /**
-   *
    * Pauses {@link #gameTimer}.
-   *
    */
   public static void pauseGameTimer()
   {
     gameTimer.pause();
   }
 
-
   /**
-   *
    * Stops {@link #gameTimer}.
-   *
    */
   public static void stopGameTimer()
   {
     gameTimer.stop();
   }
 
-
   /**
-   *
    * Restarts {@link #timePenaltyTimer}.
-   *
    */
   public static void startTimePenaltyTimer()
   {
     timePenaltyTimer.playFromStart();
   }
 
-
   /**
-   *
    * Stops {@link #timePenaltyTimer}.
-   *
    */
   public static void stopTimePenaltyTimer()
   {
     timePenaltyTimer.stop();
   }
 
-
   /**
-   *
    * Restarts {@link #hintCellTimer}.
-   *
    */
   public static void startHintCellTimer()
   {
     hintCellTimer.playFromStart();
   }
 
-
   /**
-   *
    * Stops {@link #hintCellTimer}.
-   *
    */
   public static void stopHintCellTimer()
   {
     hintCellTimer.stop();
   }
 
-
   /**
-   *
    * Resets the text of {@link #timerLabel}.
-   *
    */
   public static void resetTimerLabel()
   {
     timerLabel.setText("00:00:00");
   }
 
-
   /**
-   *
    * Loads the Exit Application dialog into the JavaFX application.
-   *
    */
-  public static void loadExitApplicationDialog()
+  public static void openExitApplicationDialog()
   {
-    ((MainMenu) currentScreen).loadExitApplicationDialog();
+    ((MainMenu) currentScreen).openExitApplicationDialog();
   }
 
-
   /**
-   *
    * Loads the Info dialog into the JavaFX application.
-   *
    */
-  public static void loadInfoDialog()
+  public static void openInfoDialog()
   {
-    ((MainMenu) currentScreen).loadInfoDialog();
+    ((MainMenu) currentScreen).openInfoDialog();
   }
 
-
   /**
-   *
    * Loads the Return to Main Menu dialog into the JavaFX application.
-   *
    */
   public static void loadReturnToMainMenuDialog()
   {
     ((GameScreen) currentScreen).loadReturnToMainMenuDialog();
   }
 
-
   /**
-   *
    * Loads the Error dialog into the JavaFX application.
    *
    * @param isMainMenu : true —> Main Menu; false —> Game Screen
-   *
    */
-  public static void loadErrorDialog(boolean isMainMenu)
+  public static void openErrorDialog(boolean isMainMenu)
   {
     if (isMainMenu)
     {
-      ((MainMenu) currentScreen).loadErrorDialog();
-    }
-    else
+      ((MainMenu) currentScreen).openErrorDialog();
+    } else
     {
-      ((GameScreen) currentScreen).loadErrorDialog();
+      ((GameScreen) currentScreen).openErrorDialog();
     }
   }
 
-
   /**
-   *
    * Loads the Win dialog into the JavaFX application.
-   *
    */
   public static void loadWinDialog()
   {
     ((GameScreen) currentScreen).loadWinDialog();
   }
 
+  public static void closeApplication()
+  {
+    System.exit(0); // Exit the application gracefully
+  }
 
   /**
-   *
    * Removes the currently shown dialog from the Main Menu.
-   *
    */
   public static void closeMainMenuDialog()
   {
+    // TODO: error handle if not MainMenu instance ?
     ((MainMenu) currentScreen).closeDialog();
   }
 
-
   /**
-   *
    * Removes the currently shown dialog from the Game Screen.
-   *
    */
   public static void closeGameScreenDialog()
   {
     ((GameScreen) currentScreen).closeDialog();
   }
 
-
   /**
-   *
    * Updates the previously clicked writing tool.
-   *
    */
   public static void unclickWritingTool()
   {
@@ -414,13 +336,10 @@ public class GameController extends Application
     currentClickedWritingTool = null;
   }
 
-
   /**
-   *
    * Updates the currently clicked writing tool.
    *
    * @param writingToolButton : clicked writing tool button
-   *
    */
   public static void clickWritingTool(Button writingToolButton)
   {
@@ -429,33 +348,24 @@ public class GameController extends Application
     currentClickedWritingTool.getStyleClass().add("clicked-writing-tool");
   }
 
-
   /**
-   *
    * Hides the contents of the sudoku cells.
-   *
    */
   public static void hideSudokuCells()
   {
     currentSudoku.hideSudokuCells();
   }
 
-
   /**
-   *
    * Shows the contents of the sudoku cells.
-   *
    */
   public static void showSudokuCells()
   {
     currentSudoku.showSudokuCells();
   }
 
-
   /**
-   *
    * Disable all Game Screen elements when progress is paused.
-   *
    */
   public static void disableGameScreenElements()
   {
@@ -466,11 +376,8 @@ public class GameController extends Application
     helperButtons.forEach(button -> button.setDisable(true));
   }
 
-
   /**
-   *
    * Enable all Game Screen elements when progress is resumed.
-   *
    */
   public static void enableGameScreenElements()
   {
@@ -481,44 +388,33 @@ public class GameController extends Application
     helperButtons.forEach(button -> button.setDisable(false));
   }
 
-
   /**
-   *
-   * Highlights all occurrences of the sudoku value represented by {@link #currentClickedNumberButton}.
-   *
+   * Highlights all occurrences of the sudoku value represented by
+   * {@link #currentClickedNumberButton}.
    */
   public static void highlightOccurrences()
   {
     currentSudoku.highlightOccurrences(currentClickedNumberButton.getValue());
   }
 
-
   /**
-   *
    * Highlights the row, column, and block of the clicked cell.
-   *
    */
   public static void highlightRowColumnBlock()
   {
     currentSudoku.highlightRowColumnBlock();
   }
 
-
   /**
-   *
    * Unhighlights all sudoku cells.
-   *
    */
   public static void unhighlightSudokuPuzzle()
   {
     currentSudoku.unhighlightSudokuPuzzle();
   }
 
-
   /**
-   *
    * Retrieves the hint and updates the sudoku puzzle.
-   *
    */
   public static void getHint()
   {
@@ -527,63 +423,48 @@ public class GameController extends Application
     GameController.startHintCellTimer();
   }
 
-
   /**
-   *
    * Increments {@link #playingTime} by the specified time increase.
    *
    * @param timeIncrease : time increase
-   *
    */
   public static void incrementPlayingTime(long timeIncrease)
   {
     playingTime += timeIncrease;
   }
 
-
   /**
-   *
    * Determines whether a writing tool is currently clicked.
    *
    * @return boolean : true —> writing tool is clicked; false —> writing tool is not clicked
-   *
    */
   public static boolean isWritingToolClicked()
   {
     return currentClickedWritingTool != null;
   }
 
-
   /**
-   *
    * Determines whether a number button is currently clicked.
    *
    * @return boolean : true —> number button is clicked; false —> number button is not clicked
-   *
    */
   public static boolean isNumberButtonClicked()
   {
     return currentClickedNumberButton != null;
   }
 
-
   /**
-   *
    * Updates the styling for the clicked number button to "click" it.
    *
    * @param numberButton : clicked number button
-   *
    */
   public static void clickNumberButton(NumberButton numberButton)
   {
     numberButton.addStyling("clicked-number-button");
   }
 
-
   /**
-   *
    * Updates the styling for the currently clicked number button to "unclick" it.
-   *
    */
   public static void unclickNumberButton()
   {
@@ -593,35 +474,26 @@ public class GameController extends Application
     }
   }
 
-
   /**
-   *
    * Disables a number button.
    *
    * @param numberButton : number button
-   *
    */
   public static void disableNumberButton(NumberButton numberButton)
   {
     numberButton.setDisable(true);
   }
 
-
   /**
-   *
    * Resets the currently clicked cell.
-   *
    */
   public static void resetCurrentClickedCell()
   {
     currentSudoku.setCurrentClickedCell(null);
   }
 
-
   /**
-   *
    * Determines if the completed puzzle is complete and load the Win dialog, if so.
-   *
    */
   public static void checkPuzzleCompleted()
   {
@@ -632,13 +504,10 @@ public class GameController extends Application
     }
   }
 
-
   /**
-   *
    * Displays the time penalty.
    *
    * @param timePenalty : time penalty
-   *
    */
   public static void showTimePenalty(int timePenalty)
   {
@@ -649,11 +518,8 @@ public class GameController extends Application
     timePenaltyLabel.getStyleClass().add("time-penalty-label--shown");
   }
 
-
   /**
-   *
    * Hides the time penalty.
-   *
    */
   public static void hideTimePenalty()
   {
@@ -663,91 +529,70 @@ public class GameController extends Application
     timePenaltyLabel.getStyleClass().remove("time-penalty-label--shown");
   }
 
-
   /**
-   *
    * Retrieves the name of the {@link #currentDifficulty}.
    *
    * @return String : name of current puzzle difficulty
-   *
    */
   public static String getCurrentDifficultyName()
   {
-    return currentDifficulty.getDifficultyName();
+    return currentDifficulty.getName();
   }
 
-
   /**
-   *
    * Retrieves the Game Screen difficulty dropdown.
    *
    * @return Combobox : Game Screen difficulty dropdown
-   *
    */
   public static ComboBox<String> getGameScreenDifficultyDropdown()
   {
     return ((GameScreen) currentScreen).getDifficultyDropdown();
   }
 
-
   /**
-   *
    * Retrieves the currently clicked cell.
    *
    * @return SudokuCell : currently clicked cell
-   *
    */
   public static SudokuCell getCurrentClickedCell()
   {
     return currentSudoku.getCurrentClickedCell();
   }
 
-
   /**
-   *
    * Updates the currently clicked cell.
    *
    * @param currClickedCell : currently clicked cell
-   *
    */
   public static void setCurrentClickedCell(SudokuCell currClickedCell)
   {
     currentSudoku.setCurrentClickedCell(currClickedCell);
   }
 
-
   /**
-   *
    * Retrieves {@link #currentHintCell}.
    *
    * @return SudokuCell : current hint cell
-   *
    */
   public static SudokuCell getCurrentHintCell()
   {
     return currentSudoku.getCurrentHintCell();
   }
 
-
   /**
-   *
    * Updates {@link #currentHintCell}.
    *
    * @param hintCell : current hint cell
-   *
    */
   public static void setCurrentHintCell(SudokuCell hintCell)
   {
     currentSudoku.setCurrentHintCell(hintCell);
   }
 
-
   /**
-   *
    * Retrieves the corresponding writing tool button for the {@link #currentWritingTool}.
    *
    * @return Button : writing tool button
-   *
    */
   public static Button getWritingToolButton()
   {
@@ -762,15 +607,11 @@ public class GameController extends Application
     return null;
   }
 
-
   /**
-   *
    * Retrieves the corresponding number button for the provided sudoku value.
    *
-   * @param number     : sudoku value
-   *
+   * @param number : sudoku value
    * @return NumberButton : corresponding number button
-   *
    */
   public static NumberButton getNumberButton(int number)
   {
@@ -785,26 +626,20 @@ public class GameController extends Application
     return null;
   }
 
-
   /**
-   *
    * Adds the disabled number button to {@link #disabledNumberButtons}.
    *
    * @param numberButton : number button
-   *
    */
   public static void addDisabledNumberButton(NumberButton numberButton)
   {
     disabledNumberButtons.add(numberButton);
   }
 
-
   /**
-   *
    * Retrieves the corresponding time penalty value.
    *
    * @return int : time penalty
-   *
    */
   public static int getTimePenalty()
   {
@@ -813,35 +648,27 @@ public class GameController extends Application
     if (cellsRemaining < 27)
     {
       return 45;
-    }
-    else if (cellsRemaining < 54)
+    } else if (cellsRemaining < 54)
     {
       return 30;
-    }
-    else
+    } else
     {
       return 15;
     }
   }
 
-
   /**
-   *
    * Updates {@link #timerLabel} with the formatted game time.
-   *
    */
   public static void updateTimerLabel()
   {
     timerLabel.setText(formatGameTime());
   }
 
-
   /**
-   *
    * Formats the playing time for the Win dialog.
    *
    * @return String : formatted playing time
-   *
    */
   public static String formatWinTime()
   {
@@ -854,42 +681,44 @@ public class GameController extends Application
     return String.format(WIN_TIME_FORMAT, hours, minutes, seconds);
   }
 
-
-  /**  Private Helper Methods  **/
-
+  /** Private Helper Methods **/
 
   /**
+   * Initializes game screen state.
    *
-   * Initializes the Game Screen variables.
-   *
-   * @throws Exception
-   *
+   * @throws SudokuPuzzleException
    */
   private static void initializeGameScreenVariables() throws SudokuPuzzleException
   {
-    currentSudoku = new Sudoku(currentDifficulty.getDifficultyId());
+    currentSudoku = new Sudoku(currentDifficulty.getId());
     currentWritingTool = WritingTool.PEN;
-    currentClickedNumberButton = null;
+    currentClickedNumberButton = null; // TODO: is this the best way to do this ?
 
-    if (GameController.isWritingToolClicked()) { GameController.unclickWritingTool(); }
+    if (GameController.isWritingToolClicked())
+    {
+      GameController.unclickWritingTool();
+    }
+
+    System.err.println("Initializing state");
 
     gameTimer = GameController.loadGameTimer();
     startTime = System.currentTimeMillis();
     playingTime = System.currentTimeMillis();
 
+    System.err.println("Loading penalty timer");
+
     timePenaltyTimer = GameController.loadTimePenaltyTimer();
     isTimePenaltyShown = false;
+
+    System.err.println("Loading hint timer");
 
     hintCellTimer = GameController.loadHintCellTimer();
   }
 
-
   /**
-   *
    * Loads the game timer to track the playing time.
    *
    * @return Timeline : game timer
-   *
    */
   private static Timeline loadGameTimer()
   {
@@ -900,13 +729,10 @@ public class GameController extends Application
     return timer;
   }
 
-
   /**
-   *
    * Loads the time penalty timer to track the duration of the penalty label visibility.
    *
    * @return Timeline : time penalty timer
-   *
    */
   private static Timeline loadTimePenaltyTimer()
   {
@@ -917,13 +743,10 @@ public class GameController extends Application
     return timer;
   }
 
-
   /**
-   *
    * Loads the hint cell timer to track the duration of the hint cell's background highlight.
    *
    * @return Timeline : hint cell timer
-   *
    */
   private static Timeline loadHintCellTimer()
   {
@@ -934,39 +757,29 @@ public class GameController extends Application
     return timer;
   }
 
-
   /**
-   *
    * Loads the {@link GameScreen} into the JavaFX stage.
-   *
    */
   private static void loadGameScreen() throws IllegalStateException
   {
     currentScreen = new GameScreen(currentSudoku);
 
     appStage.setScene(new Scene(currentScreen, 800, 800));
-    appStage.getScene()
-            .getStylesheets()
-            .addAll(GameController.class.getClassLoader().getResource("Shared.css").toExternalForm(),
-                    GameController.class.getClassLoader().getResource("GameScreen.css").toExternalForm());
+    appStage.getScene().getStylesheets().addAll(
+        GameController.class.getClassLoader().getResource("Shared.css").toExternalForm(),
+        GameController.class.getClassLoader().getResource("GameScreen.css").toExternalForm());
   }
 
-
   /**
-   *
    * Loads a new sudoku puzzle into the {@link GameScreen}.
-   *
    */
   private static void loadNewSudoku()
   {
     ((GameScreen) currentScreen).loadNewSudoku(currentSudoku);
   }
 
-
   /**
-   *
    * Loads the tracked {@link GameScreen} elements.
-   *
    */
   private static void loadGameScreenElements()
   {
@@ -978,29 +791,22 @@ public class GameController extends Application
     disabledNumberButtons = (ArrayList<NumberButton>) ((GameScreen) currentScreen).getDisabledNumberButtons();
   }
 
-
-    /**
-   *
+  /**
    * Formats the playing time.
    *
    * @return String : formatted playing time
-   *
    */
   private static String formatGameTime()
   {
-    return String.format(GAME_TIME_FORMAT,
-                          TimeUnit.MILLISECONDS.toHours(playingTime - startTime),
-                          TimeUnit.MILLISECONDS.toMinutes(playingTime - startTime) % TimeUnit.HOURS.toMinutes(1),
-                          TimeUnit.MILLISECONDS.toSeconds(playingTime - startTime) % TimeUnit.MINUTES.toSeconds(1));
+    return String.format(GAME_TIME_FORMAT, TimeUnit.MILLISECONDS.toHours(playingTime - startTime),
+        TimeUnit.MILLISECONDS.toMinutes(playingTime - startTime) % TimeUnit.HOURS.toMinutes(1),
+        TimeUnit.MILLISECONDS.toSeconds(playingTime - startTime) % TimeUnit.MINUTES.toSeconds(1));
   }
 
-
   /**
-   *
    * Enables a number button if it's not supposed to be disabled.
    *
    * @param numberButton : number button
-   *
    */
   private static void enableNumberButton(NumberButton numberButton)
   {
@@ -1010,172 +816,132 @@ public class GameController extends Application
     }
   }
 
-
-    /**  Getters and Setters  **/
-
+  /** Getters and Setters **/
 
   /**
-   *
    * Retrieves {@link #currentScreen}.
    *
    * @return Pane : current screen
-   *
    */
   public static Pane getCurrentScreen()
   {
     return currentScreen;
   }
 
-
   /**
-   *
    * Retrieves {@link #currentSudoku}.
    *
    * @return Sudoku : current sudoku
-   *
    */
   public static Sudoku getCurrentSudoku()
   {
     return currentSudoku;
   }
 
-
   /**
-   *
-   * Retrieves {@link #puzzleDifficulties}.
+   * Retrieves {@link #puzzleDifficultyNames}.
    *
    * @return ObservableList : list of puzzle difficulty names
-   *
    */
-  public static ObservableList<String> getPuzzleDifficulties()
+  public static ObservableList<String> getPuzzleDifficultyNames()
   {
-    return puzzleDifficulties;
+    return puzzleDifficultyNames;
   }
 
-
   /**
-   *
    * Retrieves {@link #currentDifficulty}.
    *
    * @return PuzzleDifficulty : current puzzle difficulty
-   *
    */
   public static PuzzleDifficulty getCurrentDifficulty()
   {
     return currentDifficulty;
   }
 
-
   /**
-   *
    * Updates {@link #currentDifficulty}.
    *
    * @param difficultyName : name of selected puzzle difficulty
-   *
    */
   public static void setCurrentDifficulty(String difficultyName)
   {
     currentDifficulty = PuzzleDifficulty.getEnumInstance(difficultyName);
   }
 
-
   /**
-   *
    * Retrieves {@link #currentWritingTool}.
    *
    * @return WritingTool : selected writing tool
-   *
    */
   public static WritingTool getCurrentWritingTool()
   {
     return currentWritingTool;
   }
 
-
   /**
-   *
    * Retrieves {@link #currentClickedWritingTool}.
    *
    * @return Button : currently clicked writing tool button
-   *
    */
   public static Button getCurrentClickedWritingTool()
   {
     return currentClickedWritingTool;
   }
 
-
   /**
-   *
    * Updates {@link #currentClickedWritingTool}.
    *
    * @param clickedWritingTool : currently clicked writing tool button
-   *
    */
   public static void setCurrentClickedWritingTool(Button clickedWritingTool)
   {
     currentClickedWritingTool = clickedWritingTool;
   }
 
-
   /**
-   *
    * Retrieves {@link #currentClickedNumberButton}.
    *
    * @return NumberButton : currently clicked number button
-   *
    */
   public static NumberButton getCurrentClickedNumberButton()
   {
     return currentClickedNumberButton;
   }
 
-
   /**
-   *
    * Updates {@link #currentClickedNumberButton}.
    *
    * @param clickedNumberButton : currently clicked number button
-   *
    */
   public static void setCurrentClickedNumberButton(NumberButton clickedNumberButton)
   {
     currentClickedNumberButton = clickedNumberButton;
   }
 
-
   /**
-   *
    * Retrieves {@link #gameTimer}.
    *
    * @return Timeline : game timer
-   *
    */
   public static Timeline getGameTimer()
   {
     return gameTimer;
   }
 
-
   /**
-   *
    * Retrieves {@link #timerLabel}.
    *
    * @return Label : game timer label
-   *
    */
   public static Label getTimerLabel()
   {
     return timerLabel;
   }
 
-
   /**
-   *
    * Retrieves {@link #isTimePenaltyShown}.
    *
    * @return boolean : true —> time penalty is shown; false —> time penalty isn't shown
-   *
    */
   public static boolean getIsTimePenaltyShown()
   {

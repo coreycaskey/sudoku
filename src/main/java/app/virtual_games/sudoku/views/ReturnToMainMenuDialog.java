@@ -8,103 +8,80 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-
 /**
- *
- * Loads the Return to Main Menu dialog for the JavaFX application.
+ * Loads ReturnToMainMenuDialog for the JavaFX application.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class ReturnToMainMenuDialog extends Dialog
 {
   /**
-   *
-   * Loads the parent {@link Dialog} with the Return to Main Menu dialog elements.
-   *
+   * Initializes {@link Dialog} with additional elements.
    */
   public ReturnToMainMenuDialog()
   {
     super();
-
     this.addDialogStyling("small-dialog");
-    this.addContentContainer(this.loadReturnToMainMenuDialogContentContainer());
-    this.addCloseDialogButtonContainerStyling("small-close-dialog-button-container");
+    this.addContentContainer(this.loadContentContainer());
+    this.addCloseButtonContainerStyling("small-close-button-container");
     this.addCloseDialogButtonHandler(new CloseGameScreenDialogHandler());
   }
 
-
-  /**  Private Helper Methods  **/
-
+  /** Private Helper Methods **/
 
   /**
+   * Loads the content container and populates {@link #loadDialogTitle} and
+   * {@link #loadDialogButtonContainer}.
    *
-   * Loads the Return to Main Menu dialog content container with the following UI element(s):
-   *
-   * Return to Main Menu Dialog Title —> {@link #loadReturnToMainMenuDialogTitle()}
-   * Return to Main Menu Dialog Button Container —> {@link #loadReturnToMainMenuDialogButtonContainer()}
-   *
-   * @return VBox : Return to Main Menu dialog content container
-   *
+   * @return VBox : content container
    */
-  private VBox loadReturnToMainMenuDialogContentContainer()
+  private VBox loadContentContainer()
   {
-    var returnToMainMenuContentContainer = new VBox();
+    var contentContainer = new VBox();
 
-    returnToMainMenuContentContainer.getStyleClass().addAll("content-container", "small-content-container");
-    returnToMainMenuContentContainer.getChildren().add(this.loadReturnToMainMenuDialogTitle());
-    returnToMainMenuContentContainer.getChildren().add(this.loadReturnToMainMenuDialogButtonContainer());
+    contentContainer.getStyleClass().addAll("content-container", "small-content-container");
+    contentContainer.getChildren().add(this.loadDialogTitle());
+    contentContainer.getChildren().add(this.loadDialogButtonContainer());
 
-    return returnToMainMenuContentContainer;
+    return contentContainer;
   }
 
-
   /**
+   * Loads the dialog title.
    *
-   * Loads the Return to Main Menu dialog title.
-   *
-   * @return Label : Return to Main Menu dialog title
-   *
+   * @return Label : dialog title
    */
-  private Label loadReturnToMainMenuDialogTitle()
+  private Label loadDialogTitle()
   {
-    var returnToMainMenuDialogTitle = new Label("Are you sure you want to exit to the main menu?");
+    var dialogTitle = new Label("Are you sure you want to exit to the main menu?");
 
-    returnToMainMenuDialogTitle.getStyleClass().addAll("dialog-title", "small-dialog-title");
+    dialogTitle.getStyleClass().addAll("dialog-title", "small-dialog-title");
 
-    return returnToMainMenuDialogTitle;
+    return dialogTitle;
   }
 
-
   /**
+   * Loads the dialog button container with {@link #loadConfirmButton()} and
+   * {@link #loadCancelButton()}.
    *
-   * Loads the Return to Main Menu dialog button container with the following UI element(s):
-   *
-   * Confirm Button —> {@link #loadConfirmButton()}
-   * Cancel Button —> {@link #loadCancelButton()}
-   *
-   * @return HBox : Return to Main Menu dialog button container
-   *
+   * @return HBox : dialog button container
    */
-  private HBox loadReturnToMainMenuDialogButtonContainer()
+  private HBox loadDialogButtonContainer()
   {
-    var returnToMainMenuButtonContainer = new HBox();
+    var dialogButtonContainer = new HBox();
 
-    returnToMainMenuButtonContainer.getStyleClass().addAll("dialog-button-container", "multiple-option-dialog-button-container");
-    returnToMainMenuButtonContainer.getChildren().add(this.loadConfirmButton());
-    returnToMainMenuButtonContainer.getChildren().add(this.loadCancelButton());
+    dialogButtonContainer.getStyleClass().addAll("button-container", "multiple-option-button-container");
+    dialogButtonContainer.getChildren().add(this.loadConfirmButton());
+    dialogButtonContainer.getChildren().add(this.loadCancelButton());
 
-    return returnToMainMenuButtonContainer;
+    return dialogButtonContainer;
   }
 
-
   /**
-   *
-   * Loads the confirm button with the {@link ReturnToMainMenuHandler}.
+   * Loads the confirm button with {@link ReturnToMainMenuHandler}.
    *
    * @return Button : confirm button
-   *
    */
   private Button loadConfirmButton()
   {
@@ -116,13 +93,10 @@ public class ReturnToMainMenuDialog extends Dialog
     return confirmButton;
   }
 
-
   /**
-   *
-   * Loads the cancel button with the {@link CloseGameScreenDialogHandler}.
+   * Loads the cancel button with {@link CloseGameScreenDialogHandler}.
    *
    * @return Button : cancel button
-   *
    */
   private Button loadCancelButton()
   {

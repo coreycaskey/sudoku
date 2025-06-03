@@ -4,8 +4,8 @@ public class ApiConnectionException extends Exception
 {
   private static final long serialVersionUID = 1L;
 
-
-  public ApiConnectionException(String errorMessage) {
-    super(errorMessage);
+  public ApiConnectionException(String message)
+  {
+    super(message);
   }
 }

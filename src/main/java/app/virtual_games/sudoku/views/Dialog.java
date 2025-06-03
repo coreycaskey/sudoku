@@ -8,53 +8,40 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-
 /**
- *
- * Parent class for all JavaFX application dialog boxes.
+ * Parent class for dialogs.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class Dialog extends StackPane
 {
-  private Pane dialogBackground;
-  private Pane dialogPane;
-  private VBox dialogContainer;
-  private HBox closeDialogButtonContainer;
-  private Button closeDialogButton;
-
+  private Pane backgroundPane;
+  private Pane mainPane;
+  private VBox mainContainer;
+  private HBox closeButtonContainer;
+  private Button closeButton;
 
   /**
-   *
-   * Loads the parent Dialog with the shared elements.
-   *
+   * Initializes parent dialog.
    */
   public Dialog()
   {
-    // sub-elements need to be initialized first to be used by upper elements
-    // (e.g. dialogPane requires dialogContainer to be initialized)
+    this.backgroundPane = this.buildBackgroundPane();
+    this.mainPane = this.buildMainPane();
 
-    this.closeDialogButton = this.loadCloseDialogButton();
-    this.closeDialogButtonContainer = this.loadCloseDialogButtonContainer();
-    this.dialogContainer = this.loadDialogContainer();
-    this.dialogPane = this.loadDialogPane();
-    this.dialogBackground = this.loadDialogBackground();
-
-    this.getChildren().add(this.dialogBackground);
-    this.getChildren().add(this.dialogPane);
+    this.getChildren().add(this.backgroundPane);
+    this.getChildren().add(this.mainPane);
   }
 
+  /** Private Helper Methods **/
 
   /**
+   * Builds background pane.
    *
-   * Loads the Dialog background.
-   *
-   * @return Pane : Dialog background
-   *
+   * @return Pane : background pane
    */
-  private Pane loadDialogBackground()
+  private Pane buildBackgroundPane()
   {
     var bg = new Pane();
 
@@ -63,144 +50,118 @@ public class Dialog extends StackPane
     return bg;
   }
 
-
   /**
+   * Builds main pane.
    *
-   * Loads the Dialog.
-   *
-   * @return Pane : Dialog
-   *
+   * @return Pane : main pane
    */
-  private Pane loadDialogPane()
+  private Pane buildMainPane()
   {
     var dialog = new Pane();
 
+    this.mainContainer = this.buildMainContainer();
+
     dialog.getStyleClass().add("dialog");
-    dialog.getChildren().add(this.dialogContainer);
+    dialog.getChildren().add(this.mainContainer);
 
     return dialog;
   }
 
-
   /**
+   * Builds main container with {@link #buildCloseButtonContainer}.
    *
-   * Loads the Dialog container with the following UI element(s):
-   *
-   * Close Dialog Button Container —> {@link #loadCloseDialogButtonContainer()}
-   *
-   * @return VBox : Dialog container
-   *
+   * @return VBox : main container
    */
-  private VBox loadDialogContainer()
+  private VBox buildMainContainer()
   {
     var container = new VBox();
 
+    this.closeButtonContainer = buildCloseButtonContainer();
+
     container.getStyleClass().add("dialog-container");
-    container.getChildren().add(this.closeDialogButtonContainer);
+    container.getChildren().add(this.closeButtonContainer);
 
     return container;
   }
 
-
   /**
+   * Builds close button container with {@link #buildCloseButton}.
    *
-   * Loads the close dialog button container with the following UI element(s):
-   *
-   * Close Dialog Button —> {@link #loadCloseDialogButton()}
-   *
-   * @return HBox : close dialog button container
-   *
+   * @return HBox : close button container
    */
-  private HBox loadCloseDialogButtonContainer()
+  private HBox buildCloseButtonContainer()
   {
     var buttonContainer = new HBox();
 
-    buttonContainer.getStyleClass().add("close-dialog-button-container");
-    buttonContainer.getChildren().add(this.closeDialogButton);
+    this.closeButton = buildCloseButton();
+
+    buttonContainer.getStyleClass().add("close-button-container");
+    buttonContainer.getChildren().add(this.closeButton);
 
     return buttonContainer;
   }
 
-
   /**
+   * Builds close button.
    *
-   * Loads the close dialog button.
-   *
-   * @return Button : close dialog button
-   *
+   * @return Button : close button
    */
-  private Button loadCloseDialogButton()
+  private Button buildCloseButton()
   {
     var button = new Button();
 
-    button.getStyleClass().add("close-dialog-button");
+    button.getStyleClass().add("close-button");
 
     return button;
   }
 
-
-  /**  Public Helper Methods  **/
-
+  /** Public Helper Methods **/
 
   /**
+   * Adds class names to dialog.
    *
-   * Adds a collection of CSS class names to the Dialog.
-   *
-   * @param styling : collection of CSS class names
-   *
+   * @param styling : class names
    */
   public void addDialogStyling(String... styling)
   {
-    this.dialogPane.getStyleClass().addAll(styling);
+    this.mainPane.getStyleClass().addAll(styling);
   }
 
-
   /**
+   * Adds content container to main container.
    *
-   * Adds a child class content container to the Dialog container.
-   *
-   * @param contentContainer : child class content container
-   *
+   * @param contentContainer : content container
    */
   public void addContentContainer(VBox contentContainer)
   {
-    this.dialogContainer.getChildren().add(contentContainer);
+    this.mainContainer.getChildren().add(contentContainer);
   }
 
-
   /**
+   * Adds class names to close button container.
    *
-   * Adds a collection of CSS class names to the close dialog button container.
-   *
-   * @param styling : collection of CSS class names
-   *
+   * @param styling : class names
    */
-  public void addCloseDialogButtonContainerStyling(String... styling)
+  public void addCloseButtonContainerStyling(String... styling)
   {
-    this.closeDialogButtonContainer.getStyleClass().addAll(styling);
+    this.closeButtonContainer.getStyleClass().addAll(styling);
   }
 
-
   /**
-   *
-   * Removes the close dialog button container.
-   *
+   * Removes close button container.
    */
-  public void removeCloseDialogButtonContainer()
+  public void removeCloseButtonContainer()
   {
-    this.dialogContainer.getChildren().remove(0);
+    this.mainContainer.getChildren().remove(0);
   }
 
-
   /**
-   *
-   * Adds a specified event handler to the generic close dialog button.
+   * Adds targeted event handler to close button.
    *
    * @param eventHandler : event handler
-   *
    */
   public void addCloseDialogButtonHandler(EventHandler<ActionEvent> eventHandler)
   {
-    this.closeDialogButton.setOnAction(eventHandler);
+    this.closeButton.setOnAction(eventHandler);
   }
 }

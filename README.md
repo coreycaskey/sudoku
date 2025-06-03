@@ -44,7 +44,7 @@ If you don't have Java installed, follow these steps:
   * Type the following commands in your terminal:
 
     ```bash
-    export JAVA_HOME={INSERT_PATH_TO_JDK_HERE}
+    export JAVA_HOME={INSERT_PATH_TO_JDK_HERE} # e.g. /Library/Java/JavaVirtualMachines/jdk-{version}.jdk/Contents/Home
     export PATH=$JAVA_HOME/bin:$PATH
     ```
 
@@ -59,7 +59,7 @@ If you don't have Maven installed, follow these steps:
  * Type the following commands in your terminal:
 
    ```bash
-   export M2_HOME={INSERT_PATH_TO_MAVEN_RELEASE}
+   export M2_HOME={INSERT_PATH_TO_MAVEN_RELEASE} # e.g. /Library/Maven/apache-maven-{version}
    export PATH=$M2_HOME/bin:$PATH
    ```
 

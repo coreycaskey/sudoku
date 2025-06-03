@@ -1,27 +1,21 @@
 package app.virtual_games.sudoku.handlers;
 
 import app.virtual_games.sudoku.controllers.GameController;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-
 /**
- *
- * Custom event handler for the start button click event.
+ * Event handler for info button.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class StartButtonHandler implements EventHandler<ActionEvent>
 {
   /**
+   * Triggers transition to game screen.
    *
-   * Initiates transitioning to the Game Screen.
-   *
-   * @param clickEvent : start button click event
-   *
+   * @param clickEvent : button click event
    */
   @Override
   public void handle(ActionEvent clickEvent)

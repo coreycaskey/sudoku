@@ -5,4 +5,5 @@
 /target/generated-sources/
 /target/maven-archiver/
 /target/maven-status/
-/target/sudoku-0.0.1.jar
+/target/sudoku-1.0.0.jar
+**/.DS_Store

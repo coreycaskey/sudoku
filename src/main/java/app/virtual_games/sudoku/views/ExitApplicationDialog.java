@@ -1,129 +1,101 @@
 package app.virtual_games.sudoku.views;
 
+import app.virtual_games.sudoku.handlers.CloseApplicationButtonHandler;
 import app.virtual_games.sudoku.handlers.CloseMainMenuDialogHandler;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-
 /**
- *
- * Loads the Exit Application dialog for the JavaFX application.
+ * Exit application dialog.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class ExitApplicationDialog extends Dialog
 {
   /**
-   *
-   * Loads the parent {@link Dialog} with the Exit Application dialog elements.
-   *
+   * Initializes exit application dialog.
    */
   public ExitApplicationDialog()
   {
     super();
-
     this.addDialogStyling("small-dialog");
-    this.addContentContainer(this.loadExitApplicationDialogContentContainer());
-    this.addCloseDialogButtonContainerStyling("small-close-dialog-button-container");
+    this.addContentContainer(this.buildContentContainer());
+    this.addCloseButtonContainerStyling("small-close-button-container");
     this.addCloseDialogButtonHandler(new CloseMainMenuDialogHandler());
   }
 
-
-  /**  Private Helper Methods  **/
-
+  /** Private Helper Methods **/
 
   /**
+   * Builds content container with {@link #buildTitle} and {@link #buildButtonContainer}.
    *
-   * Loads the Exit Application dialog content container with the following UI element(s):
-   *
-   * Exit Application Dialog Title —> {@link #loadExitApplicationDialogTitle()}
-   * Exit Application Dialog Button Container —> {@link #loadExitApplicationDialogButtonContainer()}
-   *
-   * @return VBox : Exit Application dialog content container
-   *
+   * @return VBox : content container
    */
-  private VBox loadExitApplicationDialogContentContainer()
+  private VBox buildContentContainer()
   {
-    var exitApplicationDialogContentContainer = new VBox();
+    var contentContainer = new VBox();
 
-    exitApplicationDialogContentContainer.getStyleClass().addAll("content-container", "small-content-container");
-    exitApplicationDialogContentContainer.getChildren().add(this.loadExitApplicationDialogTitle());
-    exitApplicationDialogContentContainer.getChildren().add(this.loadExitApplicationDialogButtonContainer());
+    contentContainer.getStyleClass().addAll("content-container", "small-content-container");
+    contentContainer.getChildren().add(this.buildTitle());
+    contentContainer.getChildren().add(this.buildButtonContainer());
 
-    return exitApplicationDialogContentContainer;
+    return contentContainer;
   }
 
-
   /**
+   * Builds title.
    *
-   * Loads the Exit Application dialog title.
-   *
-   * @return Label : Exit Application dialog title
-   *
+   * @return Label : title
    */
-  private Label loadExitApplicationDialogTitle()
+  private Label buildTitle()
   {
-    var exitApplicationDialogTitle = new Label("Are you sure you want to exit the application?");
+    var title = new Label("Are you sure you want to exit the application?");
 
-    exitApplicationDialogTitle.getStyleClass().addAll("dialog-title", "small-dialog-title");
+    title.getStyleClass().addAll("dialog-title", "small-dialog-title");
 
-    return exitApplicationDialogTitle;
+    return title;
   }
 
-
   /**
+   * Builds button container with {@link #buildConfirmButton} and {@link #buildCancelButton}.
    *
-   * Loads the Exit Application dialog button container with the following UI element(s):
-   *
-   * Confirm Button —> {@link #loadConfirmButton()}
-   * Cancel Button —> {@link #loadCancelButton()}
-   *
-   * @return HBox : Exit Application dialog button container
-   *
+   * @return HBox : button container
    */
-  private HBox loadExitApplicationDialogButtonContainer()
+  private HBox buildButtonContainer()
   {
-    var exitApplicationDialogButtonContainer = new HBox();
+    var buttonContainer = new HBox();
 
-    exitApplicationDialogButtonContainer.getStyleClass().addAll("dialog-button-container", "multiple-option-dialog-button-container");
-    exitApplicationDialogButtonContainer.getChildren().add(this.loadConfirmButton());
-    exitApplicationDialogButtonContainer.getChildren().add(this.loadCancelButton());
+    buttonContainer.getStyleClass().addAll("button-container", "multiple-option-button-container");
+    buttonContainer.getChildren().add(this.buildConfirmButton());
+    buttonContainer.getChildren().add(this.buildCancelButton());
 
-    return exitApplicationDialogButtonContainer;
+    return buttonContainer;
   }
 
-
   /**
-   *
-   * Loads the confirm button with an event handler to close the JavaFX application.
+   * Builds confirm button.
    *
    * @return Button : confirm button
-   *
    */
-  private Button loadConfirmButton()
+  private Button buildConfirmButton()
   {
     var confirmButton = new Button("Yes");
 
     confirmButton.getStyleClass().add("dialog-button");
-    confirmButton.setOnAction(event -> System.exit(0)); // Exit the application gracefully
+    confirmButton.setOnAction(new CloseApplicationButtonHandler());
 
     return confirmButton;
   }
 
-
   /**
-   *
-   * Loads the cancel button with the {@link CloseMainMenuDialogHandler}.
+   * Builds cancel button.
    *
    * @return Button : cancel button
-   *
    */
-  private Button loadCancelButton()
+  private Button buildCancelButton()
   {
     var cancelButton = new Button("No");
 

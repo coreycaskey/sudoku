@@ -6,23 +6,18 @@ import app.virtual_games.sudoku.models.NumberButton;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-
 /**
- *
- * Custom event handler for the number button click event.
+ * Event handler for the number button.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class NumberButtonHandler implements EventHandler<ActionEvent>
 {
   /**
-   *
-   * Initiates highlighting all occurrences of the sudoku value represented by the number button.
+   * Highlights all occurrences of the number value currently in the sudoku puzzle
    *
    * @param clickEvent : number button click event
-   *
    */
   @Override
   public void handle(ActionEvent clickEvent)

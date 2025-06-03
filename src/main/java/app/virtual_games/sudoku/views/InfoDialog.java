@@ -1,9 +1,7 @@
 package app.virtual_games.sudoku.views;
 
 import app.virtual_games.sudoku.controllers.GameController;
-
 import app.virtual_games.sudoku.handlers.CloseMainMenuDialogHandler;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -14,285 +12,220 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-
 /**
- *
- * Loads the Info dialog for the JavaFX application.
+ * Info dialog.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class InfoDialog extends Dialog
 {
-  private static String infoDialogRowClass = "info-dialog-row";
-  private static String infoDialogElementContainerClass = "info-dialog-element-container";
-  private static String infoDialogInstructionsContainerClass = "info-dialog-instructions-container";
-  private static String infoDialogInstructionsClass = "info-dialog-instructions";
-  private static String infoDialogLargeRowClass = "info-dialog-large-row";
+  private static String baseRowClass = "info-dialog-row";
+  private static String largeRowClass = "info-dialog-large-row";
+  private static String elementContainerClass = "info-dialog-element-container";
+  private static String instructionsContainerClass = "info-dialog-instructions-container";
+  private static String instructionsButtonClass = "info-dialog-instructions-button";
+  private static String instructionsContentClass = "info-dialog-instructions-content";
   private static String gameButtonClass = "game-button";
-  private static String infoDialogInstructionsButtonClass = "info-dialog-instructions-button";
 
   /**
-   *
-   * Loads the parent {@link Dialog} with the Info dialog elements.
-   *
+   * Initializes info dialog.
    */
   public InfoDialog()
   {
     super();
-
     this.addDialogStyling("large-dialog");
-    this.addContentContainer(this.loadInfoDialogOuterContentContainer());
-    this.addCloseDialogButtonContainerStyling("large-close-dialog-button-container");
+    this.addContentContainer(this.buildOuterContainer());
+    this.addCloseButtonContainerStyling("large-close-button-container");
     this.addCloseDialogButtonHandler(new CloseMainMenuDialogHandler());
   }
 
-
-  /**  Private Helper Methods  **/
-
+  /** Private Helper Methods **/
 
   /**
+   * Builds outer container with {@link #buildOuterContentPane}.
    *
-   * Loads the Info dialog outer content container with the following UI element(s):
-   *
-   * Info Dialog Outer Content Pane —> {@link #loadInfoDialogOuterContentPane()}
-   *
-   * @return VBox : Info dialog outer content container
-   *
+   * @return VBox : outer container
    */
-  private VBox loadInfoDialogOuterContentContainer()
+  private VBox buildOuterContainer()
   {
-    var infoDialogOuterContentContainer = new VBox();
+    var outerContainer = new VBox();
 
-    infoDialogOuterContentContainer.getChildren().add(this.loadInfoDialogOuterContentPane());
+    outerContainer.getChildren().add(this.buildOuterContentPane());
 
-    return infoDialogOuterContentContainer;
+    return outerContainer;
   }
 
-
   /**
+   * Builds outer content pane with {@link #buildInnerContainer} and {@link #buildInnerContentPane}.
    *
-   * Loads the Info dialog outer content pane with the following UI element(s):
-   *
-   * Info Dialog Inner Content Container —> {@link #loadInfoDialogInnerContentContainer()}
-   * Info Dialog Inner Content Pane —> {@link #loadInfoDialogInnerContentPane()}
-   *
-   * @return StackPane : Info dialog outer content pane
-   *
+   * @return StackPane : outer content pane
    */
-  private StackPane loadInfoDialogOuterContentPane()
+  private StackPane buildOuterContentPane()
   {
-    var infoDialogOuterContentPane = new StackPane();
+    var outerContentPane = new StackPane();
 
-    infoDialogOuterContentPane.getChildren().add(this.loadInfoDialogInnerContentContainer());
-    infoDialogOuterContentPane.getChildren().add(this.loadInfoDialogInnerContentPane());
+    outerContentPane.getChildren().add(this.buildInnerContainer());
+    outerContentPane.getChildren().add(this.buildInnerContentPane());
 
-    return infoDialogOuterContentPane;
+    return outerContentPane;
   }
 
-
   /**
+   * Builds inner container with {@link #buildTitle}, {@link #buildDifficultyContainer},
+   * {@link #buildTimerContainer}, {@link #buildWritingToolContainer}, {@link #buildHintContainer},
+   * {@link #buildRestartContainer}, {@link #buildNewPuzzleContainer}, {@link #buildNumberContainer}.
    *
-   * Loads the Info dialog inner content container with the following UI element(s):
-   *
-   * Info Dialog Title —> {@link #loadInfoDialogTitle()}
-   * Info Dialog Difficulty Container —> {@link #loadInfoDialogDifficultyContainer()}
-   * Info Dialog Timer Container —> {@link #loadInfoDialogTimerContainer()}
-   * Info Dialog Writing Tool Container —> {@link #loadInfoDialogWritingToolContainer()}
-   * Info Dialog Hint Container —> {@link #loadInfoDialogHintContainer()}
-   * Info Dialog Restart Container —> {@link #loadInfoDialogRestartContainer()}
-   * Info Dialog New Puzzle Container —> {@link #loadInfoDialogNewPuzzleContainer()}
-   * Info Dialog Number Container —> {@link #loadInfoDialogNumberContainer()}
-   *
-   * @return VBox : Info dialog inner content container
-   *
+   * @return VBox : inner container
    */
-  private VBox loadInfoDialogInnerContentContainer()
+  private VBox buildInnerContainer()
   {
-    var infoDialogInnerContentContainer = new VBox();
+    var innerContainer = new VBox();
 
-    infoDialogInnerContentContainer.getStyleClass().addAll("content-container", "large-content-container", "info-dialog-content-container");
-    infoDialogInnerContentContainer.getChildren().add(this.loadInfoDialogTitle());
-    infoDialogInnerContentContainer.getChildren().add(this.loadInfoDialogDifficultyContainer());
-    infoDialogInnerContentContainer.getChildren().add(this.loadInfoDialogTimerContainer());
-    infoDialogInnerContentContainer.getChildren().add(this.loadInfoDialogWritingToolContainer());
-    infoDialogInnerContentContainer.getChildren().add(this.loadInfoDialogHintContainer());
-    infoDialogInnerContentContainer.getChildren().add(this.loadInfoDialogRestartContainer());
-    infoDialogInnerContentContainer.getChildren().add(this.loadInfoDialogNewPuzzleContainer());
-    infoDialogInnerContentContainer.getChildren().add(this.loadInfoDialogNumberContainer());
+    innerContainer.getStyleClass().addAll("content-container", "large-content-container",
+        "info-dialog-content-container");
+    innerContainer.getChildren().add(this.buildTitle());
+    innerContainer.getChildren().add(this.buildDifficultyContainer());
+    innerContainer.getChildren().add(this.buildTimerContainer());
+    innerContainer.getChildren().add(this.buildWritingToolContainer());
+    innerContainer.getChildren().add(this.buildHintContainer());
+    innerContainer.getChildren().add(this.buildRestartContainer());
+    innerContainer.getChildren().add(this.buildNewPuzzleContainer());
+    innerContainer.getChildren().add(this.buildNumberContainer());
 
-    return infoDialogInnerContentContainer;
+    return innerContainer;
   }
 
-
   /**
+   * Builds title.
    *
-   * Loads the Info dialog title.
-   *
-   * @return Label : Info dialog title
-   *
+   * @return Label : title
    */
-  private Label loadInfoDialogTitle()
+  private Label buildTitle()
   {
-    var infoDialogTitle = new Label("Sudoku Overview");
+    var title = new Label("Sudoku Overview");
 
-    infoDialogTitle.getStyleClass().add("dialog-title");
+    title.getStyleClass().add("dialog-title");
 
-    return infoDialogTitle;
+    return title;
   }
 
-
   /**
+   * Builds difficulty container with {@link #buildDifficultyDropdownContainer} and
+   * {@link #buildDifficultyInstructionsContainer}.
    *
-   * Loads the Info dialog difficulty container with the following UI element(s):
-   *
-   * Info Dialog Difficulty Dropdown Container —> {@link #loadInfoDialogDifficultyDropdownContainer()}
-   * Info Dialog Difficulty Instructions Container —> {@link #loadInfoDialogDifficultyInstructionsContainer()}
-   *
-   * @return HBox : Info dialog difficulty container
-   *
+   * @return HBox : difficulty container
    */
-  private HBox loadInfoDialogDifficultyContainer()
+  private HBox buildDifficultyContainer()
   {
-    var infoDialogDifficultyContainer = new HBox();
+    var difficultyContainer = new HBox();
 
-    infoDialogDifficultyContainer.getStyleClass().addAll(infoDialogRowClass, "info-dialog-small-row");
-    infoDialogDifficultyContainer.getChildren().add(this.loadInfoDialogDifficultyDropdownContainer());
-    infoDialogDifficultyContainer.getChildren().add(this.loadInfoDialogDifficultyInstructionsContainer());
+    difficultyContainer.getStyleClass().addAll(baseRowClass, "info-dialog-small-row");
+    difficultyContainer.getChildren().add(this.buildDifficultyDropdownContainer());
+    difficultyContainer.getChildren().add(this.buildDifficultyInstructionsContainer());
 
-    return infoDialogDifficultyContainer;
+    return difficultyContainer;
   }
 
-
   /**
+   * Builds difficulty dropdown container with {@link #buildDifficultyDropdown}.
    *
-   * Loads the Info dialog difficulty dropdown container with the following UI element(s):
-   *
-   * Info Dialog Difficulty Dropdown —> {@link #loadInfoDialogDifficultyDropdown()}
-   *
-   * @return HBox : Info dialog difficulty dropdown container
-   *
+   * @return HBox : difficulty dropdown container
    */
-  private HBox loadInfoDialogDifficultyDropdownContainer()
+  private HBox buildDifficultyDropdownContainer()
   {
-    var infoDialogDifficultyDropdownContainer = new HBox();
+    var difficultyDropdownContainer = new HBox();
 
-    infoDialogDifficultyDropdownContainer.getStyleClass().add(infoDialogElementContainerClass);
-    infoDialogDifficultyDropdownContainer.getChildren().add(this.loadInfoDialogDifficultyDropdown());
+    difficultyDropdownContainer.getStyleClass().add(elementContainerClass);
+    difficultyDropdownContainer.getChildren().add(this.buildDifficultyDropdown());
 
-    return infoDialogDifficultyDropdownContainer;
+    return difficultyDropdownContainer;
   }
 
-
   /**
+   * Builds difficulty dropdown.
    *
-   * Loads the Info dialog difficulty dropdown.
-   *
-   * @return ComboBox<String> : Info dialog difficulty dropdown
-   *
+   * @return ComboBox<String> : difficulty dropdown
    */
-  private ComboBox<String> loadInfoDialogDifficultyDropdown()
+  private ComboBox<String> buildDifficultyDropdown()
   {
-    var infoDialogDifficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficulties());
+    var difficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficultyNames());
 
-    infoDialogDifficultyDropdown.getStyleClass().add("info-dialog-difficulty-dropdown");
-    infoDialogDifficultyDropdown.getSelectionModel().select("Easy");
+    difficultyDropdown.getStyleClass().add("info-dialog-difficulty-dropdown");
+    difficultyDropdown.getSelectionModel().select("Easy");
 
-    return infoDialogDifficultyDropdown;
+    return difficultyDropdown;
   }
 
-
   /**
+   * Builds difficulty instructions container with {@link #buildDifficultyInstructionsContent}.
    *
-   * Loads the Info dialog difficulty instructions container with the following UI element(s):
-   *
-   * Info Dialog Difficulty Instructions —> {@link #loadInfoDialogDifficultyInstructions()}
-   *
-   * @return HBox : Info dialog difficulty instructions container
-   *
+   * @return HBox : difficulty instructions container
    */
-  private HBox loadInfoDialogDifficultyInstructionsContainer()
+  private HBox buildDifficultyInstructionsContainer()
   {
-    var infoDialogDifficultyInstructionsContainer = new HBox();
+    var difficultyInstructionsContainer = new HBox();
 
-    infoDialogDifficultyInstructionsContainer.getStyleClass().add(infoDialogInstructionsContainerClass);
-    infoDialogDifficultyInstructionsContainer.getChildren().add(this.loadInfoDialogDifficultyInstructions());
+    difficultyInstructionsContainer.getStyleClass().add(instructionsContainerClass);
+    difficultyInstructionsContainer.getChildren().add(this.buildDifficultyInstructionsContent());
 
-    return infoDialogDifficultyInstructionsContainer;
+    return difficultyInstructionsContainer;
   }
 
-
   /**
+   * Builds difficulty instructions content.
    *
-   * Loads the Info dialog difficulty instructions.
-   *
-   * @return Label : Info dialog difficulty instructions
-   *
+   * @return Label : difficulty instructions content
    */
-  private Label loadInfoDialogDifficultyInstructions()
+  private Label buildDifficultyInstructionsContent()
   {
-    var infoDialogDifficultyInstructions = new Label();
+    var difficultyInstructions = new Label();
 
-    infoDialogDifficultyInstructions.getStyleClass().add(infoDialogInstructionsClass);
-    infoDialogDifficultyInstructions.setText("This dropdown will load a new sudoku puzzle of the selected difficulty.");
+    difficultyInstructions.getStyleClass().add(instructionsContentClass);
+    difficultyInstructions.setText("This dropdown will load a new sudoku puzzle of the selected difficulty.");
 
-    return infoDialogDifficultyInstructions;
+    return difficultyInstructions;
   }
 
-
   /**
+   * Builds timer container with {@link #buildTimerButtonContainer} and
+   * {@link #buildTimerInstructionsContainer}.
    *
-   * Loads the Info dialog timer container with the following UI element(s):
-   *
-   * Info Dialog Timer Button Container —> {@link #loadInfoDialogTimerButtonContainer()}
-   * Info Dialog Timer Instructions Container —> {@link #loadInfoDialogTimerInstructionsContainer()}
-   *
-   * @return HBox : Info dialog timer container
-   *
+   * @return HBox : timer container
    */
-  private HBox loadInfoDialogTimerContainer()
+  private HBox buildTimerContainer()
   {
-    var infoDialogTimerContainer = new HBox();
+    var timerContainer = new HBox();
 
-    infoDialogTimerContainer.getStyleClass().addAll(infoDialogRowClass, "info-dialog-small-row");
-    infoDialogTimerContainer.getChildren().add(this.loadInfoDialogTimerButtonContainer());
-    infoDialogTimerContainer.getChildren().add(this.loadInfoDialogTimerInstructionsContainer());
+    timerContainer.getStyleClass().addAll(baseRowClass, "info-dialog-small-row");
+    timerContainer.getChildren().add(this.buildTimerButtonContainer());
+    timerContainer.getChildren().add(this.buildTimerInstructionsContainer());
 
-    return infoDialogTimerContainer;
+    return timerContainer;
   }
 
-
   /**
+   * Builds timer button container with {@link #buildPlayButton} and {@link #buildPauseButton}.
    *
-   * Loads the Info dialog timer button container with the following UI element(s):
-   *
-   * Info Dialog Play Button —> {@link #loadInfoDialogPlayButton()}
-   * Info Dialog Pause Button —> {@link #loadInfoDialogPauseButton()}
-   *
-   * @return HBox : Info dialog timer button container
-   *
+   * @return HBox : timer button container
    */
-  private HBox loadInfoDialogTimerButtonContainer()
+  private HBox buildTimerButtonContainer()
   {
-    var infoDialogTimerInstructionsContainer = new HBox();
+    var timerButtonContainer = new HBox();
 
-    infoDialogTimerInstructionsContainer.getStyleClass().addAll(infoDialogElementContainerClass);
-    infoDialogTimerInstructionsContainer.getChildren().add(this.loadInfoDialogPlayButton());
-    infoDialogTimerInstructionsContainer.getChildren().add(this.loadInfoDialogPauseButton());
+    timerButtonContainer.getStyleClass().addAll(elementContainerClass);
+    timerButtonContainer.getChildren().add(this.buildPlayButton());
+    timerButtonContainer.getChildren().add(this.buildPauseButton());
 
-    return infoDialogTimerInstructionsContainer;
+    return timerButtonContainer;
   }
 
-
   /**
+   * Builds play button.
    *
-   * Loads the Info dialog play button.
-   *
-   * @return Button : Info dialog play button
-   *
+   * @return Button : play button
    */
-  private Button loadInfoDialogPlayButton()
+  private Button buildPlayButton()
   {
     var playButton = new Button();
 
@@ -301,15 +234,12 @@ public class InfoDialog extends Dialog
     return playButton;
   }
 
-
   /**
+   * Builds pause button.
    *
-   * Loads the Info dialog pause button.
-   *
-   * @return Button : Info dialog pause button
-   *
+   * @return Button : pause button
    */
-  private Button loadInfoDialogPauseButton()
+  private Button buildPauseButton()
   {
     var pauseButton = new Button();
 
@@ -318,551 +248,441 @@ public class InfoDialog extends Dialog
     return pauseButton;
   }
 
-
   /**
+   * Builds timer instructions container with {@link #buildTimerInstructions}.
    *
-   * Loads the Info dialog timer instructions container with the following UI element(s):
-   *
-   * Info Dialog Timer Instructions —> {@link #loadInfoDialogTimerInstructions()}
-   *
-   * @return HBox : Info dialog timer instructions container
-   *
+   * @return HBox : timer instructions container
    */
-  private HBox loadInfoDialogTimerInstructionsContainer()
+  private HBox buildTimerInstructionsContainer()
   {
-    var infoDialogTimerInstructionsContainer = new HBox();
+    var timerInstructionsContainer = new HBox();
 
-    infoDialogTimerInstructionsContainer.getStyleClass().add(infoDialogInstructionsContainerClass);
-    infoDialogTimerInstructionsContainer.getChildren().add(this.loadInfoDialogTimerInstructions());
+    timerInstructionsContainer.getStyleClass().add(instructionsContainerClass);
+    timerInstructionsContainer.getChildren().add(this.buildTimerInstructions());
 
-    return infoDialogTimerInstructionsContainer;
+    return timerInstructionsContainer;
   }
 
-
   /**
+   * Builds timer instructions.
    *
-   * Loads the Info dialog timer instructions.
-   *
-   * @return Label : Info dialog timer instructions
-   *
+   * @return Label : timer instructions
    */
-  private Label loadInfoDialogTimerInstructions()
+  private Label buildTimerInstructions()
   {
-    var infoDialogTimerInstructions = new Label();
+    var timerInstructions = new Label();
 
-    infoDialogTimerInstructions.getStyleClass().add(infoDialogInstructionsClass);
-    infoDialogTimerInstructions.setText("These buttons will pause and resume your game progress.");
+    timerInstructions.getStyleClass().add(instructionsContentClass);
+    timerInstructions.setText("These buttons will pause and resume your game progress.");
 
-    return infoDialogTimerInstructions;
+    return timerInstructions;
   }
 
-
   /**
+   * Builds writing tool container with {@link #buildWritingToolButtonContainer} and
+   * {@link #buildWritingToolInstructionsContainer}.
    *
-   * Loads the Info dialog writing tool container with the following UI element(s):
-   *
-   * Info Dialog Writing Tool Button Container —> {@link #loadInfoDialogWritingToolButtonContainer()}
-   * Info Dialog Writing Tool Instructions Container —> {@link #loadInfoDialogWritingToolInstructionsContainer()}
-   *
-   * @return HBox : Info dialog writing tool container
-   *
+   * @return HBox : writing tool container
    */
-  private HBox loadInfoDialogWritingToolContainer()
+  private HBox buildWritingToolContainer()
   {
-    var infoDialogWritingToolContainer = new HBox();
+    var writingToolContainer = new HBox();
 
-    infoDialogWritingToolContainer.getStyleClass().addAll(infoDialogRowClass, infoDialogLargeRowClass);
-    infoDialogWritingToolContainer.getChildren().add(this.loadInfoDialogWritingToolButtonContainer());
-    infoDialogWritingToolContainer.getChildren().add(this.loadInfoDialogWritingToolInstructionsContainer());
+    writingToolContainer.getStyleClass().addAll(baseRowClass, largeRowClass);
+    writingToolContainer.getChildren().add(this.buildWritingToolButtonContainer());
+    writingToolContainer.getChildren().add(this.buildWritingToolInstructionsContainer());
 
-    return infoDialogWritingToolContainer;
+    return writingToolContainer;
   }
 
-
   /**
+   * Builds writing tool button container with {@link #buildPenButton}.
    *
-   * Loads the Info dialog writing tool button container with the following UI element(s):
-   *
-   * Pen Button —> {@link #loadInfoDialogPenButton()}
-   *
-   * @return VBox : Info dialog writing tool button container
-   *
+   * @return VBox : writing tool button container
    */
-  private VBox loadInfoDialogWritingToolButtonContainer()
+  private VBox buildWritingToolButtonContainer()
   {
-    var infoDialogWritingToolButtonContainer = new VBox();
+    var writingToolButtonContainer = new VBox();
 
-    infoDialogWritingToolButtonContainer.getStyleClass().add(infoDialogElementContainerClass);
-    infoDialogWritingToolButtonContainer.getChildren().add(this.loadInfoDialogPenButton());
+    writingToolButtonContainer.getStyleClass().add(elementContainerClass);
+    writingToolButtonContainer.getChildren().add(this.buildPenButton());
 
-    return infoDialogWritingToolButtonContainer;
+    return writingToolButtonContainer;
   }
 
-
   /**
+   * Builds pen button.
    *
-   * Loads the Info dialog pen button.
-   *
-   * @return Button : Info dialog pen button
-   *
+   * @return Button : pen button
    */
-  private Button loadInfoDialogPenButton()
+  private Button buildPenButton()
   {
     var penButton = new Button("Pen");
 
-    penButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../img/pen-icon.png"), 30, 30, true, true)));
-    penButton.getStyleClass().addAll(gameButtonClass, infoDialogInstructionsButtonClass);
+    penButton.setGraphic(new ImageView(
+        new Image(this.getClass().getResourceAsStream("../../../../img/pen-icon.png"), 30, 30, true, true)));
+    penButton.getStyleClass().addAll(gameButtonClass, instructionsButtonClass);
 
     return penButton;
   }
 
-
   /**
+   * Builds writing tool instructions container with {@link #buildWritingToolInstructions}.
    *
-   * Loads the Info dialog writing tool instructions container with the following UI element(s):
-   *
-   * Info Dialog Writing Tool Instructions —> {@link #loadInfoDialogWritingToolInstructions()}
-   *
-   * @return HBox : Info dialog writing tool instructions container
-   *
+   * @return HBox : writing tool instructions container
    */
-  private HBox loadInfoDialogWritingToolInstructionsContainer()
+  private HBox buildWritingToolInstructionsContainer()
   {
     var writingToolInstructionsContainer = new HBox();
 
-    writingToolInstructionsContainer.getStyleClass().add(infoDialogInstructionsContainerClass);
-    writingToolInstructionsContainer.getChildren().add(this.loadInfoDialogWritingToolInstructions());
+    writingToolInstructionsContainer.getStyleClass().add(instructionsContainerClass);
+    writingToolInstructionsContainer.getChildren().add(this.buildWritingToolInstructions());
 
     return writingToolInstructionsContainer;
   }
 
-
   /**
+   * Builds writing tool instructions.
    *
-   * Loads the Info dialog writing tool instructions.
-   *
-   * @return Label : Info dialog writing tool instructions
-   *
+   * @return Label : writing tool instructions
    */
-  private Label loadInfoDialogWritingToolInstructions()
+  private Label buildWritingToolInstructions()
   {
-    var infoDialogWritingToolInstructions = new Label();
+    var writingToolInstructions = new Label();
 
-    infoDialogWritingToolInstructions.getStyleClass().add(infoDialogInstructionsClass);
-    infoDialogWritingToolInstructions.setText("The pen, pencil, and eraser buttons will change the current writing tool. "
-        + "Use the pen for permanent guesses. (Be careful —— there is a time penalty for incorrect inputs.) "
+    writingToolInstructions.getStyleClass().add(instructionsContentClass);
+    writingToolInstructions.setText("The pen, pencil, and eraser buttons will change the current writing tool. "
+        + "Use the pen for permanent guesses. (Be careful——there is a time penalty for incorrect inputs.) "
         + "Use the pencil for non-permanent guesses. "
         + "Use the eraser for clearing cells that contain incorrect values or notes.");
 
-    return infoDialogWritingToolInstructions;
+    return writingToolInstructions;
   }
 
-
   /**
+   * Builds hint container with {@link #buildHintButtonContainer} and
+   * {@link #buildHintInstructionsContainer}.
    *
-   * Loads the Info dialog hint container with the following UI element(s):
-   *
-   * Info Dialog Hint Button Container —> {@link #loadInfoDialogHintButtonContainer()}
-   * Info Dialog Hint Instructions Container —> {@link #loadInfoDialogHintInstructionsContainer()}
-   *
-   * @return HBox : Info dialog hint container
-   *
+   * @return HBox : hint container
    */
-  private HBox loadInfoDialogHintContainer()
+  private HBox buildHintContainer()
   {
     var infoDialogHintContainer = new HBox();
 
-    infoDialogHintContainer.getStyleClass().addAll(infoDialogRowClass, infoDialogLargeRowClass);
-    infoDialogHintContainer.getChildren().add(this.loadInfoDialogHintButtonContainer());
-    infoDialogHintContainer.getChildren().add(this.loadInfoDialogHintInstructionsContainer());
+    infoDialogHintContainer.getStyleClass().addAll(baseRowClass, largeRowClass);
+    infoDialogHintContainer.getChildren().add(this.buildHintButtonContainer());
+    infoDialogHintContainer.getChildren().add(this.buildHintInstructionsContainer());
 
     return infoDialogHintContainer;
   }
 
-
   /**
+   * Builds hint button container with {@link #buildHintButton}.
    *
-   * Loads the Info dialog hint button container with the following UI element(s):
-   *
-   * Info Dialog Hint Button —> {@link #loadInfoDialogHintButton()}
-   *
-   * @return HBox : Info dialog hint button container
-   *
+   * @return HBox : hint button container
    */
-  private HBox loadInfoDialogHintButtonContainer()
+  private HBox buildHintButtonContainer()
   {
-    var infoDialogHintButtonContainer = new HBox();
+    var hintButtonContainer = new HBox();
 
-    infoDialogHintButtonContainer.getStyleClass().addAll(infoDialogElementContainerClass);
-    infoDialogHintButtonContainer.getChildren().add(this.loadInfoDialogHintButton());
+    hintButtonContainer.getStyleClass().addAll(elementContainerClass);
+    hintButtonContainer.getChildren().add(this.buildHintButton());
 
-    return infoDialogHintButtonContainer;
+    return hintButtonContainer;
   }
 
-
   /**
+   * Builds hint button.
    *
-   * Loads the Info dialog hint button.
-   *
-   * @return Button : Info dialog hint button
-   *
+   * @return Button : hint button
    */
-  private Button loadInfoDialogHintButton()
+  private Button buildHintButton()
   {
-    var infoDialogHintButton = new Button("Hint");
+    var hintBUtton = new Button("Hint");
 
-    infoDialogHintButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../img/hint-icon.png"), 30, 30, false, true)));
-    infoDialogHintButton.getStyleClass().addAll(gameButtonClass, infoDialogInstructionsButtonClass);
+    hintBUtton.setGraphic(new ImageView(
+        new Image(this.getClass().getResourceAsStream("../../../../img/hint-icon.png"), 30, 30, false, true)));
+    hintBUtton.getStyleClass().addAll(gameButtonClass, instructionsButtonClass);
 
-    return infoDialogHintButton;
+    return hintBUtton;
   }
 
-
   /**
+   * Builds hint instructions container with {@link #buildHintInstructions}.
    *
-   * Loads the Info dialog hint instructions container with the following UI element(s):
-   *
-   * Info Dialog Hint Instructions —> {@link #loadInfoDialogHintInstructions()}
-   *
-   * @return HBox : Info dialog hint instructions container
-   *
+   * @return HBox : hint instructions container
    */
-  private HBox loadInfoDialogHintInstructionsContainer()
+  private HBox buildHintInstructionsContainer()
   {
-    var infoDialogHintInstructionsContainer = new HBox();
+    var hintInstructionsContainer = new HBox();
 
-    infoDialogHintInstructionsContainer.getStyleClass().add(infoDialogInstructionsContainerClass);
-    infoDialogHintInstructionsContainer.getChildren().add(this.loadInfoDialogHintInstructions());
+    hintInstructionsContainer.getStyleClass().add(instructionsContainerClass);
+    hintInstructionsContainer.getChildren().add(this.buildHintInstructions());
 
-    return infoDialogHintInstructionsContainer;
+    return hintInstructionsContainer;
   }
 
-
   /**
+   * Builds hint instructions.
    *
-   * Loads the Info dialog hint instructions.
-   *
-   * @return Label : Info dialog hint instructions
-   *
+   * @return Label : hint instructions
    */
-  private Label loadInfoDialogHintInstructions()
+  private Label buildHintInstructions()
   {
-    var infoDialogHintInstructions = new Label();
+    var hintInstructions = new Label();
 
-    infoDialogHintInstructions.getStyleClass().add(infoDialogInstructionsClass);
-    infoDialogHintInstructions.setText("This button will give you sudoku puzzle hints, though you will also incur a time penalty.");
+    hintInstructions.getStyleClass().add(instructionsContentClass);
+    hintInstructions
+        .setText("This button will give you sudoku puzzle hints, though you will also incur a time penalty.");
 
-    return infoDialogHintInstructions;
+    return hintInstructions;
   }
 
-
   /**
+   * Builds restart container with {@link #buildRestartButtonContainer} and
+   * {@link #buildRestartInstructionsContainer}.
    *
-   * Loads the Info dialog restart container with the following UI element(s):
-   *
-   * Info Dialog Restart Button Container —> {@link #loadInfoDialogRestartButtonContainer()}
-   * Info Dialog Restart Instructions Container —> {@link #loadInfoDialogRestartInstructionsContainer()}
-   *
-   * @return HBox : Info dialog restart container
-   *
+   * @return HBox : restart container
    */
-  private HBox loadInfoDialogRestartContainer()
+  private HBox buildRestartContainer()
   {
-    var infoDialogRestartContainer = new HBox();
+    var restartContainer = new HBox();
 
-    infoDialogRestartContainer.getStyleClass().addAll(infoDialogRowClass, infoDialogLargeRowClass);
-    infoDialogRestartContainer.getChildren().add(this.loadInfoDialogRestartButtonContainer());
-    infoDialogRestartContainer.getChildren().add(this.loadInfoDialogRestartInstructionsContainer());
+    restartContainer.getStyleClass().addAll(baseRowClass, largeRowClass);
+    restartContainer.getChildren().add(this.buildRestartButtonContainer());
+    restartContainer.getChildren().add(this.buildRestartInstructionsContainer());
 
-    return infoDialogRestartContainer;
+    return restartContainer;
   }
 
-
   /**
+   * Builds restart button container with {@link #buildRestartButton}.
    *
-   * Loads the Info dialog restart button container with the following UI element(s):
-   *
-   * Info Dialog Restart Button —> {@link #loadInfoDialogRestartButton()}
-   *
-   * @return HBox : Info dialog restart button container
-   *
+   * @return HBox : restart button container
    */
-  private HBox loadInfoDialogRestartButtonContainer()
+  private HBox buildRestartButtonContainer()
   {
-    var infoDialogRestartButtonContainer = new HBox();
+    var restartButtonContainer = new HBox();
 
-    infoDialogRestartButtonContainer.getStyleClass().addAll(infoDialogElementContainerClass);
-    infoDialogRestartButtonContainer.getChildren().add(this.loadInfoDialogRestartButton());
+    restartButtonContainer.getStyleClass().addAll(elementContainerClass);
+    restartButtonContainer.getChildren().add(this.buildRestartButton());
 
-    return infoDialogRestartButtonContainer;
+    return restartButtonContainer;
   }
 
-
   /**
+   * Builds restart button.
    *
-   * Loads the Info dialog restart button.
-   *
-   * @return Button : Info dialog restart button
-   *
+   * @return Button : restart button
    */
-  private Button loadInfoDialogRestartButton()
+  private Button buildRestartButton()
   {
-    var infoDialogRestartButton = new Button("Restart");
+    var restartButton = new Button("Restart");
 
-    infoDialogRestartButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../img/restart-icon.png"), 30, 30, true, true)));
-    infoDialogRestartButton.getStyleClass().addAll(gameButtonClass, "restart-button", infoDialogInstructionsButtonClass);
+    restartButton.setGraphic(new ImageView(
+        new Image(this.getClass().getResourceAsStream("../../../../img/restart-icon.png"), 30, 30, true, true)));
+    restartButton.getStyleClass().addAll(gameButtonClass, "restart-button", instructionsButtonClass);
 
-    return infoDialogRestartButton;
+    return restartButton;
   }
 
-
   /**
+   * Builds restart instructions container with {@link #buildRestartInstructions}.
    *
-   * Loads the Info dialog restart instructions container with the following UI element(s):
-   *
-   * Info Dialog Restart Instructions —> {@link #loadInfoDialogRestartInstructions()}
-   *
-   * @return HBox : Info dialog restart instructions container
-   *
+   * @return HBox : restart instructions container
    */
-  private HBox loadInfoDialogRestartInstructionsContainer()
+  private HBox buildRestartInstructionsContainer()
   {
-    var infoDialogRestartInstructionsContainer = new HBox();
+    var restartInstructionsContainer = new HBox();
 
-    infoDialogRestartInstructionsContainer.getStyleClass().add(infoDialogInstructionsContainerClass);
-    infoDialogRestartInstructionsContainer.getChildren().add(this.loadInfoDialogRestartInstructions());
+    restartInstructionsContainer.getStyleClass().add(instructionsContainerClass);
+    restartInstructionsContainer.getChildren().add(this.buildRestartInstructions());
 
-    return infoDialogRestartInstructionsContainer;
+    return restartInstructionsContainer;
   }
 
-
   /**
+   * Builds restart instructions.
    *
-   * Loads the Info dialog restart instructions.
-   *
-   * @return Label : Info dialog restart instructions
-   *
+   * @return Label : restart instructions
    */
-  private Label loadInfoDialogRestartInstructions()
+  private Label buildRestartInstructions()
   {
-    var infoDialogRestartInstructions = new Label();
+    var restartInstructions = new Label();
 
-    infoDialogRestartInstructions.getStyleClass().add(infoDialogInstructionsClass);
-    infoDialogRestartInstructions.setText("This button will reset the sudoku puzzle but won't reset the game timer.");
+    restartInstructions.getStyleClass().add(instructionsContentClass);
+    restartInstructions.setText("This button will reset the sudoku puzzle but won't reset the game timer.");
 
-    return infoDialogRestartInstructions;
+    return restartInstructions;
   }
 
-
   /**
+   * Builds new puzzle container with {@link #buildNewPuzzleButtonContainer} and
+   * {@link #buildNewPuzzleInstructionsContainer}.
    *
-   * Loads the Info dialog new puzzle container with the following UI element(s):
-   *
-   * Info Dialog New Puzzle Button Container —> {@link #loadInfoDialogNewPuzzleButtonContainer()}
-   * Info Dialog New Puzzle Instructions Container —> {@link #loadInfoDialogNewPuzzleInstructionsContainer()}
-   *
-   * @return HBox : Info dialog new puzzle container
-   *
+   * @return HBox : new puzzle container
    */
-  private HBox loadInfoDialogNewPuzzleContainer()
+  private HBox buildNewPuzzleContainer()
   {
-    var infoDialogNewPuzzleContainer = new HBox();
+    var newPuzzleContainer = new HBox();
 
-    infoDialogNewPuzzleContainer.getStyleClass().addAll(infoDialogRowClass, infoDialogLargeRowClass);
-    infoDialogNewPuzzleContainer.getChildren().add(this.loadInfoDialogNewPuzzleButtonContainer());
-    infoDialogNewPuzzleContainer.getChildren().add(this.loadInfoDialogNewPuzzleInstructionsContainer());
+    newPuzzleContainer.getStyleClass().addAll(baseRowClass, largeRowClass);
+    newPuzzleContainer.getChildren().add(this.buildNewPuzzleButtonContainer());
+    newPuzzleContainer.getChildren().add(this.buildNewPuzzleInstructionsContainer());
 
-    return infoDialogNewPuzzleContainer;
+    return newPuzzleContainer;
   }
 
-
   /**
+   * Builds new puzzle button container with {@link #buildNewPuzzleButton}
    *
-   * Loads the Info dialog new puzzle button container with the following UI element(s):
-   *
-   * Info Dialog New Puzzle Button —> {@link #loadInfoDialogNewPuzzleButton()}
-   *
-   * @return HBox : Info dialog new puzzle button container
-   *
+   * @return HBox : new puzzle button container
    */
-  private HBox loadInfoDialogNewPuzzleButtonContainer()
+  private HBox buildNewPuzzleButtonContainer()
   {
-    var infoDialogNewPuzzleButtonContainer = new HBox();
+    var newPuzzleButtonContainer = new HBox();
 
-    infoDialogNewPuzzleButtonContainer.getStyleClass().addAll(infoDialogElementContainerClass);
-    infoDialogNewPuzzleButtonContainer.getChildren().add(this.loadInfoDialogNewPuzzleButton());
+    newPuzzleButtonContainer.getStyleClass().addAll(elementContainerClass);
+    newPuzzleButtonContainer.getChildren().add(this.buildNewPuzzleButton());
 
-    return infoDialogNewPuzzleButtonContainer;
+    return newPuzzleButtonContainer;
   }
 
-
   /**
+   * Builds new puzzle button.
    *
-   * Loads the Info dialog new puzzle button.
-   *
-   * @return Button : Info dialog new puzzle button
-   *
+   * @return Button : new puzzle button
    */
-  private Button loadInfoDialogNewPuzzleButton()
+  private Button buildNewPuzzleButton()
   {
-    var infoDialogNewPuzzleButton = new Button("New Game");
+    var newPuzzleButton = new Button("New Game");
 
-    infoDialogNewPuzzleButton.setGraphic(new ImageView(new Image(this.getClass().getResourceAsStream("../../../../img/new-puzzle-icon.png"), 30, 30, true, true)));
-    infoDialogNewPuzzleButton.getStyleClass().addAll(gameButtonClass, "new-puzzle-button", infoDialogInstructionsButtonClass);
+    newPuzzleButton.setGraphic(new ImageView(
+        new Image(this.getClass().getResourceAsStream("../../../../img/new-puzzle-icon.png"), 30, 30, true, true)));
+    newPuzzleButton.getStyleClass().addAll(gameButtonClass, "new-puzzle-button", instructionsButtonClass);
 
-    return infoDialogNewPuzzleButton;
+    return newPuzzleButton;
   }
 
-
   /**
+   * Builds new puzzle instructions container with {@link #buildNewPuzzleInstructions}.
    *
-   * Loads the Info dialog new puzzle instructions container with the following UI element(s):
-   *
-   * Info Dialog New Puzzle Instructions —> {@link #loadInfoDialogNewPuzzleInstructions()}
-   *
-   * @return HBox : Info dialog new puzzle instructions
-   *
+   * @return HBox : new puzzle instructions
    */
-  private HBox loadInfoDialogNewPuzzleInstructionsContainer()
+  private HBox buildNewPuzzleInstructionsContainer()
   {
-    var infoDialogNewPuzzleInstructionsContainer = new HBox();
+    var newPuzzleInstructionsContainer = new HBox();
 
-    infoDialogNewPuzzleInstructionsContainer.getStyleClass().add(infoDialogInstructionsContainerClass);
-    infoDialogNewPuzzleInstructionsContainer.getChildren().add(this.loadInfoDialogNewPuzzleInstructions());
+    newPuzzleInstructionsContainer.getStyleClass().add(instructionsContainerClass);
+    newPuzzleInstructionsContainer.getChildren().add(this.buildNewPuzzleInstructions());
 
-    return infoDialogNewPuzzleInstructionsContainer;
+    return newPuzzleInstructionsContainer;
   }
 
-
   /**
+   * Builds new puzzle instructions.
    *
-   * Loads the Info dialog new puzzle instructions.
-   *
-   * @return Label : Info dialog new puzzle instructions
-   *
+   * @return Label : new puzzle instructions
    */
-  private Label loadInfoDialogNewPuzzleInstructions()
+  private Label buildNewPuzzleInstructions()
   {
-    var infoDialogNewPuzzleInstructions = new Label();
+    var newPuzzleInstructions = new Label();
 
-    infoDialogNewPuzzleInstructions.getStyleClass().add(infoDialogInstructionsClass);
-    infoDialogNewPuzzleInstructions.setText("This button will load a new sudoku puzzle of the current difficulty.");
+    newPuzzleInstructions.getStyleClass().add(instructionsContentClass);
+    newPuzzleInstructions.setText("This button will load a new sudoku puzzle of the current difficulty.");
 
-    return infoDialogNewPuzzleInstructions;
+    return newPuzzleInstructions;
   }
 
-
   /**
+   * Builds number container with {@link #buildNumberButtonContainer} and
+   * {@link #buildNumberInstructionsContainer}.
    *
-   * Loads the Info dialog number container with the following UI element(s):
-   *
-   * Info Dialog Number Button Container —> {@link #loadInfoDialogNumberButtonContainer()}
-   * Info Dialog Number Instructions Container —> {@link #loadInfoDialogNumberInstructionsContainer()}
-   *
-   * @return HBox : Info dialog number container
-   *
+   * @return HBox : number container
    */
-  private HBox loadInfoDialogNumberContainer()
+  private HBox buildNumberContainer()
   {
-    var infoDialogNumberContainer = new HBox();
+    var numberContainer = new HBox();
 
-    infoDialogNumberContainer.getStyleClass().addAll(infoDialogRowClass, infoDialogLargeRowClass);
-    infoDialogNumberContainer.getChildren().add(this.loadInfoDialogNumberButtonContainer());
-    infoDialogNumberContainer.getChildren().add(this.loadInfoDialogNumberInstructionsContainer());
+    numberContainer.getStyleClass().addAll(baseRowClass, largeRowClass);
+    numberContainer.getChildren().add(this.buildNumberButtonContainer());
+    numberContainer.getChildren().add(this.buildNumberInstructionsContainer());
 
-    return infoDialogNumberContainer;
+    return numberContainer;
   }
 
-
   /**
+   * Builds number button container with {@link #buildNumberButton}.
    *
-   * Loads the Info dialog number button container with the following UI element(s):
-   *
-   * Info Dialog Number Button —> {@link #loadInfoDialogNumberButton()}
-   *
-   * @return HBox : Info dialog number button container
-   *
+   * @return HBox : number button container
    */
-  private HBox loadInfoDialogNumberButtonContainer()
+  private HBox buildNumberButtonContainer()
   {
-    var infoDialogNumberButtonContainer = new HBox();
+    var numberButtonContainer = new HBox();
 
-    infoDialogNumberButtonContainer.getStyleClass().add(infoDialogElementContainerClass);
-    infoDialogNumberButtonContainer.getChildren().add(this.loadInfoDialogNumberButton());
+    numberButtonContainer.getStyleClass().add(elementContainerClass);
+    numberButtonContainer.getChildren().add(this.buildNumberButton());
 
-    return infoDialogNumberButtonContainer;
+    return numberButtonContainer;
   }
 
-
   /**
+   * Builds number button.
    *
-   * Loads the Info dialog number button.
-   *
-   * @return Button : Info dialog number button
-   *
+   * @return Button : number button
    */
-  private Button loadInfoDialogNumberButton()
+  private Button buildNumberButton()
   {
-    var infoDialogNumberButton = new Button("#");
+    var numberButton = new Button("#");
 
-    infoDialogNumberButton.getStyleClass().addAll(gameButtonClass, "number-button", "info-dialog-number-button");
+    numberButton.getStyleClass().addAll(gameButtonClass, "number-button", "info-dialog-number-button");
 
-    return infoDialogNumberButton;
+    return numberButton;
   }
 
-
   /**
+   * Builds number instructions container with {@link #buildNumberInstructions}.
    *
-   * Loads the Info dialog number instructions container with the following UI element(s):
-   *
-   * Info Dialog Number Instructions —> {@link #loadInfoDialogNumberInstructions()}
-   *
-   * @return HBox : Info dialog number instructions container
-   *
+   * @return HBox : number instructions container
    */
-  private HBox loadInfoDialogNumberInstructionsContainer()
+  private HBox buildNumberInstructionsContainer()
   {
-    var infoDialogNumberInstructionsContainer = new HBox();
+    var numberInstructionsContainer = new HBox();
 
-    infoDialogNumberInstructionsContainer.getStyleClass().add(infoDialogInstructionsContainerClass);
-    infoDialogNumberInstructionsContainer.getChildren().add(this.loadInfoDialogNumberInstructions());
+    numberInstructionsContainer.getStyleClass().add(instructionsContainerClass);
+    numberInstructionsContainer.getChildren().add(this.buildNumberInstructions());
 
-    return infoDialogNumberInstructionsContainer;
+    return numberInstructionsContainer;
   }
 
-
   /**
+   * Builds number instructions.
    *
-   * Loads the Info dialog number instructions.
-   *
-   * @return Label : Info dialog number instructions
-   *
+   * @return Label : number instructions
    */
-  private Label loadInfoDialogNumberInstructions()
+  private Label buildNumberInstructions()
   {
-    var infoDialogNumberInstructions = new Label();
+    var numberInstructions = new Label();
 
-    infoDialogNumberInstructions.getStyleClass().add(infoDialogInstructionsClass);
-    infoDialogNumberInstructions.setText("These types of buttons (each showing a number between 1 and 9) will display all occurrences of their value in the sudoku puzzle. "
-        + "If the button is disabled, all occurrences of that value have been found.");
+    numberInstructions.getStyleClass().add(instructionsContentClass);
+    numberInstructions.setText(
+        "These types of buttons (each showing a number between 1 and 9) will display all occurrences of their value in the sudoku puzzle. "
+            + "If the button is disabled, all occurrences of that value have been found.");
 
-    return infoDialogNumberInstructions;
+    return numberInstructions;
   }
 
-
   /**
+   * Builds inner content pane.
    *
-   * Loads the Info dialog inner content pane.
-   *
-   * @return Pane : Info dialog inner content pane
-   *
+   * @return Pane : inner content pane
    */
-  private Pane loadInfoDialogInnerContentPane()
+  private Pane buildInnerContentPane()
   {
-    var loadDialogInnerContentPane = new Pane();
+    var innerContentPane = new Pane();
 
-    loadDialogInnerContentPane.getStyleClass().add("info-dialog-inner-content-pane");
+    innerContentPane.getStyleClass().add("info-dialog-inner-content-pane");
 
-    return loadDialogInnerContentPane;
+    return innerContentPane;
   }
 }

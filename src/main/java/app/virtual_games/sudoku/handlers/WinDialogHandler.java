@@ -6,23 +6,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 
-
 /**
- *
  * Custom event handler for the Win dialog start new puzzle button click event.
  *
  * @author Corey Caskey
- * @version 0.0.1
- *
+ * @version 1.0.0
  */
 public class WinDialogHandler implements EventHandler<ActionEvent>
 {
   /**
-   *
    * Initiates loading a new sudoku puzzle.
    *
    * @param event : base event
-   *
    */
   @Override
   public void handle(ActionEvent event)
@@ -38,8 +33,7 @@ public class WinDialogHandler implements EventHandler<ActionEvent>
       GameController.stopHintCellTimer();
       GameController.resetTimerLabel();
       GameController.startNewSudoku();
-    }
-    else
+    } else
     {
       gameScreenDifficultyDropdown.setValue(currentDifficultyName); // calls GameScreenDifficultyDropdownHandler
     }
