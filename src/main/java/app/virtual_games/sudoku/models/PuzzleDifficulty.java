@@ -34,7 +34,7 @@ public enum PuzzleDifficulty
   /** Public Helper Methods **/
 
   /**
-   * Builds an {@link ObservableList} of puzzle difficulty names.
+   * Builds list of puzzle difficulty names.
    *
    * @return ObservableList<String> : puzzle difficulty names
    */

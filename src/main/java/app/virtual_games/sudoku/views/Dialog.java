@@ -150,7 +150,7 @@ public class Dialog extends StackPane
   /**
    * Removes close button container.
    */
-  public void removeCloseButtonContainer()
+  public void hideCloseButtonContainer()
   {
     this.mainContainer.getChildren().remove(0);
   }

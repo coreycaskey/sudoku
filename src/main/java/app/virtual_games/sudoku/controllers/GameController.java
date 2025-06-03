@@ -84,7 +84,7 @@ public class GameController extends Application
   /**
    * Starts game.
    *
-   * @param primaryStage : screen holding game UI
+   * @param primaryStage : application window
    */
   @Override
   public void start(Stage primaryStage)
@@ -93,27 +93,26 @@ public class GameController extends Application
     appStage.setTitle("Do You Sudoku?");
     appStage.setResizable(false);
 
-    GameController.loadMainMenu();
+    puzzleDifficultyNames = PuzzleDifficulty.getPuzzleDifficultyNames();
+    currentDifficulty = PuzzleDifficulty.EASY;
+
+    openMainMenu();
 
     appStage.show();
   }
 
   /**
-   * Loads {@link MainMenu} into stage.
+   * Opens {@link MainMenu} and related styles.
    */
-  public static void loadMainMenu()
+  public static void openMainMenu()
   {
-    puzzleDifficultyNames = PuzzleDifficulty.getPuzzleDifficultyNames();
-    currentDifficulty = PuzzleDifficulty.EASY;
     currentScreen = new MainMenu();
 
     appStage.setScene(new Scene(currentScreen, 800, 800));
     appStage.getScene().getStylesheets().addAll(
         GameController.class.getClassLoader().getResource("Shared.css").toExternalForm(),
-        GameController.class.getClassLoader().getResource("MainMenu.css").toExternalForm()); // TODO: do I remove
-                                                                                             // MainMenu.css when
-                                                                                             // transitioning to
-                                                                                             // GameScreen ??
+        // TODO: do I remove MainMenu.css when transitioning to GameScreen ??
+        GameController.class.getClassLoader().getResource("MainMenu.css").toExternalForm());
   }
 
   /**
@@ -123,17 +122,17 @@ public class GameController extends Application
   {
     try
     {
-      GameController.initializeGameScreenVariables();
+      initializeGameScreenVariables();
 
       if (currentSudoku.getIsSolved())
       {
-        GameController.loadGameScreen();
-        GameController.loadGameScreenElements();
-        GameController.startGameTimer();
+        loadGameScreen();
+        loadGameScreenElements();
+        startGameTimer();
       } else
       {
         LOGGER.log(Level.SEVERE, "No sudoku solution found");
-        GameController.openErrorDialog(true); // true —> Main Menu
+        openErrorDialog(true); // true —> Main Menu
       }
     } catch (Exception e)
     {
@@ -142,7 +141,7 @@ public class GameController extends Application
         LOGGER.log(Level.SEVERE, element.toString());
       }
 
-      GameController.openErrorDialog(true); // true —> Main Menu
+      openErrorDialog(true); // true —> Main Menu
     }
   }
 
@@ -153,24 +152,24 @@ public class GameController extends Application
   {
     try
     {
-      GameController.initializeGameScreenVariables();
+      initializeGameScreenVariables();
 
       if (currentSudoku.getIsSolved())
       {
-        GameController.loadNewSudoku();
-        GameController.loadGameScreenElements();
-        GameController.startGameTimer();
+        loadNewSudoku();
+        loadGameScreenElements();
+        startGameTimer();
       } else
       {
         LOGGER.log(Level.SEVERE, "No sudoku solution found");
-        GameController.stopGameTimer();
-        GameController.openErrorDialog(false); // false —> Game Screen
+        stopGameTimer();
+        openErrorDialog(false); // false —> Game Screen
       }
     } catch (Exception e)
     {
       LOGGER.log(Level.SEVERE, e.getMessage());
-      GameController.stopGameTimer();
-      GameController.openErrorDialog(false); // false —> Game Screen
+      stopGameTimer();
+      openErrorDialog(false); // false —> Game Screen
     }
   }
 
@@ -184,13 +183,13 @@ public class GameController extends Application
     currentWritingTool = WritingTool.PEN;
     currentClickedNumberButton = null;
 
-    if (GameController.isWritingToolClicked())
+    if (isWritingToolClicked())
     {
-      GameController.unclickWritingTool();
+      unclickWritingTool();
     }
 
-    GameController.loadNewSudoku();
-    GameController.loadGameScreenElements();
+    loadNewSudoku();
+    loadGameScreenElements();
   }
 
   /**
@@ -258,7 +257,7 @@ public class GameController extends Application
   }
 
   /**
-   * Loads the Exit Application dialog into the JavaFX application.
+   * Opens exit application dialog.
    */
   public static void openExitApplicationDialog()
   {
@@ -266,7 +265,7 @@ public class GameController extends Application
   }
 
   /**
-   * Loads the Info dialog into the JavaFX application.
+   * Opens info dialog.
    */
   public static void openInfoDialog()
   {
@@ -305,22 +304,24 @@ public class GameController extends Application
     ((GameScreen) currentScreen).loadWinDialog();
   }
 
+  /**
+   * Closes application.
+   */
   public static void closeApplication()
   {
-    System.exit(0); // Exit the application gracefully
+    System.exit(0);
   }
 
   /**
-   * Removes the currently shown dialog from the Main Menu.
+   * Closes dialog on main menu.
    */
   public static void closeMainMenuDialog()
   {
-    // TODO: error handle if not MainMenu instance ?
     ((MainMenu) currentScreen).closeDialog();
   }
 
   /**
-   * Removes the currently shown dialog from the Game Screen.
+   * Closes dialog on game screen.
    */
   public static void closeGameScreenDialog()
   {
@@ -418,9 +419,9 @@ public class GameController extends Application
    */
   public static void getHint()
   {
-    GameController.stopHintCellTimer();
+    stopHintCellTimer();
     currentSudoku.getHint();
-    GameController.startHintCellTimer();
+    startHintCellTimer();
   }
 
   /**
@@ -468,7 +469,7 @@ public class GameController extends Application
    */
   public static void unclickNumberButton()
   {
-    if (GameController.isNumberButtonClicked())
+    if (isNumberButtonClicked())
     {
       currentClickedNumberButton.removeStyling("clicked-number-button");
     }
@@ -500,7 +501,7 @@ public class GameController extends Application
     if (currentSudoku.isCorrectSolution())
     {
       gameTimer.stop();
-      GameController.loadWinDialog();
+      loadWinDialog();
     }
   }
 
@@ -694,25 +695,17 @@ public class GameController extends Application
     currentWritingTool = WritingTool.PEN;
     currentClickedNumberButton = null; // TODO: is this the best way to do this ?
 
-    if (GameController.isWritingToolClicked())
+    if (isWritingToolClicked())
     {
-      GameController.unclickWritingTool();
+      unclickWritingTool();
     }
 
-    System.err.println("Initializing state");
-
-    gameTimer = GameController.loadGameTimer();
+    gameTimer = loadGameTimer();
     startTime = System.currentTimeMillis();
     playingTime = System.currentTimeMillis();
-
-    System.err.println("Loading penalty timer");
-
-    timePenaltyTimer = GameController.loadTimePenaltyTimer();
+    timePenaltyTimer = loadTimePenaltyTimer();
     isTimePenaltyShown = false;
-
-    System.err.println("Loading hint timer");
-
-    hintCellTimer = GameController.loadHintCellTimer();
+    hintCellTimer = loadHintCellTimer();
   }
 
   /**

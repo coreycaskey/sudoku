@@ -11,9 +11,9 @@ import java.util.stream.IntStream;
 import org.json.simple.JSONObject;
 
 import app.virtual_games.sudoku.controllers.ApiController;
-import app.virtual_games.sudoku.controllers.ApiController.Square;
 import app.virtual_games.sudoku.controllers.SolutionController;
 import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
+import app.virtual_games.sudoku.models.ApiResponse.Square;
 
 /**
  * Sudoku puzzle.
@@ -41,9 +41,10 @@ public class Sudoku
   private boolean isSolved;
 
   /**
-   * Initializes the following variable(s): {@link #correctCells} {@link #valueOccurrences}
-   * {@link #cellsRemaining} {@link #initialPuzzle} {@link #solvedPuzzle} {@link #isSolved}
-   * {@link #userPuzzle} {@link #hintCells}
+   * Initializes a sudoku puzzle with the corresponding difficulty. Initializes the following
+   * variable(s): {@link #correctCells} {@link #valueOccurrences} {@link #cellsRemaining}
+   * {@link #initialPuzzle} {@link #solvedPuzzle} {@link #isSolved} {@link #userPuzzle}
+   * {@link #hintCells}
    *
    * @throws SudokuPuzzleException
    * @param difficultyId : unique identifier for the puzzle difficulty (e.g. Easy —> 1)
@@ -51,9 +52,11 @@ public class Sudoku
   public Sudoku(int difficultyId) throws SudokuPuzzleException
   {
     this.correctCells = (ArrayList<Square>) ApiController.getSudokuPuzzle(difficultyId);
-    this.valueOccurrences = this.initializeValueOccurrences();
+    this.valueOccurrences = (HashMap<Integer, Integer>) this.initializeValueOccurrences();
     this.cellsRemaining = TOTAL_CELLS - this.correctCells.size();
-    this.initialPuzzle = this.loadInitialPuzzle();
+
+    this.initialPuzzle = this.buildInitialPuzzle();
+
     this.solvedPuzzle = SolutionController.solvePuzzle(this);
     this.isSolved = this.solvedPuzzle != null;
     this.userPuzzle = this.loadUserPuzzle();
@@ -63,20 +66,18 @@ public class Sudoku
   /** Private Helper Methods **/
 
   /**
-   * Initializes the number of occurrences for each sudoku value.
+   * Initializes occurrence counts for each sudoku value.
    *
-   * @return HashMap<Integer, Integer> : map of sudoku value occurrences
+   * @return Map<Integer, Integer> : map of value occurrences
    */
-  private HashMap<Integer, Integer> initializeValueOccurrences()
+  private Map<Integer, Integer> initializeValueOccurrences()
   {
     var occurrencesMap = new HashMap<Integer, Integer>();
 
-    this.correctCells.forEach(cellJson ->
+    this.correctCells.forEach(cell ->
     {
-      System.out.println(cellJson.value + " " + cellJson.x + " " + cellJson.y);
-      int value = cellJson.value;
+      int value = cell.value;
       int occurrences = occurrencesMap.containsKey(value) ? occurrencesMap.get(value) : 0;
-
       occurrencesMap.put(value, occurrences + 1);
     });
 
@@ -84,11 +85,11 @@ public class Sudoku
   }
 
   /**
-   * Loads an array with the initial sudoku values.
+   * Builds flat array of initial sudoku values.
    *
    * @return int[] : array of initial sudoku values
    */
-  private int[] loadInitialPuzzle()
+  private int[] buildInitialPuzzle()
   {
     return IntStream.range(0, TOTAL_CELLS).map(this::getCellValue).toArray();
   }
@@ -96,7 +97,7 @@ public class Sudoku
   /**
    * Retrieves the cell's current value (0 —> empty cell; 1 — 9 —> non—empty cell).
    *
-   * @param cellIndex : index of the cell in the puzzle array
+   * @param cellIndex : index of cell in the puzzle array
    * @return int : cell value
    */
   private int getCellValue(int cellIndex)
@@ -108,7 +109,7 @@ public class Sudoku
   }
 
   /**
-   * Determines whether the cell index corresponds to an initial cell.
+   * Determines whether cell index corresponds to initial cell.
    *
    * @param initialCell : current initial cell
    * @param cellIndex   : index of the cell in the puzzle array
@@ -123,7 +124,7 @@ public class Sudoku
   }
 
   /**
-   * Loads an array with {@link SudokuBlock} objects.
+   * Loads array with {@link SudokuBlock} objects.
    *
    * @return SudokuBlock[] : array of SudokuBlock instances
    */
@@ -172,16 +173,9 @@ public class Sudoku
    * @param cellValue : cell value
    * @return JSONObject : cell JSON Object
    */
-  @SuppressWarnings("unchecked")
-  private JSONObject toJson(int cellIndex, int cellValue)
+  private Square toSquare(int cellIndex, int cellValue)
   {
-    var cell = new JSONObject();
-
-    cell.put("row", cellIndex / PUZZLE_SIZE);
-    cell.put("col", cellIndex % PUZZLE_SIZE);
-    cell.put("value", cellValue);
-
-    return cell;
+    return new Square(cellIndex % PUZZLE_SIZE, cellIndex / PUZZLE_SIZE, cellValue);
   }
 
   /**
@@ -360,13 +354,11 @@ public class Sudoku
    */
   public void restartPuzzle()
   {
-    // TODO:
-    // this.correctCells = IntStream.range(0, TOTAL_CELLS).filter(cellIndex ->
-    // this.initialPuzzle[cellIndex] > 0)
-    // .mapToObj(cellIndex -> this.toJson(cellIndex, this.initialPuzzle[cellIndex]))
-    // .collect(Collectors.toCollection(ArrayList::new));
+    this.correctCells = IntStream.range(0, TOTAL_CELLS).filter(cellIndex -> this.initialPuzzle[cellIndex] > 0)
+        .mapToObj(cellIndex -> this.toSquare(cellIndex, this.initialPuzzle[cellIndex]))
+        .collect(Collectors.toCollection(ArrayList::new));
 
-    this.valueOccurrences = this.initializeValueOccurrences();
+    this.valueOccurrences = (HashMap<Integer, Integer>) this.initializeValueOccurrences();
     this.cellsRemaining = TOTAL_CELLS - this.correctCells.size();
     this.hintCells = this.initializeHintCells();
     this.currentClickedCell = null;
@@ -545,17 +537,10 @@ public class Sudoku
    *
    * @param sudokuCell : sudoku cell
    */
-  @SuppressWarnings("unchecked")
   public void addCorrectCell(SudokuCell sudokuCell)
   {
-    var correctCell = new JSONObject();
-
-    correctCell.put("row", sudokuCell.getPuzzleRow());
-    correctCell.put("col", sudokuCell.getPuzzleCol());
-    correctCell.put("value", sudokuCell.getCurrentValue());
-
-    // TODO:
-    // this.correctCells.add(correctCell);
+    Square correctCell = new Square(sudokuCell.getPuzzleCol(), sudokuCell.getPuzzleRow(), sudokuCell.getCurrentValue());
+    this.correctCells.add(correctCell);
   }
 
   /** Getters and Setters **/

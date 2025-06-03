@@ -1,128 +1,93 @@
 package app.virtual_games.sudoku.views;
 
+import app.virtual_games.sudoku.controllers.GameController;
 import app.virtual_games.sudoku.handlers.CloseMainMenuDialogHandler;
 import app.virtual_games.sudoku.handlers.ReturnToMainMenuHandler;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-
 /**
- *
- * Loads the Error dialog for the JavaFX application.
+ * Error dialog.
  *
  * @author Corey Caskey
  * @version 1.0.0
- *
  */
 public class ErrorDialog extends Dialog
 {
-  private boolean isMainMenu;
-
-
   /**
-   *
-   * Initializes {@link #isMainMenu} and loads the parent {@link Dialog} with the Error dialog elements.
-   *
-   * @param isMainMenu : true —> Main Menu; false —> Game Screen
-   *
+   * Initializes error dialog.
    */
-  public ErrorDialog(boolean isMainMenu)
+  public ErrorDialog()
   {
     super();
-
-    this.isMainMenu = isMainMenu;
     this.addDialogStyling("small-dialog");
-    this.addContentContainer(this.openErrorDialogContentContainer());
-    this.removeCloseButtonContainer();
+    this.addContentContainer(this.buildContentContainer());
+    this.hideCloseButtonContainer();
   }
 
-
-  /**  Private Helper Methods  **/
-
+  /** Private Helper Methods **/
 
   /**
+   * Builds content container with {@link #buildTitle} and {@link #buildButtonContainer}.
    *
-   * Loads the Error dialog content container with the following UI element(s):
-   *
-   * Error Dialog Title —> {@link #openErrorDialogTitle()}
-   * Error Dialog Button Container —> {@link #openErrorDialogButtonContainer()}
-   *
-   * @return VBox : Error dialog content container
-   *
+   * @return VBox : content container
    */
-  private VBox openErrorDialogContentContainer()
+  private VBox buildContentContainer()
   {
-    var errorDialogContentContainer = new VBox();
+    var contentContainer = new VBox();
 
-    errorDialogContentContainer.getStyleClass().addAll("content-container", "small-content-container", "error-dialog-content-container");
-    errorDialogContentContainer.getChildren().add(this.openErrorDialogTitle());
-    errorDialogContentContainer.getChildren().add(this.openErrorDialogButtonContainer());
+    contentContainer.getStyleClass().addAll("content-container", "small-content-container",
+        "error-dialog-content-container");
+    contentContainer.getChildren().add(this.buildTitle());
+    contentContainer.getChildren().add(this.buildButtonContainer());
 
-    return errorDialogContentContainer;
+    return contentContainer;
   }
 
-
   /**
+   * Builds title.
    *
-   * Loads the Error dialog title.
-   *
-   * @return Label : Error dialog title
-   *
+   * @return Label : title
    */
-  private Label openErrorDialogTitle()
+  private Label buildTitle()
   {
-    var errorDialogTitle = new Label("Uh oh... Something went wrong. Try again later.");
+    var title = new Label("Uh oh... Something went wrong. Try again later.");
 
-    errorDialogTitle.getStyleClass().addAll("dialog-title", "error-dialog-title");
+    title.getStyleClass().addAll("dialog-title", "error-dialog-title");
 
-    return errorDialogTitle;
+    return title;
   }
 
-
   /**
+   * Builds button container with {@link #buildConfirmButton}.
    *
-   * Loads the dialog button container with the following UI element(s):
-   *
-   * Confirm Button —> {@link #loadConfirmButton()}
-   *
-   * @return HBox : Error dialog button container
-   *
+   * @return HBox : button container
    */
-  private HBox openErrorDialogButtonContainer()
+  private HBox buildButtonContainer()
   {
-    var errorDialogButtonContainer = new HBox();
+    var buttonContainer = new HBox();
 
-    errorDialogButtonContainer.getStyleClass().add("button-container");
-    errorDialogButtonContainer.getChildren().add(this.loadConfirmButton());
+    buttonContainer.getStyleClass().add("button-container");
+    buttonContainer.getChildren().add(this.buildConfirmButton());
 
-    return errorDialogButtonContainer;
+    return buttonContainer;
   }
 
-
   /**
-   *
-   * Loads the confirm button with either the {@link CloseMainMenuDialogHandler} or {@link ReturnToMainMenuHandler}.
+   * Builds confirm button.
    *
    * @return Button : confirm button
-   *
    */
-  private Button loadConfirmButton()
+  private Button buildConfirmButton()
   {
     var confirmButton = new Button("OK");
 
     confirmButton.getStyleClass().add("dialog-button");
-
-    if (this.isMainMenu) // if Main Menu, simply close the dialog
-    {
-      confirmButton.setOnAction(new CloseMainMenuDialogHandler());
-    }
-    else // if Game Screen, return to the Main Menu
-    {
-      confirmButton.setOnAction(new ReturnToMainMenuHandler());
-    }
+    confirmButton
+        .setOnAction(GameController.getCurrentScreen().getId() == "main-menu" ? new CloseMainMenuDialogHandler()
+            : new ReturnToMainMenuHandler());
 
     return confirmButton;
   }

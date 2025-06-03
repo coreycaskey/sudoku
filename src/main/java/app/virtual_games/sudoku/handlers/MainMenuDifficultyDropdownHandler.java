@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 
+// TODO: this is used in multiple places - can the name be generalized ?
 /**
  * Event handler for difficulty dropdown.
  *

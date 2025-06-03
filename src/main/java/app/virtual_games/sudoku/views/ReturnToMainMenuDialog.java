@@ -2,14 +2,13 @@ package app.virtual_games.sudoku.views;
 
 import app.virtual_games.sudoku.handlers.CloseGameScreenDialogHandler;
 import app.virtual_games.sudoku.handlers.ReturnToMainMenuHandler;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 /**
- * Loads ReturnToMainMenuDialog for the JavaFX application.
+ * Return to main menu dialog.
  *
  * @author Corey Caskey
  * @version 1.0.0
@@ -17,13 +16,13 @@ import javafx.scene.layout.VBox;
 public class ReturnToMainMenuDialog extends Dialog
 {
   /**
-   * Initializes {@link Dialog} with additional elements.
+   * Initializes return to main menu dialog.
    */
   public ReturnToMainMenuDialog()
   {
     super();
     this.addDialogStyling("small-dialog");
-    this.addContentContainer(this.loadContentContainer());
+    this.addContentContainer(this.buildContentContainer());
     this.addCloseButtonContainerStyling("small-close-button-container");
     this.addCloseDialogButtonHandler(new CloseGameScreenDialogHandler());
   }
@@ -31,59 +30,57 @@ public class ReturnToMainMenuDialog extends Dialog
   /** Private Helper Methods **/
 
   /**
-   * Loads the content container and populates {@link #loadDialogTitle} and
-   * {@link #loadDialogButtonContainer}.
+   * Builds content container with {@link #buildTitle} and {@link #buildButtonContainer}.
    *
    * @return VBox : content container
    */
-  private VBox loadContentContainer()
+  private VBox buildContentContainer()
   {
     var contentContainer = new VBox();
 
     contentContainer.getStyleClass().addAll("content-container", "small-content-container");
-    contentContainer.getChildren().add(this.loadDialogTitle());
-    contentContainer.getChildren().add(this.loadDialogButtonContainer());
+    contentContainer.getChildren().add(this.buildTitle());
+    contentContainer.getChildren().add(this.buildButtonContainer());
 
     return contentContainer;
   }
 
   /**
-   * Loads the dialog title.
+   * Builds title.
    *
-   * @return Label : dialog title
+   * @return Label : title
    */
-  private Label loadDialogTitle()
+  private Label buildTitle()
   {
-    var dialogTitle = new Label("Are you sure you want to exit to the main menu?");
+    var title = new Label("Are you sure you want to exit to the main menu?");
 
-    dialogTitle.getStyleClass().addAll("dialog-title", "small-dialog-title");
+    title.getStyleClass().addAll("dialog-title", "small-dialog-title");
 
-    return dialogTitle;
+    return title;
   }
 
   /**
-   * Loads the dialog button container with {@link #loadConfirmButton()} and
-   * {@link #loadCancelButton()}.
+   * Builds button container with {@link #buildConfirmButton} and {@link #buildCancelButton}.
    *
-   * @return HBox : dialog button container
+   * @return HBox : button container
    */
-  private HBox loadDialogButtonContainer()
+  private HBox buildButtonContainer()
   {
-    var dialogButtonContainer = new HBox();
+    var buttonContainer = new HBox();
 
-    dialogButtonContainer.getStyleClass().addAll("button-container", "multiple-option-button-container");
-    dialogButtonContainer.getChildren().add(this.loadConfirmButton());
-    dialogButtonContainer.getChildren().add(this.loadCancelButton());
+    buttonContainer.getStyleClass().addAll("button-container", "multiple-option-button-container");
+    buttonContainer.getChildren().add(this.buildConfirmButton());
+    buttonContainer.getChildren().add(this.buildCancelButton());
 
-    return dialogButtonContainer;
+    return buttonContainer;
   }
 
   /**
-   * Loads the confirm button with {@link ReturnToMainMenuHandler}.
+   * Builds confirm button.
    *
    * @return Button : confirm button
    */
-  private Button loadConfirmButton()
+  private Button buildConfirmButton()
   {
     var confirmButton = new Button("Yes");
 
@@ -94,11 +91,11 @@ public class ReturnToMainMenuDialog extends Dialog
   }
 
   /**
-   * Loads the cancel button with {@link CloseGameScreenDialogHandler}.
+   * Builds cancel button.
    *
    * @return Button : cancel button
    */
-  private Button loadCancelButton()
+  private Button buildCancelButton()
   {
     var cancelButton = new Button("No");
 

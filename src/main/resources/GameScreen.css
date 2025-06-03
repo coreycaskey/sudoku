@@ -258,24 +258,18 @@
   -fx-background-color: #e2e7ed;
 }
 
-/* Win Dialog Title */
-
 .win-dialog-title {
   -fx-font-size: 70px;
 }
-
-/* Win Dialog Timer Container */
 
 .win-dialog-timer-container {
   -fx-alignment: center;
   -fx-spacing: 25px;
 }
 
-/* Win Dialog Timer Description Container */
-
 .timer-description-container {
-  -fx-spacing: 0px;
   -fx-alignment: baseline-center;
+  -fx-spacing: 0px;
 }
 
 /* Win Dialog Timer Description Label */

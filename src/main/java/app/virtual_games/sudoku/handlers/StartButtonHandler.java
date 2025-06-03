@@ -5,7 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
 /**
- * Event handler for info button.
+ * Event handler for start button.
  *
  * @author Corey Caskey
  * @version 1.0.0
@@ -13,7 +13,7 @@ import javafx.event.EventHandler;
 public class StartButtonHandler implements EventHandler<ActionEvent>
 {
   /**
-   * Triggers transition to game screen.
+   * Transitions to game screen.
    *
    * @param clickEvent : button click event
    */

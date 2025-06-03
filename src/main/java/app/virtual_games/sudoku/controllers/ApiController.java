@@ -1,34 +1,25 @@
 package app.virtual_games.sudoku.controllers;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.KeyStore;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
-
-import org.json.simple.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import app.virtual_games.sudoku.exceptions.ApiCertificateException;
-import app.virtual_games.sudoku.exceptions.ApiConnectionException;
 import app.virtual_games.sudoku.exceptions.ApiResponseException;
 import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
+import app.virtual_games.sudoku.models.ApiResponse;
+import app.virtual_games.sudoku.models.ApiResponse.Square;
 
 /**
  * Main controller for sudoku API.
@@ -38,31 +29,15 @@ import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
  */
 public class ApiController
 {
-  private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
   private static final String BASE_API_URL = "https://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9&level=%d";
   private static final String TRUST_STORE_PASSWORD = "mypassword";
-
-  // JSON-mapped classes
-  public static class SudokuResponse
-  {
-    public boolean response;
-    public int size;
-    public List<Square> squares;
-  }
-
-  public static class Square
-  {
-    public int x;
-    public int y;
-    public int value;
-  }
 
   private ApiController()
   {
   }
 
   /**
-   * Retrieves a sudoku puzzle of the requested difficulty.
+   * Retrieves sudoku puzzle with the corresponding difficulty.
    *
    * @param difficulty : unique identifier for the puzzle difficulty (e.g. 1 -> Easy)
    * @return List<JSONObject> : list of initial cell JSON Objects
@@ -81,24 +56,15 @@ public class ApiController
       {
 
         ObjectMapper mapper = new ObjectMapper();
-        SudokuResponse sudoku = mapper.readValue(response.body(), SudokuResponse.class);
-        ArrayList<Square> initialCells = ApiController.getInitialCells(sudoku.squares);
+        ApiResponse body = mapper.readValue(response.body(), ApiResponse.class);
 
-        System.out.println("initial cells" + initialCells.toString());
-
-        return initialCells;
+        return ApiController.getInitialCells(body.squares);
       }
 
       throw new ApiResponseException(String.format("Response return status code %d", response.statusCode()));
-    }
-    // TODO: figure this out
-    // catch (InterruptedException e)
-    // {
-    // LOGGER.log(Level.SEVERE, String.format("InterruptedException: %s", e.getMessage()));
-    // Thread.currentThread().interrupt();
-    // }
-    catch (Exception e)
+    } catch (Exception e)
     {
+      System.out.println(String.format("Failed to Load a Sudoku Puzzle. Reason: %s", e.getMessage()));
       throw new SudokuPuzzleException(String.format("Failed to Load a Sudoku Puzzle. Reason: %s", e.getMessage()));
     }
 
@@ -109,8 +75,8 @@ public class ApiController
   /**
    * Initializes HTTP client with SSL certificate for sudoku API from embedded trust store.
    *
-   * @throws ApiCertificateException
    * @return HttpClient : HTTP client
+   * @throws ApiCertificateException
    */
   private static HttpClient initHttpClient() throws ApiCertificateException
   {
@@ -141,63 +107,15 @@ public class ApiController
   }
 
   /**
-   * Retrieves a row—ordered list of initial cell {@link JSONObject} elements.
+   * Sorts a list of initial sudoku cells by row.
    *
-   * @throws ApiResponseException
-   * @param response : multi—line string of initial cells
-   * @return ArrayList<JSONObject> : list of initial cell JSON Objects
+   * @param squares : column-ordered list of initial sudoku cells
+   * @return List<Square> : row-ordered list of initial sudoku cells
    */
-  private static ArrayList<Square> getInitialCells(List<Square> squares) throws ApiResponseException
+  private static List<Square> getInitialCells(List<Square> squares)
   {
-    // return sortInitialCells(mapJsonArray(squares));
-    return sortInitialCells(squares);
+    Collections.sort(squares, (cellOne, cellTwo) -> (cellOne.y - cellTwo.y));
+    return squares;
   }
 
-  /**
-   * Retrieves an updated list of initial cell {@link JSONObject} elements.
-   *
-   * @param jsonArray : list of initial cell JSON Objects
-   * @return ArrayList<JSONObject> : list of initial cell JSON Objects
-   */
-  // TODO: clean up
-  // private static ArrayList<JSONObject> mapJsonArray(ArrayList<JSONObject> jsonArray)
-  // {
-  // return
-  // jsonArray.stream().map(ApiController::updateJson).collect(Collectors.toCollection(ArrayList::new));
-  // }
-
-  /**
-   * Updates the key—value pairs for a {@link JSONObject} element.
-   *
-   * @param object : initial cell Object
-   * @return JSONObject : initial cell JSON Object
-   */
-  // TODO: clean up
-  // @SuppressWarnings("unchecked")
-  // private static Object updateJson(Object object)
-  // {
-  // var initialCell = object;
-
-  // initialCell["row"] = (int) (long) initialCell["y")
-  // initialCell.("row", (int) (long) initialCell.get("y"));
-  // initialCell.put("col", (int) (long) initialCell.get("x"));
-  // initialCell.put("value", (int) (long) initialCell.get("value"));
-
-  // initialCell.remove("x");
-  // initialCell.remove("y");
-
-  // return initialCell;
-  // }
-
-  /**
-   * Sorts the list of initial cell {@link JSONObject} elements in row—order.
-   *
-   * @param initialCells : column—ordered list of initial cell JSON Objects
-   * @return ArrayList<JSONObject> : row—ordered list of initial cell JSON Objects
-   */
-  private static ArrayList<Square> sortInitialCells(List<Square> squares)
-  {
-    Collections.sort(squares, (cellOne, cellTwo) -> ((Integer) cellOne.y).compareTo((Integer) cellTwo.y));
-    return new ArrayList<Square>(squares);
-  }
 }

@@ -1,13 +1,13 @@
 package app.virtual_games.sudoku.controllers;
 
-import app.virtual_games.sudoku.models.CellPosition;
-import app.virtual_games.sudoku.models.Sudoku;
-
 import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
+import app.virtual_games.sudoku.models.CellPosition;
+import app.virtual_games.sudoku.models.Sudoku;
+
 /**
- * Implements a back—tracking, DFS algorithm to solve the sudoku puzzle.
+ * Implements back—tracking, DFS algorithm to solve puzzle.
  *
  * @author Corey Caskey
  * @version 1.0.0

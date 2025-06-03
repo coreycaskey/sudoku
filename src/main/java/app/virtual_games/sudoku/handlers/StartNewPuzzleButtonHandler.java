@@ -1,21 +1,20 @@
 package app.virtual_games.sudoku.handlers;
 
 import app.virtual_games.sudoku.controllers.GameController;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 
 /**
- * Custom event handler for the Win dialog start new puzzle button click event.
+ * Event handler for start new puzzle button.
  *
  * @author Corey Caskey
  * @version 1.0.0
  */
-public class WinDialogHandler implements EventHandler<ActionEvent>
+public class StartNewPuzzleButtonHandler implements EventHandler<ActionEvent>
 {
   /**
-   * Initiates loading a new sudoku puzzle.
+   * Starts new sudoku with the selected difficulty
    *
    * @param event : base event
    */

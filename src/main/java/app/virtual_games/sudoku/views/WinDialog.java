@@ -3,16 +3,15 @@ package app.virtual_games.sudoku.views;
 import app.virtual_games.sudoku.controllers.GameController;
 import app.virtual_games.sudoku.handlers.MainMenuDifficultyDropdownHandler;
 import app.virtual_games.sudoku.handlers.ReturnToMainMenuHandler;
-import app.virtual_games.sudoku.handlers.WinDialogHandler;
-
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import app.virtual_games.sudoku.handlers.StartNewPuzzleButtonHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
- * Loads the WinDialog for the JavaFX application.
+ * Win dialog.
  *
  * @author Corey Caskey
  * @version 1.0.0
@@ -20,76 +19,75 @@ import javafx.scene.control.Label;
 public class WinDialog extends Dialog
 {
   /**
-   * Initialize {@link Dialog} with additional elements.
+   * Initializes win dialog.
    */
   public WinDialog()
   {
     super();
     this.addDialogStyling("large-dialog");
-    this.removeCloseButtonContainer();
-    this.addContentContainer(this.loadContentContainer());
+    this.hideCloseButtonContainer();
+    this.addContentContainer(this.buildContentContainer());
   }
 
   /** Private Helper Methods **/
 
   /**
-   * Loads the content container and populates {@link #loadDialogTitle()},
-   * {@link #loadDialogTimerContainer()}, {@link #loadDialogDifficultyContainer()},
-   * {@link #loadDialogButtonContainer()}
+   * Builds content container with {@link #buildTitle}, {@link #buildTimerContainer},
+   * {@link #buildDifficultyContainer}, and {@link #buildButtonContainer}.
    *
    * @return VBox : content container
    */
-  private VBox loadContentContainer()
+  private VBox buildContentContainer()
   {
     var contentContainer = new VBox();
 
     contentContainer.getStyleClass().addAll("content-container", "large-content-container");
-    contentContainer.getChildren().add(this.loadDialogTitle());
-    contentContainer.getChildren().add(this.loadDialogTimerContainer());
-    contentContainer.getChildren().add(this.loadDialogDifficultyContainer());
-    contentContainer.getChildren().add(this.loadDialogButtonContainer());
+    contentContainer.getChildren().add(this.buildTitle());
+    contentContainer.getChildren().add(this.buildTimerContainer());
+    contentContainer.getChildren().add(this.buildDifficultyContainer());
+    contentContainer.getChildren().add(this.buildButtonContainer());
 
     return contentContainer;
   }
 
   /**
-   * Loads the dialog title.
+   * Builds title.
    *
-   * @return Label : dialog title
+   * @return Label : title
    */
-  private Label loadDialogTitle()
+  private Label buildTitle()
   {
-    var dialogTitle = new Label("Congratulations!");
+    var title = new Label("Congratulations!");
 
-    dialogTitle.getStyleClass().addAll("dialog-title", "win-dialog-title");
+    title.getStyleClass().addAll("dialog-title", "win-dialog-title");
 
-    return dialogTitle;
+    return title;
   }
 
   /**
-   * Loads the dialog timer container.
+   * Builds timer container with {@link #buildTimerDescriptionContainer} and {@link #buildTimerLabel}.
    *
-   * @return VBox : dialog timer container
+   * @return VBox : timer container
    */
-  private VBox loadDialogTimerContainer()
+  private VBox buildTimerContainer()
   {
-    var dialogTimerContainer = new VBox();
+    var timerContainer = new VBox();
 
-    dialogTimerContainer.getStyleClass().add("win-dialog-timer-container");
-    dialogTimerContainer.getChildren().add(this.loadDialogTimerDescriptionContainer());
-    dialogTimerContainer.getChildren().add(this.loadDialogTimerLabel());
+    timerContainer.getStyleClass().add("win-dialog-timer-container");
+    timerContainer.getChildren().add(this.buildTimerDescriptionContainer());
+    timerContainer.getChildren().add(this.buildTimerLabel());
 
-    return dialogTimerContainer;
+    return timerContainer;
   }
 
   /**
-   * Loads the dialog timer description container.
+   * Builds timer description container.
    *
-   * @return HBox : dialog timer description container
+   * @return HBox : timer description container
    */
-  private HBox loadDialogTimerDescriptionContainer()
+  private HBox buildTimerDescriptionContainer()
   {
-    var dialogTimerDescriptionContainer = new HBox();
+    var timerDescriptionContainer = new HBox();
 
     var timerDescriptionBeginning = new Label("You solved this ");
     var timerDescriptionMiddle = new Label(GameController.getCurrentDifficultyName().toUpperCase());
@@ -99,19 +97,19 @@ public class WinDialog extends Dialog
     timerDescriptionMiddle.getStyleClass().add("puzzle-difficulty-label");
     timerDescriptionEnd.getStyleClass().add("timer-description-label");
 
-    dialogTimerDescriptionContainer.getStyleClass().add("timer-description-container");
-    dialogTimerDescriptionContainer.getChildren().addAll(timerDescriptionBeginning, timerDescriptionMiddle,
+    timerDescriptionContainer.getStyleClass().add("timer-description-container");
+    timerDescriptionContainer.getChildren().addAll(timerDescriptionBeginning, timerDescriptionMiddle,
         timerDescriptionEnd);
 
-    return dialogTimerDescriptionContainer;
+    return timerDescriptionContainer;
   }
 
   /**
-   * Loads the dialog timer label.
+   * Builds timer label.
    *
-   * @return Label : dialog timer label
+   * @return Label : timer label
    */
-  private Label loadDialogTimerLabel()
+  private Label buildTimerLabel()
   {
     var timerLabel = new Label(GameController.formatWinTime());
 
@@ -121,85 +119,87 @@ public class WinDialog extends Dialog
   }
 
   /**
-   * Loads the dialog difficulty container.
+   * Builds difficulty container with {@link #buildDifficultyLabel} and
+   * {@link #buildDifficultyDropdown}.
    *
-   * @return HBox : dialog difficulty container
+   * @return HBox : difficulty container
    */
-  private HBox loadDialogDifficultyContainer()
+  private HBox buildDifficultyContainer()
   {
-    var dialogDifficultyContainer = new HBox();
+    var difficultyContainer = new HBox();
 
-    dialogDifficultyContainer.getStyleClass().add("difficulty-container");
-    dialogDifficultyContainer.getChildren().add(this.loadDialogDifficultyLabel());
-    dialogDifficultyContainer.getChildren().add(loadDialogDifficultyDropdown());
+    difficultyContainer.getStyleClass().add("difficulty-container");
+    difficultyContainer.getChildren().add(this.buildDifficultyLabel());
+    difficultyContainer.getChildren().add(this.buildDifficultyDropdown());
 
-    return dialogDifficultyContainer;
+    return difficultyContainer;
   }
 
   /**
-   * Loads the dialog difficulty label.
+   * Builds difficulty label.
    *
-   * @return Label : dialog difficulty label
+   * @return Label : difficulty label
    */
-  private Label loadDialogDifficultyLabel()
+  private Label buildDifficultyLabel()
   {
-    var dialogDifficultyLabel = new Label("Puzzle Difficulty: ");
+    var difficultyLabel = new Label("Puzzle Difficulty: ");
 
-    dialogDifficultyLabel.getStyleClass().add("difficulty-label");
+    difficultyLabel.getStyleClass().add("difficulty-label");
 
-    return dialogDifficultyLabel;
+    return difficultyLabel;
   }
 
   /**
-   * Loads the dialog difficulty dropdown.
+   * Builds difficulty dropdown.
    *
-   * @return ComboBox<String> : dialog difficulty dropdown
+   * @return ComboBox<String> : difficulty dropdown
    */
-  private ComboBox<String> loadDialogDifficultyDropdown()
+  private ComboBox<String> buildDifficultyDropdown()
   {
-    var dialogDifficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficultyNames());
+    var difficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficultyNames());
 
     // ComboBox default style classes are .combo-box-base and .combo-box
 
-    dialogDifficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyName());
-    dialogDifficultyDropdown.setOnAction(new MainMenuDifficultyDropdownHandler());
+    difficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyName());
+    difficultyDropdown.setOnAction(new MainMenuDifficultyDropdownHandler()); // TODO: generalize name for handler ?
 
-    return dialogDifficultyDropdown;
+    return difficultyDropdown;
   }
 
   /**
-   * Loads the dialog button container.
+   * Builds button container with {@link #buildStartNewPuzzleButton} and
+   * {@link #buildReturnToMainMenuButton}.
    *
-   * @return HBox : dialog button container
+   * @return HBox : button container
    */
-  private HBox loadDialogButtonContainer()
+  private HBox buildButtonContainer()
   {
     var dialogButtonContainer = new HBox();
 
     dialogButtonContainer.getStyleClass().addAll("button-container", "multiple-option-button-container");
-    dialogButtonContainer.getChildren().add(this.loadStartNewPuzzleButton());
+    dialogButtonContainer.getChildren().add(this.buildStartNewPuzzleButton());
     dialogButtonContainer.getChildren().add(this.loadReturnToMainMenuButton());
 
     return dialogButtonContainer;
   }
 
   /**
-   * Loads the start new puzzle button with {@link WinDialogHandler}.
+   * Builds start new puzzle button.
    *
    * @return Button : start new puzzle button
    */
-  private Button loadStartNewPuzzleButton()
+  private Button buildStartNewPuzzleButton()
   {
     var startNewPuzzleButton = new Button("Start New Puzzle");
 
     startNewPuzzleButton.getStyleClass().addAll("dialog-button", "win-dialog-button");
-    startNewPuzzleButton.setOnAction(new WinDialogHandler());
+    startNewPuzzleButton.setOnAction(new StartNewPuzzleButtonHandler());
 
     return startNewPuzzleButton;
   }
 
   /**
-   * Loads the return to main menu button with {@link ReturnToMainMenuHandler}.
+   * Builds return to main menu button.
    *
    * @return Button : return to main menu button
    */

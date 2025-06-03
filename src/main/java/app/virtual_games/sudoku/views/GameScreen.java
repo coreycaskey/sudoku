@@ -76,6 +76,7 @@ public class GameScreen extends StackPane
 
     this.getStyleClass().add("application-background");
     this.getChildren().add(this.gamePane);
+    this.setId("game-screen");
   }
 
   /** Private Helper Methods **/
@@ -555,7 +556,7 @@ public class GameScreen extends StackPane
    */
   public void openErrorDialog()
   {
-    this.getChildren().add(new ErrorDialog(false));
+    this.getChildren().add(new ErrorDialog());
   }
 
   /**

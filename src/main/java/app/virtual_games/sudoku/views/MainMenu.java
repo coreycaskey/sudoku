@@ -27,6 +27,7 @@ public class MainMenu extends StackPane
   {
     this.getStyleClass().add("application-background");
     this.getChildren().add(this.buildOuterContainer());
+    this.setId("main-menu");
   }
 
   /** Private Helper Methods **/
@@ -211,8 +212,7 @@ public class MainMenu extends StackPane
    */
   public void openErrorDialog()
   {
-    // TODO: change from boolean to enum for argument ?
-    this.getChildren().add(new ErrorDialog(true));
+    this.getChildren().add(new ErrorDialog());
   }
 
   /**
@@ -220,7 +220,6 @@ public class MainMenu extends StackPane
    */
   public void closeDialog()
   {
-    // TODO: better way to do this ? ensure greater than 1 children size ?
     this.getChildren().remove(this.getChildren().size() - 1);
   }
 }

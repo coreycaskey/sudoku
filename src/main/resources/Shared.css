@@ -189,21 +189,19 @@
   -fx-spacing: 15px;
 }
 
-/* Dialog Button */
-
 .dialog-button {
-  -fx-pref-width: 100px;
-  -fx-pref-height: 40px;
-  -fx-max-width: 100px;
-  -fx-max-height: 40px;
   -fx-background-color: #009d74;
-  -fx-text-fill: #ffffff;
   -fx-font-size: 20px;
+  -fx-max-height: 40px;
+  -fx-max-width: 100px;
+  -fx-pref-height: 40px;
+  -fx-pref-width: 100px;
+  -fx-text-fill: #ffffff;
 }
 
 .dialog-button:hover {
-  -fx-cursor: hand;
   -fx-background-color: #006a4e;
+  -fx-cursor: hand;
 }
 
 /* Game Button */
