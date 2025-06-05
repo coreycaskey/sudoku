@@ -90,7 +90,7 @@ public class WinDialog extends Dialog
     var timerDescriptionContainer = new HBox();
 
     var timerDescriptionBeginning = new Label("You solved this ");
-    var timerDescriptionMiddle = new Label(GameController.getCurrentDifficultyName().toUpperCase());
+    var timerDescriptionMiddle = new Label(GameController.getCurrentDifficultyLabel().toUpperCase());
     var timerDescriptionEnd = new Label(" puzzle in:");
 
     timerDescriptionBeginning.getStyleClass().add("timer-description-label");
@@ -156,12 +156,12 @@ public class WinDialog extends Dialog
    */
   private ComboBox<String> buildDifficultyDropdown()
   {
-    var difficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficultyNames());
+    var difficultyDropdown = GameController.getPuzzleDifficultyDropdown();
 
     // ComboBox default style classes are .combo-box-base and .combo-box
 
-    difficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyName());
-    difficultyDropdown.setOnAction(new MainMenuDifficultyDropdownHandler()); // TODO: generalize name for handler ?
+    difficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyLabel());
+    difficultyDropdown.setOnAction(new MainMenuDifficultyDropdownHandler());
 
     return difficultyDropdown;
   }

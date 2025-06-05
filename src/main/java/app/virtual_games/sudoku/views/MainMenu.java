@@ -164,14 +164,12 @@ public class MainMenu extends StackPane
    */
   private ComboBox<String> buildDifficultyDropdown()
   {
-    var difficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficultyNames());
+    var dropdown = GameController.getPuzzleDifficultyDropdown();
 
-    // ComboBox default style classes are .combo-box-base and .combo-box
+    dropdown.getSelectionModel().select(GameController.getCurrentDifficultyLabel());
+    dropdown.setOnAction(new MainMenuDifficultyDropdownHandler());
 
-    difficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyName());
-    difficultyDropdown.setOnAction(new MainMenuDifficultyDropdownHandler());
-
-    return difficultyDropdown;
+    return dropdown;
   }
 
   /**
@@ -192,7 +190,7 @@ public class MainMenu extends StackPane
   /** Public Helper Methods **/
 
   /**
-   * Loads {@link ExitApplicationDialog} on screen.
+   * Opens {@link ExitApplicationDialog}.
    */
   public void openExitApplicationDialog()
   {
@@ -200,7 +198,7 @@ public class MainMenu extends StackPane
   }
 
   /**
-   * Loads {@link InfoDialog} on screen.
+   * Opens {@link InfoDialog}.
    */
   public void openInfoDialog()
   {
@@ -208,7 +206,7 @@ public class MainMenu extends StackPane
   }
 
   /**
-   * Loads {@link ErrorDialog} on screen.
+   * Opens {@link ErrorDialog}.
    */
   public void openErrorDialog()
   {

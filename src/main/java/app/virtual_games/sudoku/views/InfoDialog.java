@@ -149,7 +149,7 @@ public class InfoDialog extends Dialog
    */
   private ComboBox<String> buildDifficultyDropdown()
   {
-    var difficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficultyNames());
+    var difficultyDropdown = GameController.getPuzzleDifficultyDropdown();
 
     difficultyDropdown.getStyleClass().add("info-dialog-difficulty-dropdown");
     difficultyDropdown.getSelectionModel().select("Easy");

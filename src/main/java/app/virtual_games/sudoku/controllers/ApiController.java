@@ -47,7 +47,7 @@ public class ApiController
   {
     try
     {
-      HttpClient client = ApiController.initHttpClient();
+      HttpClient client = ApiController.initializeHttpClient();
       HttpRequest request = HttpRequest.newBuilder().uri(URI.create(String.format(BASE_API_URL, difficulty)))
           .timeout(Duration.ofSeconds(10)).GET().build();
       HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -58,13 +58,12 @@ public class ApiController
         ObjectMapper mapper = new ObjectMapper();
         ApiResponse body = mapper.readValue(response.body(), ApiResponse.class);
 
-        return ApiController.getInitialCells(body.squares);
+        return ApiController.getInitialCells(body.getSquares());
       }
 
       throw new ApiResponseException(String.format("Response return status code %d", response.statusCode()));
     } catch (Exception e)
     {
-      System.out.println(String.format("Failed to Load a Sudoku Puzzle. Reason: %s", e.getMessage()));
       throw new SudokuPuzzleException(String.format("Failed to Load a Sudoku Puzzle. Reason: %s", e.getMessage()));
     }
 
@@ -78,7 +77,7 @@ public class ApiController
    * @return HttpClient : HTTP client
    * @throws ApiCertificateException
    */
-  private static HttpClient initHttpClient() throws ApiCertificateException
+  private static HttpClient initializeHttpClient() throws ApiCertificateException
   {
     try
     {
@@ -114,7 +113,7 @@ public class ApiController
    */
   private static List<Square> getInitialCells(List<Square> squares)
   {
-    Collections.sort(squares, (cellOne, cellTwo) -> (cellOne.y - cellTwo.y));
+    Collections.sort(squares, (cellOne, cellTwo) -> (cellOne.getY() - cellTwo.getY()));
     return squares;
   }
 

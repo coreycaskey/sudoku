@@ -17,42 +17,41 @@ public enum PuzzleDifficulty
   EASY(1, "Easy"), MEDIUM(2, "Medium"), HARD(3, "Hard");
 
   private final int id;
-  private final String name;
+  private final String label;
 
   /**
-   * Initializes {@link #id} and {@link #name}
+   * Initializes {@link #id} and {@link #label}
    *
-   * @param id   : identifier for puzzle difficulty
-   * @param name : name of puzzle difficulty
+   * @param id    : identifier for puzzle difficulty
+   * @param label : label of puzzle difficulty
    */
-  PuzzleDifficulty(int id, String name)
+  PuzzleDifficulty(int id, String label)
   {
     this.id = id;
-    this.name = name;
+    this.label = label;
   }
 
   /** Public Helper Methods **/
 
   /**
-   * Builds list of puzzle difficulty names.
+   * Retrieves list of puzzle difficulties.
    *
-   * @return ObservableList<String> : puzzle difficulty names
+   * @return PuzzleDifficulty[] : puzzle difficulties
    */
-  public static ObservableList<String> getPuzzleDifficultyNames()
+  public static PuzzleDifficulty[] getPuzzleDifficulties()
   {
-    return Arrays.stream(PuzzleDifficulty.values()).map(difficulty -> difficulty.name)
-        .collect(Collectors.toCollection(FXCollections::observableArrayList));
+    return PuzzleDifficulty.values();
   }
 
   /**
-   * Retrieves enum instance with puzzle difficulty name.
+   * Retrieves enum instance with puzzle difficulty label.
    *
-   * @param name : puzzle difficulty
+   * @param label : puzzle difficulty
    * @return PuzzleDifficulty : enum instance
    */
-  public static PuzzleDifficulty getEnumInstance(String name)
+  public static PuzzleDifficulty getEnumInstance(String label)
   {
-    return PuzzleDifficulty.valueOf(name.toUpperCase());
+    return PuzzleDifficulty.valueOf(label.toUpperCase());
   }
 
   /** Getters and Setters **/
@@ -68,12 +67,12 @@ public enum PuzzleDifficulty
   }
 
   /**
-   * Retrieves {@link #name} for enum instance.
+   * Retrieves {@link #label} for enum instance.
    *
-   * @return String : name of puzzle difficulty
+   * @return String : label of puzzle difficulty
    */
-  public String getName()
+  public String getLabel()
   {
-    return this.name;
+    return this.label;
   }
 }

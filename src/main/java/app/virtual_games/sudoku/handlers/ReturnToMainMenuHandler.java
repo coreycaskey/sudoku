@@ -24,6 +24,6 @@ public class ReturnToMainMenuHandler implements EventHandler<ActionEvent>
     GameController.stopGameTimer();
     GameController.stopTimePenaltyTimer();
     GameController.stopHintCellTimer();
-    GameController.openMainMenu();
+    GameController.loadMainMenu();
   }
 }

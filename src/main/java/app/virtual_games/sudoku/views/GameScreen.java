@@ -262,11 +262,11 @@ public class GameScreen extends StackPane
    */
   private ComboBox<String> loadGameScreenDifficultyDropdown()
   {
-    var gamePaneDifficultyDropdown = new ComboBox<String>(GameController.getPuzzleDifficultyNames());
+    var gamePaneDifficultyDropdown = GameController.getPuzzleDifficultyDropdown();
 
     // ComboBox default style classes are .combo-box-base and .combo-box
 
-    gamePaneDifficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyName());
+    gamePaneDifficultyDropdown.getSelectionModel().select(GameController.getCurrentDifficultyLabel());
     gamePaneDifficultyDropdown.setOnAction(new GameScreenDifficultyDropdownHandler());
 
     return gamePaneDifficultyDropdown;

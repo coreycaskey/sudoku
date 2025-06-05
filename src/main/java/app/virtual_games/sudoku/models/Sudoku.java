@@ -8,8 +8,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.json.simple.JSONObject;
-
 import app.virtual_games.sudoku.controllers.ApiController;
 import app.virtual_games.sudoku.controllers.SolutionController;
 import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
@@ -32,6 +30,7 @@ public class Sudoku
   private ArrayList<CellPosition> hintCells;
   private SudokuCell currentClickedCell;
   private SudokuCell currentHintCell;
+
   private int cellsRemaining;
 
   private int[] initialPuzzle;
@@ -41,10 +40,7 @@ public class Sudoku
   private boolean isSolved;
 
   /**
-   * Initializes a sudoku puzzle with the corresponding difficulty. Initializes the following
-   * variable(s): {@link #correctCells} {@link #valueOccurrences} {@link #cellsRemaining}
-   * {@link #initialPuzzle} {@link #solvedPuzzle} {@link #isSolved} {@link #userPuzzle}
-   * {@link #hintCells}
+   * Initializes a sudoku puzzle with the corresponding difficulty.
    *
    * @throws SudokuPuzzleException
    * @param difficultyId : unique identifier for the puzzle difficulty (e.g. Easy —> 1)
@@ -54,7 +50,6 @@ public class Sudoku
     this.correctCells = (ArrayList<Square>) ApiController.getSudokuPuzzle(difficultyId);
     this.valueOccurrences = (HashMap<Integer, Integer>) this.initializeValueOccurrences();
     this.cellsRemaining = TOTAL_CELLS - this.correctCells.size();
-
     this.initialPuzzle = this.buildInitialPuzzle();
 
     this.solvedPuzzle = SolutionController.solvePuzzle(this);
@@ -76,9 +71,8 @@ public class Sudoku
 
     this.correctCells.forEach(cell ->
     {
-      int value = cell.value;
-      int occurrences = occurrencesMap.containsKey(value) ? occurrencesMap.get(value) : 0;
-      occurrencesMap.put(value, occurrences + 1);
+      int occurrences = occurrencesMap.containsKey(cell.getValue()) ? occurrencesMap.get(cell.getValue()) : 0;
+      occurrencesMap.put(cell.getValue(), occurrences + 1);
     });
 
     return occurrencesMap;
@@ -91,34 +85,34 @@ public class Sudoku
    */
   private int[] buildInitialPuzzle()
   {
-    return IntStream.range(0, TOTAL_CELLS).map(this::getCellValue).toArray();
+    return IntStream.range(0, TOTAL_CELLS).map(this::getInitialCellValue).toArray();
   }
 
   /**
-   * Retrieves the cell's current value (0 —> empty cell; 1 — 9 —> non—empty cell).
+   * Retrieves the cell's initial value (0 —> empty cell; 1 — 9 —> non—empty cell).
    *
    * @param cellIndex : index of cell in the puzzle array
    * @return int : cell value
    */
-  private int getCellValue(int cellIndex)
+  private int getInitialCellValue(int cellIndex)
   {
-    Optional<Square> initialCell = this.correctCells.stream().filter(cell -> this.isInitialCell(cell, cellIndex))
-        .findAny();
+    Optional<Square> initialCell = this.correctCells.stream()
+        .filter(cell -> this.isInitialCellPosition(cell, cellIndex)).findAny();
 
-    return initialCell.isPresent() ? (int) initialCell.get().value : 0;
+    return initialCell.isPresent() ? (int) initialCell.get().getValue() : 0;
   }
 
   /**
    * Determines whether cell index corresponds to initial cell.
    *
-   * @param initialCell : current initial cell
-   * @param cellIndex   : index of the cell in the puzzle array
+   * @param cell      : current cell
+   * @param cellIndex : index of the cell in the puzzle array
    * @return boolean : true —> initial cell; false —> not initial cell
    */
-  private boolean isInitialCell(Square initialCell, int cellIndex)
+  private boolean isInitialCellPosition(Square cell, int cellIndex)
   {
-    boolean isSameRow = initialCell.y == (cellIndex / PUZZLE_SIZE);
-    boolean isSameCol = initialCell.x == (cellIndex % PUZZLE_SIZE);
+    boolean isSameRow = cell.getY() == (cellIndex / PUZZLE_SIZE);
+    boolean isSameCol = cell.getX() == (cellIndex % PUZZLE_SIZE);
 
     return isSameRow && isSameCol;
   }
@@ -167,7 +161,7 @@ public class Sudoku
   }
 
   /**
-   * Retrieves a cell {@link JSONObject}.
+   * Retrieves a cell.
    *
    * @param cellIndex : index of the cell in the puzzle array
    * @param cellValue : cell value
@@ -187,7 +181,7 @@ public class Sudoku
     {
       for (SudokuCell sudokuCell : sudokuBlock.getBlockCells())
       {
-        if (!this.isInitialCell(sudokuCell.getCellIndex()))
+        if (!this.isInitialCellPosition(sudokuCell.getCellIndex()))
         {
           sudokuCell.textProperty().removeListener(sudokuCell.getTextListener());
 
@@ -211,7 +205,7 @@ public class Sudoku
    * @param cellIndex : index of the cell in the puzzle array
    * @return boolean : true —> initial cell; false —> not initial cell
    */
-  private boolean isInitialCell(int cellIndex)
+  private boolean isInitialCellPosition(int cellIndex)
   {
     return this.initialPuzzle[cellIndex] != 0;
   }

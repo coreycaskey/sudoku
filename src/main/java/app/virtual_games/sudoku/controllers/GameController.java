@@ -1,9 +1,11 @@
 package app.virtual_games.sudoku.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import app.virtual_games.sudoku.exceptions.SudokuPuzzleException;
 import app.virtual_games.sudoku.handlers.HintCellHandler;
@@ -20,7 +22,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -45,8 +47,7 @@ public class GameController extends Application
   private static Pane currentScreen;
   private static Sudoku currentSudoku;
 
-  // ObservableList is easily convertable to a ComboBox dropdown list
-  private static ObservableList<String> puzzleDifficultyNames;
+  private static PuzzleDifficulty[] puzzleDifficulties;
   private static PuzzleDifficulty currentDifficulty;
 
   private static WritingTool currentWritingTool;
@@ -72,7 +73,7 @@ public class GameController extends Application
   /** Public Helper Methods **/
 
   /**
-   * Launches application and implicitly invokes {@link #start}.
+   * Launches application and invokes {@link #start}.
    *
    * @param args : command line args
    */
@@ -93,25 +94,26 @@ public class GameController extends Application
     appStage.setTitle("Do You Sudoku?");
     appStage.setResizable(false);
 
-    puzzleDifficultyNames = PuzzleDifficulty.getPuzzleDifficultyNames();
-    currentDifficulty = PuzzleDifficulty.EASY;
+    puzzleDifficulties = PuzzleDifficulty.getPuzzleDifficulties();
+    currentDifficulty = puzzleDifficulties[0];
 
-    openMainMenu();
+    loadMainMenu();
 
     appStage.show();
   }
 
   /**
-   * Opens {@link MainMenu} and related styles.
+   * Loads {@link MainMenu} and related styles.
    */
-  public static void openMainMenu()
+  public static void loadMainMenu()
   {
     currentScreen = new MainMenu();
 
     appStage.setScene(new Scene(currentScreen, 800, 800));
+
+    // TODO: do I remove MainMenu.css when transitioning to GameScreen ??
     appStage.getScene().getStylesheets().addAll(
         GameController.class.getClassLoader().getResource("Shared.css").toExternalForm(),
-        // TODO: do I remove MainMenu.css when transitioning to GameScreen ??
         GameController.class.getClassLoader().getResource("MainMenu.css").toExternalForm());
   }
 
@@ -535,9 +537,9 @@ public class GameController extends Application
    *
    * @return String : name of current puzzle difficulty
    */
-  public static String getCurrentDifficultyName()
+  public static String getCurrentDifficultyLabel()
   {
-    return currentDifficulty.getName();
+    return currentDifficulty.getLabel();
   }
 
   /**
@@ -832,13 +834,16 @@ public class GameController extends Application
   }
 
   /**
-   * Retrieves {@link #puzzleDifficultyNames}.
+   * Builds {@link #puzzleDifficulties} as a ComboBox.
    *
-   * @return ObservableList : list of puzzle difficulty names
+   * @return ComboBox<String> : dropdown of puzzle difficulty names
    */
-  public static ObservableList<String> getPuzzleDifficultyNames()
+  public static ComboBox<String> getPuzzleDifficultyDropdown()
   {
-    return puzzleDifficultyNames;
+    // ComboBox default style classes are .combo-box-base and .combo-box
+
+    return new ComboBox<>(FXCollections.observableArrayList(
+        Arrays.stream(puzzleDifficulties).map(PuzzleDifficulty::getLabel).collect(Collectors.toList())));
   }
 
   /**

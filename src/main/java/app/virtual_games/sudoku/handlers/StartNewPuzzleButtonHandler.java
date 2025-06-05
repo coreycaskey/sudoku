@@ -22,7 +22,7 @@ public class StartNewPuzzleButtonHandler implements EventHandler<ActionEvent>
   public void handle(ActionEvent event)
   {
     ComboBox<String> gameScreenDifficultyDropdown = GameController.getGameScreenDifficultyDropdown();
-    String currentDifficultyName = GameController.getCurrentDifficultyName();
+    String currentDifficultyName = GameController.getCurrentDifficultyLabel();
 
     if (gameScreenDifficultyDropdown.getSelectionModel().getSelectedItem().equals(currentDifficultyName))
     {
